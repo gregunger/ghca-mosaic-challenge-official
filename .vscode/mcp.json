@@ -1,0 +1,12 @@
+{
+  "servers": {
+    "mosaic-synthetic-evidence": {
+      "type": "stdio",
+      "command": "python",
+      "args": ["-m", "mosaic.mcp_server"],
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/src"
+      }
+    }
+  }
+}

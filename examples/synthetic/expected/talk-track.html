@@ -1,0 +1,2444 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'">
+  <title>Employee Policy Guidance - Facilitator Notes</title>
+  <style>/* SPDX-License-Identifier: LicenseRef-MOSAIC-Evaluation */
+/* Shared offline report styles, including responsive navigation and print layout. */
+:root {
+  color-scheme: light;
+  --ink: #202728;
+  --muted: #566366;
+  --paper: #fff;
+  --page: #f3f6f7;
+  --line: #d8e1e2;
+  --soft: #edf4f5;
+  --teal: #076d73;
+  --teal-soft: #e4f3f1;
+  --coral: #ad3f32;
+  --coral-soft: #fbece7;
+  --gold: #825d09;
+  --gold-soft: #fff3ce;
+  --blue: #245e98;
+  --navy: #0b2738;
+  --navy-soft: #123e50;
+  --nav-width: 258px;
+  --shadow: 0 12px 38px #152b3024;
+}
+html[data-theme='dark'] {
+  color-scheme: dark;
+  --ink: #edf2f2;
+  --muted: #b2c0c2;
+  --paper: #202728;
+  --page: #181e1f;
+  --line: #485456;
+  --soft: #293638;
+  --teal: #73d7d5;
+  --teal-soft: #193e3e;
+  --coral: #ffad96;
+  --coral-soft: #49302c;
+  --gold: #efce73;
+  --gold-soft: #413b24;
+  --blue: #9bc7f3;
+  --navy: #071c27;
+  --navy-soft: #164253;
+  --shadow: 0 12px 38px #0006;
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-padding-top: 90px;
+}
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--ink);
+  font:
+    16px/1.6 Bahnschrift,
+    'Aptos',
+    'Trebuchet MS',
+    sans-serif;
+  letter-spacing: 0;
+}
+button,
+input,
+select {
+  font: inherit;
+}
+a {
+  color: var(--teal);
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+button {
+  color: inherit;
+}
+button,
+a,
+input,
+select,
+summary,
+abbr {
+  touch-action: manipulation;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+summary:focus-visible,
+abbr:focus-visible,
+.table-scroll:focus-visible,
+.document-content table:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 4px;
+}
+h1,
+h2,
+h3,
+p,
+figure {
+  margin: 0;
+}
+p + p {
+  margin-top: 12px;
+}
+h1 {
+  font-size: 36px;
+  line-height: 1.17;
+  margin: 8px 0 12px;
+}
+h2 {
+  font-size: 23px;
+  line-height: 1.3;
+}
+h3 {
+  font-size: 18px;
+  line-height: 1.4;
+  margin-bottom: 10px;
+}
+p,
+li,
+td,
+th,
+dd,
+h1,
+h2,
+h3 {
+  overflow-wrap: anywhere;
+}
+code,
+.mono,
+.record-id {
+  font:
+    13px/1.6 Consolas,
+    'Courier New',
+    monospace;
+  overflow-wrap: anywhere;
+}
+code {
+  background: var(--soft);
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+pre {
+  background: var(--soft);
+  padding: 16px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font:
+    13px/1.6 Consolas,
+    monospace;
+}
+ul,
+ol {
+  padding-left: 24px;
+}
+li + li {
+  margin-top: 7px;
+}
+.muted,
+.evidence-note {
+  color: var(--muted);
+}
+.evidence-note {
+  font-size: 14px;
+  margin-top: 14px;
+}
+.eyebrow {
+  font:
+    700 12px/1.4 Bahnschrift,
+    sans-serif;
+  text-transform: uppercase;
+  color: var(--teal);
+}
+.icon {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  vertical-align: middle;
+}
+.icon-button {
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background: var(--paper);
+  cursor: pointer;
+  flex: none;
+}
+.icon-button:hover {
+  background: var(--soft);
+}
+.help {
+  width: 30px;
+  height: 30px;
+  border: 0;
+  color: var(--muted);
+  background: transparent;
+}
+.help .icon {
+  width: 18px;
+  height: 18px;
+}
+.skip-link {
+  position: fixed;
+  left: 20px;
+  top: -100px;
+  background: var(--paper);
+  padding: 12px 20px;
+  z-index: 120;
+}
+.skip-link:focus {
+  top: 12px;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: var(--nav-width);
+  padding: 28px 18px 20px;
+  overflow: auto;
+  background: var(--paper);
+  border-right: 1px solid var(--line);
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  box-shadow: 8px 0 28px #0b27380d;
+}
+.brand {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.brand a {
+  font-size: 23px;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  color: var(--ink);
+}
+.brand span {
+  display: block;
+  margin-top: 8px;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--muted);
+}
+.workspace-label {
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+}
+.workspace-label > span:last-child {
+  font-weight: 400;
+  color: var(--muted);
+  margin-left: auto;
+}
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+.report-link {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-size: 14px;
+  line-height: 1.35;
+  color: var(--muted);
+  padding: 12px 10px;
+  margin-bottom: 3px;
+  border-radius: 5px;
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  min-height: 44px;
+}
+.report-link .icon {
+  width: 18px;
+  height: 18px;
+}
+.report-link:hover {
+  background: var(--soft);
+  color: var(--ink);
+}
+.report-link.selected {
+  background: var(--teal-soft);
+  color: var(--teal);
+  border-left-color: var(--teal);
+  font-weight: 700;
+}
+.report-link[hidden] {
+  display: none;
+}
+.page-outline {
+  padding: 0 8px;
+  border-top: 1px solid var(--line);
+}
+.page-outline p {
+  padding-top: 18px;
+  margin-bottom: 10px;
+}
+.page-outline a {
+  display: block;
+  font-size: 12px;
+  padding: 6px 0;
+  text-decoration: none;
+  color: var(--muted);
+}
+.page-outline a.active {
+  color: var(--teal);
+  font-weight: 700;
+}
+.nav-footer {
+  border-top: 1px solid var(--line);
+  padding: 18px 8px 0;
+  margin-top: auto;
+  font-size: 12px;
+}
+.nav-footer a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 6px 0;
+  color: var(--muted);
+  text-decoration: none;
+}
+.nav-footer .icon {
+  width: 14px;
+  height: 14px;
+}
+.nav-footer label {
+  display: block;
+  margin: 16px 0 5px;
+  color: var(--muted);
+}
+select {
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: 4px;
+  padding: 6px 10px;
+  width: 100%;
+}
+.close-nav,
+.open-nav {
+  display: none;
+}
+.report-shell {
+  margin-left: var(--nav-width);
+}
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  min-height: 70px;
+  padding: 12px 38px;
+  border-bottom: 1px solid var(--line);
+  background: var(--paper);
+  box-shadow: 0 4px 16px #0b27380a;
+  font-size: 13px;
+}
+.breadcrumb {
+  color: var(--muted);
+}
+.breadcrumb-divider {
+  padding: 0 12px;
+  color: var(--line);
+}
+.review-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--gold);
+  text-decoration: none;
+  background: var(--gold-soft);
+  border: 1px solid var(--line);
+  padding: 6px 10px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.review-status .icon {
+  width: 16px;
+  height: 16px;
+}
+main {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 38px 44px 48px;
+  min-width: 0;
+}
+.page-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  position: relative;
+  overflow: hidden;
+  padding: 38px 40px;
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 92% 0%, #32b4b440 0, transparent 34%),
+    linear-gradient(135deg, var(--navy), var(--navy-soft));
+  color: #f7fbfc;
+  box-shadow: var(--shadow);
+}
+.page-heading::after {
+  content: '';
+  position: absolute;
+  right: -80px;
+  bottom: -120px;
+  width: 280px;
+  height: 280px;
+  border: 1px solid #a8ecec38;
+  border-radius: 50%;
+}
+.page-heading > * {
+  position: relative;
+  z-index: 1;
+}
+.page-heading h1 {
+  max-width: 22ch;
+  font-size: clamp(34px, 4vw, 52px);
+  letter-spacing: -0.02em;
+}
+.page-heading .eyebrow {
+  color: #75dcda;
+}
+.page-purpose {
+  max-width: 70ch;
+  color: #c9d9de;
+  font-size: 17px;
+}
+.page-heading .muted,
+.page-heading .page-context {
+  color: #bfd0d5;
+}
+.page-heading a,
+.page-heading strong {
+  color: #fff;
+}
+.source-link {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+.draft-notice {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 15px 0 15px 16px;
+  border-left: 3px solid var(--gold);
+  background: var(--gold-soft);
+  color: var(--ink);
+  font-size: 14px;
+  margin-top: 24px;
+  margin-bottom: 6px;
+}
+.draft-notice > .icon {
+  color: var(--gold);
+}
+section {
+  padding: 30px 32px;
+  margin-top: 20px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--paper);
+  box-shadow: 0 8px 24px #152b300a;
+  min-width: 0;
+}
+.section-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.section-heading h2 {
+  min-width: 0;
+}
+.section-heading .help {
+  align-self: flex-start;
+}
+.problem-statement {
+  max-width: 84ch;
+  font-size: 19px;
+  line-height: 1.65;
+}
+.metric-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  margin-top: 24px;
+}
+.metric-strip > div {
+  padding: 20px 16px 18px 0;
+  border-right: 1px solid var(--line);
+}
+.metric-strip > div + div {
+  padding-left: 20px;
+}
+.metric-strip > div:last-child {
+  border-right: 0;
+}
+.metric-strip strong {
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.1;
+  display: block;
+  color: var(--teal);
+}
+.metric-strip span {
+  font-size: 13px;
+  color: var(--muted);
+  display: block;
+  margin-top: 8px;
+}
+.metric-strip .attention strong {
+  color: var(--coral);
+}
+.stage-flow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  overflow: hidden;
+}
+.stage-flow li {
+  margin: 0;
+  padding: 15px 16px;
+  background: var(--paper);
+  min-width: 0;
+  border-top: 3px solid var(--teal);
+}
+.stage-flow li.waiting {
+  border-top-color: var(--gold);
+  background: var(--gold-soft);
+}
+.stage-number {
+  font:
+    12px Consolas,
+    monospace;
+  color: var(--teal);
+  display: block;
+  margin-bottom: 7px;
+}
+.stage-flow strong {
+  font-size: 14px;
+}
+.stage-flow small {
+  font-size: 11px;
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+}
+.option-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+.option-item {
+  padding: 20px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--option-color);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+.option-1 {
+  --option-color: var(--teal);
+}
+.option-2 {
+  --option-color: var(--blue);
+}
+.option-3 {
+  --option-color: var(--coral);
+}
+.option-item .eyebrow {
+  color: var(--option-color);
+}
+.option-item h3 {
+  margin: 0;
+}
+.option-item p {
+  font-size: 14px;
+  margin: 0;
+}
+.option-item .option-tradeoff {
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  margin-top: auto;
+}
+.option-tradeoff strong {
+  display: block;
+  color: var(--ink);
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+.option-item a {
+  margin-top: 8px;
+  font-size: 13px;
+  text-decoration: none;
+}
+.option-item .icon {
+  width: 16px;
+  height: 16px;
+}
+.decision-flow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin: 20px 0 24px;
+}
+.decision-flow > div {
+  border-left: 3px solid var(--gold);
+  padding-left: 20px;
+}
+.decision-flow > div + div {
+  border-color: var(--coral);
+}
+.decision-number {
+  font:
+    14px Consolas,
+    monospace;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 9px;
+}
+.decision-flow p {
+  font-size: 14px;
+}
+.badge {
+  width: fit-content;
+  padding: 3px 8px;
+  border-radius: 3px;
+  font-size: 12px !important;
+}
+.attention {
+  background: var(--gold-soft);
+  color: var(--gold);
+}
+.blocked {
+  background: var(--coral-soft);
+  color: var(--coral);
+}
+.document-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.document-item {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 18px;
+  text-decoration: none;
+  color: var(--ink);
+  min-width: 0;
+}
+.document-item:hover {
+  border-color: var(--teal);
+  background: var(--teal-soft);
+}
+.document-item > span {
+  flex: 1;
+  min-width: 0;
+}
+.document-item strong {
+  display: block;
+  font-size: 15px;
+}
+.document-item small {
+  display: block;
+  color: var(--muted);
+  margin-top: 5px;
+  font-size: 13px;
+}
+.document-item > .icon:first-child {
+  color: var(--teal);
+}
+.analytics-split {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: 38px;
+}
+figcaption {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+.bar-row {
+  display: grid;
+  grid-template-columns: 66px minmax(0, 1fr) 25px;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  margin: 14px 0;
+}
+.bar-track {
+  height: 17px;
+  background: var(--soft);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.bar {
+  height: 100%;
+  background: var(--teal);
+}
+.bar.high {
+  background: var(--coral);
+}
+.bar.medium {
+  background: var(--gold);
+}
+.question-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+}
+.question-list li {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+  margin: 0;
+}
+.question-list li:first-child {
+  padding-top: 0;
+}
+.record-id {
+  color: var(--coral);
+  display: block;
+  margin-bottom: 4px;
+}
+.architecture-map {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid var(--line);
+  background: var(--line);
+  border-radius: 5px;
+  overflow: hidden;
+}
+.architecture-map > div {
+  padding: 22px;
+  background: var(--paper);
+  border-top: 3px solid var(--teal);
+  min-width: 0;
+}
+.architecture-map > div:nth-child(even) {
+  border-top-color: var(--blue);
+}
+.map-number {
+  color: var(--teal);
+  font:
+    12px Consolas,
+    monospace;
+  display: block;
+  margin-bottom: 9px;
+}
+.architecture-map p {
+  font-size: 14px;
+  color: var(--muted);
+}
+.option-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+}
+.option-key {
+  border-left: 4px solid var(--option-color);
+  padding-left: 10px;
+  font-size: 13px;
+}
+.claim-strip {
+  display: flex;
+  gap: 3px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+.claim {
+  flex-basis: 85px;
+  padding: 12px;
+  background: var(--teal-soft);
+  border-top: 3px solid var(--teal);
+}
+.claim strong {
+  display: block;
+  font-size: 22px;
+}
+.claim span {
+  font-size: 12px;
+}
+.claim-assumption,
+.claim-unknown {
+  background: var(--gold-soft);
+  border-color: var(--gold);
+}
+.claim-risk {
+  background: var(--coral-soft);
+  border-color: var(--coral);
+}
+.agenda-timeline {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.agenda-part {
+  flex-basis: 120px;
+  padding: 16px;
+  background: var(--teal-soft);
+  border-top: 4px solid var(--teal);
+  min-width: 0;
+}
+.agenda-part strong {
+  display: block;
+  font-size: 20px;
+}
+.agenda-part span {
+  display: block;
+  font-size: 13px;
+  margin-top: 8px;
+}
+.agenda-2,
+.agenda-5 {
+  border-color: var(--blue);
+  background: var(--soft);
+}
+.agenda-3 {
+  border-color: var(--gold);
+  background: var(--gold-soft);
+}
+.agenda-4 {
+  border-color: var(--coral);
+  background: var(--coral-soft);
+}
+.table-scroll {
+  width: 100%;
+  overflow: auto;
+  margin: 18px 0;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+.document-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  table-layout: fixed;
+  margin: 18px 0;
+}
+.table-scroll table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin: 0;
+  table-layout: fixed;
+}
+th,
+td {
+  text-align: left;
+  vertical-align: top;
+  padding: 13px 14px;
+  border-bottom: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+}
+th:last-child,
+td:last-child {
+  border-right: 0;
+}
+th {
+  font-size: 12px;
+  background: var(--soft);
+  font-weight: 600;
+}
+tbody tr:nth-child(even) {
+  background: var(--paper);
+}
+caption {
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+  padding: 14px;
+  background: var(--paper);
+}
+.trace-table td {
+  text-align: center;
+}
+.trace-hit {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  background: var(--teal-soft);
+  color: var(--teal);
+}
+.trace-hit .icon {
+  width: 18px;
+  height: 18px;
+}
+.trace-empty {
+  color: var(--muted);
+}
+.document-content {
+  font-size: 16px;
+  line-height: 1.7;
+}
+.document-content > p {
+  max-width: 90ch;
+}
+.document-content blockquote {
+  margin: 0 0 18px;
+  padding: 12px 18px;
+  border-left: 3px solid var(--blue);
+  background: var(--soft);
+  font-size: 14px;
+}
+.document-content h3 {
+  margin-top: 22px;
+}
+.document-content a {
+  overflow-wrap: anywhere;
+}
+abbr[data-definition] {
+  text-decoration: underline dotted var(--muted);
+  text-underline-offset: 4px;
+  cursor: help;
+  border-radius: 2px;
+}
+.tooltip {
+  position: fixed;
+  z-index: 150;
+  max-width: 350px;
+  width: max-content;
+  box-shadow: var(--shadow);
+  padding: 14px 16px;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 5px;
+  font-size: 14px;
+  line-height: 1.55;
+  pointer-events: none;
+  overflow-wrap: anywhere;
+}
+.tooltip[hidden] {
+  display: none;
+}
+summary {
+  cursor: pointer;
+  color: var(--teal);
+  font-size: 14px;
+  padding: 10px 0;
+}
+.glossary-list {
+  margin: 15px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 30px;
+}
+.glossary-list > div {
+  padding: 13px 0;
+  border-bottom: 1px solid var(--line);
+  min-width: 0;
+}
+.glossary-list dt {
+  font-size: 14px;
+  font-weight: 700;
+}
+.glossary-list dd {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 5px 0 0;
+}
+.report-footer {
+  padding-top: 26px;
+  font-size: 13px;
+  color: var(--muted);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px 32px;
+  justify-content: space-between;
+}
+.report-footer > details {
+  flex-basis: 100%;
+}
+.report-footer pre {
+  font-size: 11px;
+}
+.report-footer p + p {
+  margin: 0;
+}
+.nav-scrim {
+  display: none;
+}
+.report-guide-fields,
+.transcript-meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px 28px;
+  margin: 0;
+}
+.page-context {
+  max-width: 900px;
+  margin-top: 12px;
+  padding-left: 14px;
+  border-left: 3px solid #75dcda;
+  color: var(--muted);
+}
+.report-guide-fields dt,
+.transcript-meta dt {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.report-guide-fields dd,
+.transcript-meta dd {
+  margin: 5px 0 0;
+  overflow-wrap: anywhere;
+}
+.original-request {
+  margin: 0;
+  padding: 22px 24px;
+  border-left: 4px solid var(--teal);
+  background: var(--soft);
+  font-size: 18px;
+  line-height: 1.65;
+}
+.summary-grid,
+.scope-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+.summary-grid article,
+.scope-grid article {
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--paper);
+}
+.summary-grid h3 {
+  margin-top: 0;
+}
+.scope-in {
+  border-top: 4px solid var(--teal) !important;
+}
+.scope-out {
+  border-top: 4px solid var(--coral) !important;
+}
+.context-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  padding: 1px;
+  margin: 0;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.context-grid > div {
+  padding: 18px;
+  background: var(--paper);
+}
+.context-grid > div:last-child {
+  grid-column: 1 / -1;
+}
+.context-grid dt {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+.context-grid dd {
+  margin: 6px 0 0;
+}
+.risk-label {
+  display: inline-block;
+  min-width: 68px;
+  margin-right: 8px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+}
+.risk-label.high {
+  color: var(--coral);
+  background: var(--coral-soft);
+}
+.risk-label.medium {
+  color: var(--gold);
+  background: var(--gold-soft);
+}
+.risk-label.low {
+  color: var(--teal);
+  background: var(--teal-soft);
+}
+.recommendation-callout {
+  margin-top: 24px;
+  padding: 20px 22px;
+  border-left: 4px solid var(--teal);
+  border-radius: 0 10px 10px 0;
+  background: var(--teal-soft);
+}
+.recommendation-callout .eyebrow {
+  margin-bottom: 6px;
+}
+.transcript-meta {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.comparison-bars {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px 36px;
+}
+.comparison-group h3 {
+  font-size: 16px;
+  margin: 0 0 14px;
+}
+.count-row {
+  display: grid;
+  grid-template-columns: minmax(110px, 1fr) minmax(70px, 1.3fr) 3ch;
+  gap: 12px;
+  align-items: center;
+  margin: 10px 0;
+  font-size: 14px;
+}
+.count-label {
+  overflow-wrap: anywhere;
+}
+.count-value {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.count-track {
+  height: 12px;
+  background: var(--soft);
+  overflow: hidden;
+}
+.count-bar {
+  display: block;
+  height: 100%;
+  background: var(--teal);
+}
+.count-coral {
+  background: var(--coral);
+}
+.count-blue {
+  background: var(--blue);
+}
+.blocker-chart .count-row {
+  grid-template-columns: minmax(180px, 2fr) minmax(80px, 1fr) 3ch;
+}
+.conversation-bars {
+  max-width: 650px;
+}
+.plan-matrix {
+  min-width: 750px;
+  table-layout: fixed;
+}
+.plan-matrix .matrix-label {
+  width: 36%;
+  text-align: left;
+}
+.matrix-label strong,
+.matrix-label span {
+  display: block;
+}
+.matrix-label span {
+  margin-top: 4px;
+  font-weight: 400;
+}
+.matrix-legend {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 24px;
+  font-size: 13px;
+}
+.matrix-legend > div {
+  display: grid;
+  grid-template-columns: 80px minmax(0, 1fr);
+  gap: 8px;
+}
+.matrix-legend dt {
+  font-weight: 600;
+}
+.matrix-legend dd {
+  margin: 0;
+}
+.allocation-track {
+  display: flex;
+  height: 22px;
+  width: 100%;
+  margin: 18px 0;
+}
+.allocation-segment {
+  height: 100%;
+  background: var(--allocation-color);
+}
+.allocation-1 {
+  --allocation-color: var(--teal);
+}
+.allocation-2 {
+  --allocation-color: var(--blue);
+}
+.allocation-3 {
+  --allocation-color: var(--coral);
+}
+.allocation-4 {
+  --allocation-color: var(--gold);
+}
+.allocation-5 {
+  --allocation-color: var(--muted);
+}
+.allocation-key {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 16px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.allocation-key li {
+  border-top: 3px solid var(--allocation-color);
+  padding-top: 8px;
+  margin: 0;
+  font-size: 13px;
+}
+.allocation-key strong,
+.allocation-key span {
+  display: block;
+}
+.allocation-key strong {
+  font-size: 17px;
+}
+.transcript-text {
+  font: inherit;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  margin: 12px 0;
+}
+.transcript-text code {
+  font: inherit;
+  background: transparent;
+  padding: 0;
+}
+.transcript-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.transcript-turn {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  gap: 16px;
+  padding: 24px 0;
+  border-top: 1px solid var(--line);
+  margin: 0;
+  scroll-margin-top: 100px;
+}
+.transcript-number {
+  color: var(--muted);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  padding-top: 4px;
+}
+.transcript-turn-header {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+}
+.transcript-speaker {
+  margin: 0;
+  font-size: 18px;
+}
+.transcript-speaker a {
+  color: var(--ink);
+  text-decoration: none;
+}
+.transcript-user .transcript-speaker a {
+  color: var(--teal);
+}
+.transcript-kind,
+.transcript-turn-header time,
+.transcript-reply {
+  font-size: 13px;
+  color: var(--muted);
+}
+.transcript-reply {
+  display: inline-block;
+  margin-top: 4px;
+}
+.transcript-fidelity,
+.transcript-unanswered {
+  font-size: 13px;
+  color: var(--gold);
+  font-weight: 600;
+}
+.transcript-context,
+.transcript-option-description {
+  color: var(--muted);
+  font-size: 14px;
+}
+.transcript-choices summary,
+.transcript-record-details summary {
+  padding: 10px 0;
+  cursor: pointer;
+  color: var(--teal);
+  font-size: 14px;
+  min-height: 44px;
+}
+.transcript-options {
+  padding-left: 24px;
+  border-left: 2px solid var(--line);
+  margin: 4px 0 16px;
+}
+.transcript-options li {
+  padding-left: 6px;
+}
+.transcript-options .transcript-text {
+  margin: 4px 0;
+}
+.transcript-responses {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.transcript-response-label {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 0;
+}
+.transcript-gaps {
+  border-left: 3px solid var(--gold);
+  padding-left: 16px;
+  margin-top: 24px;
+}
+.transcript-gaps h3 {
+  font-size: 16px;
+}
+@media (max-width: 1000px) {
+  .report-guide-fields,
+  .comparison-bars,
+  .summary-grid,
+  .scope-grid,
+  .context-grid {
+    grid-template-columns: 1fr;
+  }
+  .context-grid > div:last-child {
+    grid-column: auto;
+  }
+  .allocation-key {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 600px) {
+  .transcript-meta,
+  .matrix-legend {
+    grid-template-columns: 1fr;
+  }
+  .allocation-key {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .blocker-chart .count-row {
+    grid-template-columns: minmax(0, 1fr) 3ch;
+  }
+  .blocker-chart .count-label {
+    grid-column: 1 / -1;
+  }
+  .transcript-turn {
+    grid-template-columns: 24px minmax(0, 1fr);
+    gap: 8px;
+  }
+}
+@media (min-width: 1500px) {
+  .stage-flow {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+}
+@media (max-width: 1150px) {
+  :root {
+    --nav-width: 225px;
+  }
+  main {
+    padding: 30px 28px 40px;
+  }
+  .topbar {
+    padding: 12px 28px;
+  }
+  .option-grid {
+    grid-template-columns: 1fr;
+  }
+  .option-item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 25px;
+  }
+  .option-item h3,
+  .option-item .eyebrow {
+    grid-column: 1/-1;
+  }
+  .option-item .option-tradeoff {
+    margin: 0;
+    border-top: 0;
+    padding-top: 0;
+  }
+  .analytics-split {
+    grid-template-columns: 1fr;
+  }
+  .document-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 780px) {
+  :root {
+    --nav-width: 270px;
+  }
+  html {
+    scroll-padding-top: 86px;
+  }
+  .sidebar {
+    transform: translateX(-100%);
+    visibility: hidden;
+    transition:
+      transform 0.15s ease,
+      visibility 0.15s;
+  }
+  .sidebar.is-open {
+    transform: translateX(0);
+    visibility: visible;
+    box-shadow: var(--shadow);
+  }
+  .nav-scrim:not([hidden]) {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 55;
+    border: 0;
+    background: #101d2580;
+  }
+  .close-nav,
+  .open-nav {
+    display: inline-grid;
+  }
+  .report-shell {
+    margin-left: 0;
+  }
+  .topbar {
+    padding: 10px 18px;
+    gap: 12px;
+    min-height: 68px;
+  }
+  .topbar > div {
+    flex: 1;
+    line-height: 1.35;
+  }
+  .review-status {
+    font-size: 11px;
+    white-space: normal;
+    max-width: 122px;
+    line-height: 1.4;
+    padding: 6px 8px;
+  }
+  .review-status .icon {
+    display: none;
+  }
+  .breadcrumb-divider {
+    padding: 0 6px;
+  }
+  main {
+    padding: 26px 22px 34px;
+  }
+  .page-heading {
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .page-heading .source-link {
+    font-size: 0;
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--line);
+    justify-content: center;
+    border-radius: 4px;
+  }
+  .page-heading .source-link .icon {
+    width: 20px;
+    height: 20px;
+  }
+  .source-link::after {
+    content: none;
+  }
+  h1 {
+    font-size: 30px;
+  }
+  h2 {
+    font-size: 21px;
+  }
+  .page-purpose {
+    font-size: 16px;
+  }
+  .problem-statement {
+    font-size: 17px;
+  }
+  .metric-strip {
+    grid-template-columns: 1fr 1fr;
+  }
+  .metric-strip > div {
+    padding: 16px 10px 16px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .metric-strip > div:nth-child(even) {
+    padding-left: 18px;
+    border-right: 0;
+  }
+  .metric-strip > div:nth-child(odd) {
+    padding-left: 0;
+  }
+  .metric-strip strong {
+    font-size: 28px;
+  }
+  .stage-flow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .option-item {
+    display: flex;
+  }
+  .decision-flow,
+  .architecture-map,
+  .glossary-list {
+    grid-template-columns: 1fr;
+  }
+  .decision-flow {
+    gap: 22px;
+  }
+  .draft-notice {
+    font-size: 13px;
+    padding: 13px 12px;
+  }
+  .draft-notice > .icon {
+    display: none;
+  }
+  .document-content table {
+    display: block;
+    overflow: auto;
+    table-layout: auto;
+    font-size: 13px;
+    max-width: 100%;
+  }
+  .document-content table caption {
+    display: block;
+    width: 100%;
+  }
+  .document-content table th,
+  .document-content table td {
+    min-width: 140px;
+    max-width: 250px;
+    padding: 10px;
+  }
+  .table-scroll th,
+  .table-scroll td {
+    padding: 10px 6px;
+    font-size: 11px;
+  }
+  .trace-hit {
+    width: 23px;
+    height: 23px;
+  }
+  .trace-hit .icon {
+    width: 15px;
+    height: 15px;
+  }
+  .agenda-part {
+    flex-basis: 140px;
+  }
+  .report-footer {
+    display: block;
+  }
+  .report-footer p + p {
+    margin-top: 10px;
+  }
+  .tooltip {
+    max-width: calc(100vw - 28px);
+  }
+  section {
+    padding: 25px 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+@media print {
+  body {
+    background: #fff;
+    color: #111;
+    font-size: 11pt;
+  }
+  .sidebar,
+  .topbar,
+  .help,
+  .source-link,
+  .skip-link,
+  .nav-scrim,
+  .tooltip,
+  .glossary-section,
+  .report-footer details {
+    display: none !important;
+  }
+  .report-shell {
+    margin: 0;
+  }
+  main {
+    padding: 0;
+    max-width: none;
+  }
+  h1 {
+    font-size: 23pt;
+  }
+  h2 {
+    font-size: 17pt;
+  }
+  h3 {
+    font-size: 12pt;
+  }
+  section {
+    padding: 16px 0;
+  }
+  .stage-flow {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .option-grid,
+  .document-grid,
+  .analytics-split {
+    display: block;
+  }
+  .option-item,
+  .document-item {
+    margin-bottom: 12px;
+    break-inside: avoid;
+  }
+  h2,
+  h3,
+  .section-heading,
+  figcaption {
+    break-after: avoid;
+  }
+  tr,
+  figure,
+  .decision-flow > div {
+    break-inside: avoid;
+  }
+  .document-content table {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+  }
+  .document-content table th,
+  .document-content table td {
+    min-width: 0;
+    font-size: 9pt;
+  }
+  .draft-notice {
+    color: #111;
+    background: #faf7e8;
+  }
+  abbr {
+    text-decoration: none !important;
+  }
+  a {
+    color: inherit;
+  }
+  .table-scroll {
+    overflow: visible;
+  }
+  .plan-matrix {
+    min-width: 0;
+    font-size: 8pt;
+  }
+  .transcript-turn-header,
+  .comparison-group h3 {
+    break-after: avoid;
+  }
+  .transcript-choices > :not(summary),
+  .transcript-record-details > :not(summary) {
+    display: block;
+  }
+  .report-footer {
+    font-size: 8pt;
+  }
+  .metric-strip strong {
+    font-size: 24pt;
+  }
+  .architecture-map {
+    display: block;
+  }
+  .architecture-map > div {
+    break-inside: avoid;
+  }
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to report</a>
+<button type="button" class="nav-scrim" aria-label="Close navigation" hidden></button>
+<aside class="sidebar" id="report-navigation" aria-label="Report navigation">
+  <div class="brand">
+    <a href="index.html">Employee Policy Guidance<span>Technical intake assessment</span></a>
+    <button type="button" class="icon-button close-nav" aria-label="Close navigation">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M18 6 6 18" />
+  <path d="m6 6 12 12" />
+</svg>
+    </button>
+  </div>
+  <div class="workspace-label">
+    <span class="status-dot"></span><abbr tabindex="0" data-definition="Synthetic initiative identifier. It denotes fictional demonstration data, not a live customer record." aria-label="SYN-001: Synthetic initiative identifier. It denotes fictional demonstration data, not a live customer record.">SYN-001</abbr> <span>Synthetic</span>
+  </div>
+  <nav aria-label="Documents">
+    <a class="report-link "
+       href="index.html" >
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" />
+  <path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+</svg><span>Initial Technical Intake Assessment</span>
+    </a>
+    <a class="report-link "
+       href="intake-report.html" >
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
+  <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+  <path d="M10 9H8" />
+  <path d="M16 13H8" />
+  <path d="M16 17H8" />
+</svg><span>Use Case Detail</span>
+    </a>
+    <a class="report-link "
+       href="intake-transcript.html" >
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
+  <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+  <path d="M10 9H8" />
+  <path d="M16 13H8" />
+  <path d="M16 17H8" />
+</svg><span>Intake Transcript</span>
+    </a>
+    <a class="report-link "
+       href="option-matrix.html" >
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
+  <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+  <path d="M10 9H8" />
+  <path d="M16 13H8" />
+  <path d="M16 17H8" />
+</svg><span>Solution Options</span>
+    </a>
+    <a class="report-link "
+       href="architecture-brief.html" >
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
+  <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+  <path d="M10 9H8" />
+  <path d="M16 13H8" />
+  <path d="M16 17H8" />
+</svg><span>Design &amp; Readiness</span>
+    </a>
+    <a class="report-link "
+       href="evidence-appendix.html" >
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
+  <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+  <path d="M10 9H8" />
+  <path d="M16 13H8" />
+  <path d="M16 17H8" />
+</svg><span>Evidence &amp; Claims</span>
+    </a>
+    <a class="report-link "
+       href="human-review.html" >
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
+  <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+  <path d="M10 9H8" />
+  <path d="M16 13H8" />
+  <path d="M16 17H8" />
+</svg><span>Decisions &amp; Review</span>
+    </a>
+    <a class="report-link "
+       href="meeting-request.html" >
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
+  <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+  <path d="M10 9H8" />
+  <path d="M16 13H8" />
+  <path d="M16 17H8" />
+</svg><span>Discussion Brief</span>
+    </a>
+    <a class="report-link "
+       href="meeting-agenda.html" >
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
+  <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+  <path d="M10 9H8" />
+  <path d="M16 13H8" />
+  <path d="M16 17H8" />
+</svg><span>Meeting Agenda</span>
+    </a>
+    <a class="report-link selected"
+       href="talk-track.html" aria-current="page">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
+  <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+  <path d="M10 9H8" />
+  <path d="M16 13H8" />
+  <path d="M16 17H8" />
+</svg><span>Facilitator Notes</span>
+    </a>
+  </nav>
+  <nav class="page-outline" aria-label="On this page">
+    <p class="eyebrow">On this page</p>
+    <a href="#section-2">0:00-4:00 - Confirm the outcome</a>
+    <a href="#section-3">4:00-12:00 - Test the evidence</a>
+    <a href="#section-4">12:00-22:00 - Compare three options</a>
+    <a href="#section-5">22:00-27:00 - Record decisions and evidence requests</a>
+    <a href="#section-6">27:00-30:00 - Confirm next steps</a>
+    <a href="#section-7">Facilitation Preparation</a>
+    <a href="#section-8">Option Discussion Prompts</a>
+    <a href="#section-9">Handling Uncertainty And Disagreement</a>
+    <a href="#section-10">Close-Out Readback</a>
+  </nav>
+  <div class="nav-footer">
+    <a href="package.json">Structured package <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M7 7h10v10" />
+  <path d="M7 17 17 7" />
+</svg></a>
+    <a href="audit-ledger.json">Audit ledger <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M7 7h10v10" />
+  <path d="M7 17 17 7" />
+</svg></a>
+    <label for="theme">Theme</label>
+    <select id="theme">
+      <option value="light">Light</option>
+      <option value="dark">Dark</option>
+      <option value="system">System</option>
+    </select>
+  </div>
+</aside>
+<div class="report-shell">
+  <header class="topbar">
+    <button type="button" class="icon-button open-nav" aria-controls="report-navigation"
+            aria-expanded="false" aria-label="Open report navigation"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M4 5h16" />
+  <path d="M4 12h16" />
+  <path d="M4 19h16" />
+</svg></button>
+    <div>
+      <span class="breadcrumb"><abbr tabindex="0" data-definition="Synthetic initiative identifier. It denotes fictional demonstration data, not a live customer record." aria-label="SYN-001: Synthetic initiative identifier. It denotes fictional demonstration data, not a live customer record.">SYN-001</abbr></span>
+      <span class="breadcrumb-divider">/</span>Facilitator Notes
+    </div>
+    <a class="review-status" href="human-review.html"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <circle cx="12" cy="12" r="10" />
+  <path d="M12 6v6l4 2" />
+</svg>Awaiting human review</a>
+  </header>
+  <main id="main-content" tabindex="-1">
+    <div class="page-heading">
+      <div>
+        <p class="eyebrow">Initial technical intake &middot; Unselected discussion draft</p>
+        <h1>Employee Policy Guidance: Facilitator Notes</h1>
+        <p class="page-purpose">Prepare questions and a consistent discussion sequence.</p>
+        <p class="page-context"><strong>Business context:</strong> Employees cannot reliably find current policy answers across distributed content, creating repeated service inquiries, inconsistent guidance, and slow escalation to accountable policy owners.</p>
+      </div>
+      <a class="source-link" href="talk-track.md"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
+  <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+  <path d="M10 9H8" />
+  <path d="M16 13H8" />
+  <path d="M16 17H8" />
+</svg>Markdown</a>
+    </div>
+
+
+
+
+
+
+
+    <section aria-labelledby="meeting-timeline">
+      <div class="section-heading">
+  <h2 id="meeting-timeline">The Discussion at a Glance</h2>
+  <button type="button" class="icon-button help" data-definition="Time allocated to each agenda topic. Use this to protect decision time and leave with clear evidence requests; it is not a delivery schedule."
+          aria-label="About The Discussion at a Glance"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <circle cx="12" cy="12" r="10" />
+  <path d="M12 16v-4" />
+  <path d="M12 8h.01" />
+</svg></button>
+</div>
+      <figure data-analytics="meeting-allocation">
+        <figcaption>30-minute decision workshop</figcaption>
+        <div class="allocation-track" aria-hidden="true">
+          <span class="allocation-segment allocation-1" data-minutes="4" style="width:13.333333333333334%"></span>
+          <span class="allocation-segment allocation-2" data-minutes="8" style="width:26.666666666666668%"></span>
+          <span class="allocation-segment allocation-3" data-minutes="10" style="width:33.33333333333333%"></span>
+          <span class="allocation-segment allocation-4" data-minutes="5" style="width:16.666666666666664%"></span>
+          <span class="allocation-segment allocation-5" data-minutes="3" style="width:10.0%"></span>
+        </div>
+        <ol class="allocation-key">
+          <li class="allocation-1"><strong>4 <abbr tabindex="0" data-definition="Minutes. Here this is an allocation within the proposed meeting agenda, not a delivery schedule." aria-label="min: Minutes. Here this is an allocation within the proposed meeting agenda, not a delivery schedule.">min</abbr></strong><span>Outcome and current-state confirmation</span></li>
+          <li class="allocation-2"><strong>8 <abbr tabindex="0" data-definition="Minutes. Here this is an allocation within the proposed meeting agenda, not a delivery schedule." aria-label="min: Minutes. Here this is an allocation within the proposed meeting agenda, not a delivery schedule.">min</abbr></strong><span>Evidence, gaps, and risk review</span></li>
+          <li class="allocation-3"><strong>10 <abbr tabindex="0" data-definition="Minutes. Here this is an allocation within the proposed meeting agenda, not a delivery schedule." aria-label="min: Minutes. Here this is an allocation within the proposed meeting agenda, not a delivery schedule.">min</abbr></strong><span>Three-option comparison</span></li>
+          <li class="allocation-4"><strong>5 <abbr tabindex="0" data-definition="Minutes. Here this is an allocation within the proposed meeting agenda, not a delivery schedule." aria-label="min: Minutes. Here this is an allocation within the proposed meeting agenda, not a delivery schedule.">min</abbr></strong><span>Decision and evidence requests</span></li>
+          <li class="allocation-5"><strong>3 <abbr tabindex="0" data-definition="Minutes. Here this is an allocation within the proposed meeting agenda, not a delivery schedule." aria-label="min: Minutes. Here this is an allocation within the proposed meeting agenda, not a delivery schedule.">min</abbr></strong><span>Owners and next steps</span></li>
+        </ol>
+        <p class="evidence-note">Proposed time allocation. Session outputs still require actual customer discussion and recorded agreement.</p>
+      </figure>
+    </section>
+
+    <section aria-labelledby="section-2">
+      <div class="section-heading">
+  <h2 id="section-2">0:00-4:00 - Confirm the outcome</h2>
+  <button type="button" class="icon-button help" data-definition="Establish a shared business framing before discussing technology. Ask for scope corrections and acceptance evidence; capture the customer&#39;s actual response rather than assuming agreement."
+          aria-label="About 0:00-4:00 - Confirm the outcome"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <circle cx="12" cy="12" r="10" />
+  <path d="M12 16v-4" />
+  <path d="M12 8h.01" />
+</svg></button>
+</div>
+      <div class="document-content"><p>Restate the synthetic business problem, affected users, desired outcomes, and customer-owned measures. Ask the owner to correct any framing before option discussion.</p>
+</div>
+    </section>
+    <section aria-labelledby="section-3">
+      <div class="section-heading">
+  <h2 id="section-3">4:00-12:00 - Test the evidence</h2>
+  <button type="button" class="icon-button help" data-definition="Challenge the source basis and identify which missing answers change the decision. Use the priority questions to request specific evidence and retain uncertainty where it remains unresolved."
+          aria-label="About 4:00-12:00 - Test the evidence"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <circle cx="12" cy="12" r="10" />
+  <path d="M12 16v-4" />
+  <path d="M12 8h.01" />
+</svg></button>
+</div>
+      <div class="document-content"><p>Review the allowlisted evidence manifest, then distinguish facts from assumptions, unknowns, and risks. Resolve or assign the priority questions below.</p>
+<ul>
+<li><strong>Q-001:</strong> Which content owners can approve the initial source inventory and freshness <abbr tabindex="0" data-definition="Service-level agreement. An agreed service or freshness target; no agreement is inferred here." aria-label="SLA: Service-level agreement. An agreed service or freshness target; no agreement is inferred here.">SLA</abbr>?</li>
+<li><strong>Q-002:</strong> Which policy questions must always escalate without a generated answer?</li>
+<li><strong>Q-003:</strong> Which identity claims and source permissions must be preserved end to end?</li>
+<li><strong>Q-004:</strong> What benchmark defines a correct, useful, and safely escalated response?</li>
+</ul>
+</div>
+    </section>
+    <section aria-labelledby="section-4">
+      <div class="section-heading">
+  <h2 id="section-4">12:00-22:00 - Compare three options</h2>
+  <button type="button" class="icon-button help" data-definition="Give every option the same scrutiny. Test fit, entry conditions and disqualifiers against the customer&#39;s needs; keep the recommendation separate from an authorized selection."
+          aria-label="About 12:00-22:00 - Compare three options"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <circle cx="12" cy="12" r="10" />
+  <path d="M12 16v-4" />
+  <path d="M12 8h.01" />
+</svg></button>
+</div>
+      <div class="document-content"><p>Compare Managed low-code agent, Custom governed application, Hybrid governed experience using the same criteria. The recommendation is analysis, not a decision.</p>
+</div>
+    </section>
+    <section aria-labelledby="section-5">
+      <div class="section-heading">
+  <h2 id="section-5">22:00-27:00 - Record decisions and evidence requests</h2>
+  <button type="button" class="icon-button help" data-definition="Ask the authorized customer owner for the actual next action, or an explicit deferral. Record rationale, evidence and authority without advancing the later design-approval gate."
+          aria-label="About 22:00-27:00 - Record decisions and evidence requests"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <circle cx="12" cy="12" r="10" />
+  <path d="M12 16v-4" />
+  <path d="M12 8h.01" />
+</svg></button>
+</div>
+      <div class="document-content"><p>Ask the authorized owner to select a next action, identify missing evidence, and name accountable owners in the authoritative workflow.</p>
+</div>
+    </section>
+    <section aria-labelledby="section-6">
+      <div class="section-heading">
+  <h2 id="section-6">27:00-30:00 - Confirm next steps</h2>
+  <button type="button" class="icon-button help" data-definition="Read back only agreed owners, evidence actions, dates and the next checkpoint. Make unanswered questions and unassigned work explicit so the handoff is usable."
+          aria-label="About 27:00-30:00 - Confirm next steps"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <circle cx="12" cy="12" r="10" />
+  <path d="M12 16v-4" />
+  <path d="M12 8h.01" />
+</svg></button>
+</div>
+      <div class="document-content"><p>Read back owners, evidence requests, due dates, and the exact repository revision subject to review.</p>
+</div>
+    </section>
+    <section aria-labelledby="section-7">
+      <div class="section-heading">
+  <h2 id="section-7">Facilitation Preparation</h2>
+  <button type="button" class="icon-button help" data-definition="Prepare the problem reflection, evidence challenges and authority boundaries. These are facilitator prompts, never scripted customer answers."
+          aria-label="About Facilitation Preparation"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <circle cx="12" cy="12" r="10" />
+  <path d="M12 16v-4" />
+  <path d="M12 8h.01" />
+</svg></button>
+</div>
+      <div class="document-content"><p>These are proposed prompts, not a meeting transcript or scripted customer replies. Keep the current
+<a href="meeting-agenda.html">agenda</a>, <a href="option-matrix.html">option comparison</a> and <a href="human-review.html">decision record</a>
+available. Confirm who can make which decisions before asking for one.</p>
+<p><strong>Problem to reflect back:</strong> Employees cannot reliably find current policy answers across distributed content, creating repeated service inquiries, inconsistent guidance, and slow escalation to accountable policy owners.</p>
+<p><strong>Measures to challenge:</strong></p>
+<ul>
+<li>At least 95 percent of factual statements cite approved evidence in the controlled benchmark</li>
+<li>Zero unsupported material claims released during the controlled benchmark</li>
+<li>Every ambiguous or policy-sensitive request is routed to a named human-owned queue</li>
+<li>Qualified reviewers accept or return every package against an immutable revision</li>
+</ul>
+<p>Ask which outcome matters first, what falls outside the initial release, what baseline evidence
+exists and who accepts the result. Capture corrections instead of presuming agreement.</p>
+</div>
+    </section>
+    <section aria-labelledby="section-8">
+      <div class="section-heading">
+  <h2 id="section-8">Option Discussion Prompts</h2>
+  <button type="button" class="icon-button help" data-definition="Challenge fit, conditions and disqualifiers consistently. Ask what evidence would change a preference rather than treating a recommendation as selection."
+          aria-label="About Option Discussion Prompts"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <circle cx="12" cy="12" r="10" />
+  <path d="M12 16v-4" />
+  <path d="M12 8h.01" />
+</svg></button>
+</div>
+      <div class="document-content"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Fit to test aloud</th>
+<th>Challenge before proceeding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Managed low-code agent</td>
+<td>Rapid adoption and managed lifecycle controls outweigh bespoke behavior.</td>
+<td>Required behavior exceeds extension model</td>
+</tr>
+<tr>
+<td>Custom governed application</td>
+<td>Custom orchestration, evaluation, and integration control are primary.</td>
+<td>No funded operations owner</td>
+</tr>
+<tr>
+<td>Hybrid governed experience</td>
+<td>Managed adoption and custom policy enforcement are both required.</td>
+<td>Cross-platform ownership cannot be assigned</td>
+</tr>
+</tbody>
+</table>
+<p>Ask: &quot;Which condition have we not demonstrated? Which tradeoff is unacceptable? What evidence would
+change your preference?&quot; Compare the same criteria for all three options. Do not turn qualitative
+conditions into a score or interpret a preference as an authorized decision.</p>
+</div>
+    </section>
+    <section aria-labelledby="section-9">
+      <div class="section-heading">
+  <h2 id="section-9">Handling Uncertainty And Disagreement</h2>
+  <button type="button" class="icon-button help" data-definition="Separate disputed facts, business priorities and risk acceptance. Identify the evidence or authority needed instead of forcing premature consensus."
+          aria-label="About Handling Uncertainty And Disagreement"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <circle cx="12" cy="12" r="10" />
+  <path d="M12 16v-4" />
+  <path d="M12 8h.01" />
+</svg></button>
+</div>
+      <div class="document-content"><ul>
+<li>For a disputed fact, identify the source and reviewer needed; retain uncertainty until reviewed.</li>
+<li>For competing priorities, ask the business owner to clarify outcome importance and acceptable tradeoffs.</li>
+<li>For unclear risk acceptance or authority, pause that decision and route it to the qualified customer role.</li>
+<li>When time expires, record the unresolved question and agreed follow-up rather than implying consensus.</li>
+</ul>
+</div>
+    </section>
+    <section aria-labelledby="section-10">
+      <div class="section-heading">
+  <h2 id="section-10">Close-Out Readback</h2>
+  <button type="button" class="icon-button help" data-definition="Repeat only agreed decisions and actions with rationale, owner, date and next checkpoint. Keep deferrals and unassigned work explicit."
+          aria-label="About Close-Out Readback"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <circle cx="12" cy="12" r="10" />
+  <path d="M12 16v-4" />
+  <path d="M12 8h.01" />
+</svg></button>
+</div>
+      <div class="document-content"><p>Read back corrected scope, the actual decision or deferral, supporting rationale, linked evidence
+requests, customer-named owners, agreed dates and next checkpoint. Ask participants to correct
+the record, and record only their actual responses. Keep architecture selection, dossier approval
+and any later implementation or release authority separate.</p>
+</div>
+    </section>
+    <section class="glossary-section" aria-labelledby="glossary-heading">
+      <div class="section-heading">
+  <h2 id="glossary-heading">Glossary</h2>
+  <button type="button" class="icon-button help" data-definition="Definitions used in this report package. Unknown abbreviations must be confirmed with the source owner, not guessed."
+          aria-label="About Glossary"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <circle cx="12" cy="12" r="10" />
+  <path d="M12 16v-4" />
+  <path d="M12 8h.01" />
+</svg></button>
+</div>
+      <details>
+        <summary>Terms and abbreviations</summary>
+        <dl class="glossary-list">
+          <div><dt><abbr tabindex="0" data-definition="Multi-customer Orchestration System for Adaptive Intake and Continuous Delivery. A provider-neutral system for preparing governed solution definitions." aria-label="MOSAIC: Multi-customer Orchestration System for Adaptive Intake and Continuous Delivery. A provider-neutral system for preparing governed solution definitions.">MOSAIC</abbr></dt><dd>Multi-customer Orchestration System for Adaptive Intake and Continuous Delivery. A provider-neutral system for preparing governed solution definitions.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Subject matter expert. A specialist who evaluates the business and technical proposal with the customer; expertise alone does not confer decision authority." aria-label="SME: Subject matter expert. A specialist who evaluates the business and technical proposal with the customer; expertise alone does not confer decision authority.">SME</abbr></dt><dd>Subject matter expert. A specialist who evaluates the business and technical proposal with the customer; expertise alone does not confer decision authority.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Artificial intelligence. Here, software that helps interpret requests and prepare draft analysis; it does not approve customer decisions." aria-label="AI: Artificial intelligence. Here, software that helps interpret requests and prepare draft analysis; it does not approve customer decisions.">AI</abbr></dt><dd>Artificial intelligence. Here, software that helps interpret requests and prepare draft analysis; it does not approve customer decisions.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Application programming interface. A defined way for software systems to exchange requests and results." aria-label="API: Application programming interface. A defined way for software systems to exchange requests and results.">API</abbr></dt><dd>Application programming interface. A defined way for software systems to exchange requests and results.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Application programming interfaces: defined connections between software systems." aria-label="APIs: Application programming interfaces: defined connections between software systems.">APIs</abbr></dt><dd>Application programming interfaces: defined connections between software systems.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Model Context Protocol. A standard interface through which an agent can call tools and retrieve permitted context." aria-label="MCP: Model Context Protocol. A standard interface through which an agent can call tools and retrieve permitted context.">MCP</abbr></dt><dd>Model Context Protocol. A standard interface through which an agent can call tools and retrieve permitted context.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Command-line interface. A program operated through typed commands." aria-label="CLI: Command-line interface. A program operated through typed commands.">CLI</abbr></dt><dd>Command-line interface. A program operated through typed commands.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Hypertext Markup Language. The format used for these browser-readable reports." aria-label="HTML: Hypertext Markup Language. The format used for these browser-readable reports.">HTML</abbr></dt><dd>Hypertext Markup Language. The format used for these browser-readable reports.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="JavaScript Object Notation. A structured format used for evidence, validation and workflow records." aria-label="JSON: JavaScript Object Notation. A structured format used for evidence, validation and workflow records.">JSON</abbr></dt><dd>JavaScript Object Notation. A structured format used for evidence, validation and workflow records.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Secure Hash Algorithm with a 256-bit digest. A content fingerprint that changes when source bytes change; it is not a signature or approval." aria-label="SHA-256: Secure Hash Algorithm with a 256-bit digest. A content fingerprint that changes when source bytes change; it is not a signature or approval.">SHA-256</abbr></dt><dd>Secure Hash Algorithm with a 256-bit digest. A content fingerprint that changes when source bytes change; it is not a signature or approval.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Secure Hash Algorithm. A family of content-fingerprint algorithms." aria-label="SHA: Secure Hash Algorithm. A family of content-fingerprint algorithms.">SHA</abbr></dt><dd>Secure Hash Algorithm. A family of content-fingerprint algorithms.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Identifier. A stable label used to cross-reference a record." aria-label="ID: Identifier. A stable label used to cross-reference a record.">ID</abbr></dt><dd>Identifier. A stable label used to cross-reference a record.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Identifiers. Stable labels used to cross-reference records." aria-label="IDs: Identifiers. Stable labels used to cross-reference records.">IDs</abbr></dt><dd>Identifiers. Stable labels used to cross-reference records.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Synthetic initiative identifier. It denotes fictional demonstration data, not a live customer record." aria-label="SYN: Synthetic initiative identifier. It denotes fictional demonstration data, not a live customer record.">SYN</abbr></dt><dd>Synthetic initiative identifier. It denotes fictional demonstration data, not a live customer record.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Workflow run identifier. It binds the recorded request and package content; it is not approval." aria-label="RUN: Workflow run identifier. It binds the recorded request and package content; it is not approval.">RUN</abbr></dt><dd>Workflow run identifier. It binds the recorded request and package content; it is not approval.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Evidence identifier. A reference to a source allowed by the active source policy." aria-label="EVD: Evidence identifier. A reference to a source allowed by the active source policy.">EVD</abbr></dt><dd>Evidence identifier. A reference to a source allowed by the active source policy.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Requirement identifier. A traceable statement of what the solution must satisfy." aria-label="REQ: Requirement identifier. A traceable statement of what the solution must satisfy.">REQ</abbr></dt><dd>Requirement identifier. A traceable statement of what the solution must satisfy.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Unknown identifier. An unanswered question that may block a decision." aria-label="UNK: Unknown identifier. An unanswered question that may block a decision.">UNK</abbr></dt><dd>Unknown identifier. An unanswered question that may block a decision.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Risk identifier. A recorded potential adverse outcome." aria-label="RSK: Risk identifier. A recorded potential adverse outcome.">RSK</abbr></dt><dd>Risk identifier. A recorded potential adverse outcome.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Gap identifier. Missing information or capability requiring attention." aria-label="GAP: Gap identifier. Missing information or capability requiring attention.">GAP</abbr></dt><dd>Gap identifier. Missing information or capability requiring attention.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Assumption identifier. An unverified premise used in analysis." aria-label="ASM: Assumption identifier. An unverified premise used in analysis.">ASM</abbr></dt><dd>Assumption identifier. An unverified premise used in analysis.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Claim identifier. A statement labeled by its evidence or decision status." aria-label="CLM: Claim identifier. A statement labeled by its evidence or decision status.">CLM</abbr></dt><dd>Claim identifier. A statement labeled by its evidence or decision status.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Dependency identifier. Something the proposal relies on." aria-label="DEP: Dependency identifier. Something the proposal relies on.">DEP</abbr></dt><dd>Dependency identifier. Something the proposal relies on.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Option identifier. One of the contrasting solution alternatives." aria-label="OPT: Option identifier. One of the contrasting solution alternatives.">OPT</abbr></dt><dd>Option identifier. One of the contrasting solution alternatives.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Dossier coverage identifier. A design-documentation area, not a completion score." aria-label="DOS: Dossier coverage identifier. A design-documentation area, not a completion score.">DOS</abbr></dt><dd>Dossier coverage identifier. A design-documentation area, not a completion score.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Readiness-plan identifier. A proposed plan with explicit requirements and missing evidence." aria-label="PLAN: Readiness-plan identifier. A proposed plan with explicit requirements and missing evidence.">PLAN</abbr></dt><dd>Readiness-plan identifier. A proposed plan with explicit requirements and missing evidence.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Service-level agreement. An agreed service or freshness target; no agreement is inferred here." aria-label="SLA: Service-level agreement. An agreed service or freshness target; no agreement is inferred here.">SLA</abbr></dt><dd>Service-level agreement. An agreed service or freshness target; no agreement is inferred here.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Service-level agreements. Explicit commitments that require authorized owners." aria-label="SLAs: Service-level agreements. Explicit commitments that require authorized owners.">SLAs</abbr></dt><dd>Service-level agreements. Explicit commitments that require authorized owners.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Service-level objective. A proposed measurable reliability or service target." aria-label="SLO: Service-level objective. A proposed measurable reliability or service target.">SLO</abbr></dt><dd>Service-level objective. A proposed measurable reliability or service target.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Software bill of materials. An inventory of software components and dependencies; no completed inventory is claimed here." aria-label="SBOM: Software bill of materials. An inventory of software components and dependencies; no completed inventory is claimed here.">SBOM</abbr></dt><dd>Software bill of materials. An inventory of software components and dependencies; no completed inventory is claimed here.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Pull request. A revision-control review mechanism; it is not implicit customer authorization." aria-label="PR: Pull request. A revision-control review mechanism; it is not implicit customer authorization.">PR</abbr></dt><dd>Pull request. A revision-control review mechanism; it is not implicit customer authorization.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Pull requests. Proposed changes submitted for review in revision control." aria-label="PRs: Pull requests. Proposed changes submitted for review in revision control.">PRs</abbr></dt><dd>Pull requests. Proposed changes submitted for review in revision control.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Information technology. The people and systems responsible for organizational technology." aria-label="IT: Information technology. The people and systems responsible for organizational technology.">IT</abbr></dt><dd>Information technology. The people and systems responsible for organizational technology.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Human resources. The organizational function responsible for workforce matters." aria-label="HR: Human resources. The organizational function responsible for workforce matters.">HR</abbr></dt><dd>Human resources. The organizational function responsible for workforce matters.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Coordinated Universal Time. A common time reference independent of local daylight-saving changes." aria-label="UTC: Coordinated Universal Time. A common time reference independent of local daylight-saving changes.">UTC</abbr></dt><dd>Coordinated Universal Time. A common time reference independent of local daylight-saving changes.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Minutes. Here this is an allocation within the proposed meeting agenda, not a delivery schedule." aria-label="min: Minutes. Here this is an allocation within the proposed meeting agenda, not a delivery schedule.">min</abbr></dt><dd>Minutes. Here this is an allocation within the proposed meeting agenda, not a delivery schedule.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Portable Document Format. A fixed-layout document format." aria-label="PDF: Portable Document Format. A fixed-layout document format.">PDF</abbr></dt><dd>Portable Document Format. A fixed-layout document format.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Portable Document Format files. Fixed-layout documents that still need version and ownership controls." aria-label="PDFs: Portable Document Format files. Fixed-layout documents that still need version and ownership controls.">PDFs</abbr></dt><dd>Portable Document Format files. Fixed-layout documents that still need version and ownership controls.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Responsible artificial intelligence. Controls for accountable, safe and transparent use of AI." aria-label="RAI: Responsible artificial intelligence. Controls for accountable, safe and transparent use of AI.">RAI</abbr></dt><dd>Responsible artificial intelligence. Controls for accountable, safe and transparent use of <abbr tabindex="0" data-definition="Artificial intelligence. Here, software that helps interpret requests and prepare draft analysis; it does not approve customer decisions." aria-label="AI: Artificial intelligence. Here, software that helps interpret requests and prepare draft analysis; it does not approve customer decisions.">AI</abbr>.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="National Institute of Standards and Technology. Its publications may inform customer-specific alignment targets, not automatic compliance." aria-label="NIST: National Institute of Standards and Technology. Its publications may inform customer-specific alignment targets, not automatic compliance.">NIST</abbr></dt><dd>National Institute of Standards and Technology. Its publications may inform customer-specific alignment targets, not automatic compliance.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="System and Organization Controls 2. An assurance framework; this draft does not establish certification or compliance." aria-label="SOC 2: System and Organization Controls 2. An assurance framework; this draft does not establish certification or compliance.">SOC 2</abbr></dt><dd>System and Organization Controls 2. An assurance framework; this draft does not establish certification or compliance.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Information Technology Infrastructure Library, version 4. Service-management guidance; alignment must be assessed for the customer." aria-label="ITIL 4: Information Technology Infrastructure Library, version 4. Service-management guidance; alignment must be assessed for the customer.">ITIL 4</abbr></dt><dd>Information Technology Infrastructure Library, version 4. Service-management guidance; alignment must be assessed for the customer.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Not applicable or not recorded in the source table; inspect the surrounding context before interpreting it." aria-label="N/A: Not applicable or not recorded in the source table; inspect the surrounding context before interpreting it.">N/A</abbr></dt><dd>Not applicable or not recorded in the source table; inspect the surrounding context before interpreting it.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Role-based access control. Permissions assigned according to authorized roles." aria-label="RBAC: Role-based access control. Permissions assigned according to authorized roles.">RBAC</abbr></dt><dd>Role-based access control. Permissions assigned according to authorized roles.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Single sign-on. A way to access multiple services through an established identity session." aria-label="SSO: Single sign-on. A way to access multiple services through an established identity session.">SSO</abbr></dt><dd>Single sign-on. A way to access multiple services through an established identity session.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Personally identifiable information. Information that can identify an individual." aria-label="PII: Personally identifiable information. Information that can identify an individual.">PII</abbr></dt><dd>Personally identifiable information. Information that can identify an individual.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Retrieval-augmented generation. A pattern that supplies retrieved source material to a model; retrieval alone does not guarantee accurate answers." aria-label="RAG: Retrieval-augmented generation. A pattern that supplies retrieved source material to a model; retrieval alone does not guarantee accurate answers.">RAG</abbr></dt><dd>Retrieval-augmented generation. A pattern that supplies retrieved source material to a model; retrieval alone does not guarantee accurate answers.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Continuous integration. Automated checks applied to proposed software changes." aria-label="CI: Continuous integration. Automated checks applied to proposed software changes.">CI</abbr></dt><dd>Continuous integration. Automated checks applied to proposed software changes.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Continuous delivery. Preparing changes for release; actual release still requires the applicable authorization." aria-label="CD: Continuous delivery. Preparing changes for release; actual release still requires the applicable authorization.">CD</abbr></dt><dd>Continuous delivery. Preparing changes for release; actual release still requires the applicable authorization.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Infrastructure as code. Machine-readable infrastructure definitions; execution is outside this discussion draft." aria-label="IaC: Infrastructure as code. Machine-readable infrastructure definitions; execution is outside this discussion draft.">IaC</abbr></dt><dd>Infrastructure as code. Machine-readable infrastructure definitions; execution is outside this discussion draft.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="User interface. The controls and information a person interacts with." aria-label="UI: User interface. The controls and information a person interacts with.">UI</abbr></dt><dd>User interface. The controls and information a person interacts with.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="User experience. How effectively and comfortably a person can complete their work." aria-label="UX: User experience. How effectively and comfortably a person can complete their work.">UX</abbr></dt><dd>User experience. How effectively and comfortably a person can complete their work.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Uniform Resource Locator. The address of a resource." aria-label="URL: Uniform Resource Locator. The address of a resource.">URL</abbr></dt><dd>Uniform Resource Locator. The address of a resource.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Uniform Resource Locators. Resource addresses, not proof of access or authority." aria-label="URLs: Uniform Resource Locators. Resource addresses, not proof of access or authority.">URLs</abbr></dt><dd>Uniform Resource Locators. Resource addresses, not proof of access or authority.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Hypertext Transfer Protocol. A protocol for exchanging web requests and responses." aria-label="HTTP: Hypertext Transfer Protocol. A protocol for exchanging web requests and responses.">HTTP</abbr></dt><dd>Hypertext Transfer Protocol. A protocol for exchanging web requests and responses.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="HTTP over an encrypted TLS connection." aria-label="HTTPS: HTTP over an encrypted TLS connection.">HTTPS</abbr></dt><dd><abbr tabindex="0" data-definition="Hypertext Transfer Protocol. A protocol for exchanging web requests and responses." aria-label="HTTP: Hypertext Transfer Protocol. A protocol for exchanging web requests and responses.">HTTP</abbr> over an encrypted <abbr tabindex="0" data-definition="Transport Layer Security. Encryption and authentication for network connections." aria-label="TLS: Transport Layer Security. Encryption and authentication for network connections.">TLS</abbr> connection.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Transport Layer Security. Encryption and authentication for network connections." aria-label="TLS: Transport Layer Security. Encryption and authentication for network connections.">TLS</abbr></dt><dd>Transport Layer Security. Encryption and authentication for network connections.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Total cost of ownership. Delivery, operation, maintenance and change costs over a stated period." aria-label="TCO: Total cost of ownership. Delivery, operation, maintenance and change costs over a stated period.">TCO</abbr></dt><dd>Total cost of ownership. Delivery, operation, maintenance and change costs over a stated period.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Return on investment. Benefits relative to costs; no measured return is claimed by this report." aria-label="ROI: Return on investment. Benefits relative to costs; no measured return is claimed by this report.">ROI</abbr></dt><dd>Return on investment. Benefits relative to costs; no measured return is claimed by this report.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Full-time equivalent. A unit of labor capacity, not necessarily a reduction in headcount." aria-label="FTE: Full-time equivalent. A unit of labor capacity, not necessarily a reduction in headcount.">FTE</abbr></dt><dd>Full-time equivalent. A unit of labor capacity, not necessarily a reduction in headcount.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Proof of concept. A bounded test of feasibility, not production approval." aria-label="PoC: Proof of concept. A bounded test of feasibility, not production approval.">PoC</abbr></dt><dd>Proof of concept. A bounded test of feasibility, not production approval.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Minimum viable product. A narrowly scoped usable release; the scope requires customer agreement." aria-label="MVP: Minimum viable product. A narrowly scoped usable release; the scope requires customer agreement.">MVP</abbr></dt><dd>Minimum viable product. A narrowly scoped usable release; the scope requires customer agreement.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Structured Query Language. A language used to query and manage relational data." aria-label="SQL: Structured Query Language. A language used to query and manage relational data.">SQL</abbr></dt><dd>Structured Query Language. A language used to query and manage relational data.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Server-side request forgery. A risk where untrusted input causes a server to access unintended destinations." aria-label="SSRF: Server-side request forgery. A risk where untrusted input causes a server to access unintended destinations.">SSRF</abbr></dt><dd>Server-side request forgery. A risk where untrusted input causes a server to access unintended destinations.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Cross-site scripting. A risk where untrusted text is treated as executable browser content." aria-label="XSS: Cross-site scripting. A risk where untrusted text is treated as executable browser content.">XSS</abbr></dt><dd>Cross-site scripting. A risk where untrusted text is treated as executable browser content.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Source-policy classification for a summary of public information. It does not verify customer statements or authorize live source access." aria-label="PUBLIC-SUMMARY: Source-policy classification for a summary of public information. It does not verify customer statements or authorize live source access.">PUBLIC-SUMMARY</abbr></dt><dd>Source-policy classification for a summary of public information. It does not verify customer statements or authorize live source access.</dd></div>
+          <div><dt><abbr tabindex="0" data-definition="Fictional demonstration information. It must not be presented as an actual customer record." aria-label="SYNTHETIC: Fictional demonstration information. It must not be presented as an actual customer record.">SYNTHETIC</abbr></dt><dd>Fictional demonstration information. It must not be presented as an actual customer record.</dd></div>
+        </dl>
+      </details>
+    </section>
+    <footer class="report-footer">
+      <p><strong>Review state:</strong> awaiting_human_review &middot; Release authorized: false</p>
+      <p class="mono"><abbr tabindex="0" data-definition="Workflow run identifier. It binds the recorded request and package content; it is not approval." aria-label="RUN-SYN-001-B5FB705DA2EB: Workflow run identifier. It binds the recorded request and package content; it is not approval.">RUN-SYN-001-B5FB705DA2EB</abbr><br>Report generated: <time datetime="2026-09-28T19:29:31.585606Z">28 Sep 2026, 19:29:31 <abbr tabindex="0" data-definition="Coordinated Universal Time. A common time reference independent of local daylight-saving changes." aria-label="UTC: Coordinated Universal Time. A common time reference independent of local daylight-saving changes.">UTC</abbr></time></p>
+      <details>
+        <summary>Report assets and notices</summary>
+        <p>Lucide icons. Offline <abbr tabindex="0" data-definition="Hypertext Markup Language. The format used for these browser-readable reports." aria-label="HTML: Hypertext Markup Language. The format used for these browser-readable reports.">HTML</abbr> report generated from the recorded package.</p>
+        <pre>ISC License
+
+Copyright (c) 2026 Lucide Icons and Contributors
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED &#34;AS IS&#34; AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+---
+
+The following Lucide icons are derived from the Feather project:
+
+airplay, alert-circle, alert-octagon, alert-triangle, aperture, arrow-down-circle, arrow-down-left, arrow-down-right, arrow-down, arrow-left-circle, arrow-left, arrow-right-circle, arrow-right, arrow-up-circle, arrow-up-left, arrow-up-right, arrow-up, at-sign, calendar, cast, check, chevron-down, chevron-left, chevron-right, chevron-up, chevrons-down, chevrons-left, chevrons-right, chevrons-up, circle, clipboard, clock, code, columns, command, compass, corner-down-left, corner-down-right, corner-left-down, corner-left-up, corner-right-down, corner-right-up, corner-up-left, corner-up-right, crosshair, database, divide-circle, divide-square, dollar-sign, download, external-link, feather, frown, hash, headphones, help-circle, info, italic, key, layout, life-buoy, link-2, link, loader, lock, log-in, log-out, maximize, meh, minimize, minimize-2, minus-circle, minus-square, minus, monitor, moon, more-horizontal, more-vertical, move, music, navigation-2, navigation, octagon, pause-circle, percent, plus-circle, plus-square, plus, power, radio, rss, search, server, share, shopping-bag, sidebar, smartphone, smile, square, table-2, tablet, target, terminal, trash-2, trash, triangle, tv, type, upload, x-circle, x-octagon, x-square, x, zoom-in, zoom-out
+
+The MIT License (MIT) (for the icons listed above)
+
+Copyright (c) 2013-present Cole Bemis
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the &#34;Software&#34;), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED &#34;AS IS&#34;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+</pre>
+      </details>
+    </footer>
+  </main>
+</div>
+<div id="report-tooltip" class="tooltip" role="tooltip" hidden></div>
+<script>// SPDX-License-Identifier: LicenseRef-MOSAIC-Evaluation
+// Keep report navigation, theme and contextual help available without network access.
+(() => {
+  'use strict';
+  const sidebar = document.querySelector('.sidebar');
+  const opener = document.querySelector('.open-nav');
+  const scrim = document.querySelector('.nav-scrim');
+  const mobile = window.matchMedia('(max-width: 780px)');
+  const setNavigation = (open, restore = true) => {
+    sidebar.classList.toggle('is-open', open);
+    opener.setAttribute('aria-expanded', String(open));
+    scrim.hidden = !open;
+    document.body.style.overflow = open && mobile.matches ? 'hidden' : '';
+    document.querySelector('.report-shell').inert = open && mobile.matches;
+    if (open) sidebar.querySelector('a').focus();
+    else if (restore) opener.focus();
+  };
+  opener.addEventListener('click', () => setNavigation(true));
+  document.querySelector('.close-nav').addEventListener('click', () => setNavigation(false));
+  scrim.addEventListener('click', () => setNavigation(false));
+  sidebar.addEventListener('click', (event) => {
+    if (event.target.closest('a') && mobile.matches) setNavigation(false, false);
+  });
+  mobile.addEventListener('change', () => setNavigation(false, false));
+  const themeControl = document.querySelector('#theme');
+  const preferredDark = window.matchMedia('(prefers-color-scheme: dark)');
+  const applyTheme = (value) => {
+    const dark = value === 'dark' || (value === 'system' && preferredDark.matches);
+    document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+  };
+  try {
+    themeControl.value = localStorage.getItem('mosaic-report-theme') || 'light';
+  } catch {}
+  applyTheme(themeControl.value);
+  themeControl.addEventListener('change', () => {
+    applyTheme(themeControl.value);
+    try {
+      localStorage.setItem('mosaic-report-theme', themeControl.value);
+    } catch {}
+  });
+  preferredDark.addEventListener('change', () => applyTheme(themeControl.value));
+
+  const tooltip = document.querySelector('#report-tooltip');
+  let active = null;
+  let keyboardMode = true;
+  const closeTooltip = () => {
+    if (active) active.removeAttribute('aria-describedby');
+    active = null;
+    tooltip.hidden = true;
+  };
+  const showTooltip = (target) => {
+    closeTooltip();
+    active = target;
+    tooltip.textContent = target.dataset.definition;
+    target.setAttribute('aria-describedby', tooltip.id);
+    tooltip.hidden = false;
+    const bounds = target.getBoundingClientRect();
+    const box = tooltip.getBoundingClientRect();
+    const left = Math.max(14, Math.min(bounds.left, innerWidth - box.width - 14));
+    const below = bounds.bottom + 10;
+    const top =
+      below + box.height < innerHeight - 14 ? below : Math.max(14, bounds.top - box.height - 10);
+    tooltip.style.left = `${left}px`;
+    tooltip.style.top = `${top}px`;
+  };
+  document.addEventListener('pointerdown', () => {
+    keyboardMode = false;
+  });
+  document.addEventListener('keydown', (event) => {
+    keyboardMode = true;
+    if (event.key === 'Escape') {
+      closeTooltip();
+      if (sidebar.classList.contains('is-open')) setNavigation(false);
+    }
+    if (event.key === 'Tab' && mobile.matches && sidebar.classList.contains('is-open')) {
+      const controls = Array.from(sidebar.querySelectorAll('a,button,input,select')).filter(
+        (element) => !element.hidden && element.getClientRects().length,
+      );
+      const first = controls[0];
+      const last = controls.at(-1);
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+    if (['Enter', ' '].includes(event.key) && event.target.matches('abbr[data-definition]')) {
+      event.preventDefault();
+      if (active === event.target) closeTooltip();
+      else showTooltip(event.target);
+    }
+  });
+  document.addEventListener('pointerover', (event) => {
+    const target = event.target.closest('[data-definition]');
+    if (target && event.pointerType === 'mouse') showTooltip(target);
+  });
+  document.addEventListener('pointerout', (event) => {
+    if (
+      active &&
+      active !== document.activeElement &&
+      active.contains(event.target) &&
+      !active.contains(event.relatedTarget)
+    )
+      closeTooltip();
+  });
+  document.addEventListener('focusin', (event) => {
+    const target = event.target.closest('[data-definition]');
+    if (target && keyboardMode) showTooltip(target);
+  });
+  document.addEventListener('focusout', (event) => {
+    if (event.target === active) closeTooltip();
+  });
+  document.addEventListener('click', (event) => {
+    const target = event.target.closest('[data-definition]');
+    if (!target) {
+      closeTooltip();
+      return;
+    }
+    if (active === target && !event.detail) closeTooltip();
+    else showTooltip(target);
+  });
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (active && active === document.activeElement) showTooltip(active);
+      else closeTooltip();
+    },
+    { passive: true },
+  );
+  window.addEventListener('resize', () => {
+    if (active && active === document.activeElement) showTooltip(active);
+    else closeTooltip();
+  });
+  document.querySelectorAll('.document-content table').forEach((table) => {
+    table.querySelectorAll('thead th').forEach((cell) => (cell.scope = 'col'));
+  });
+  const scrollRegions = document.querySelectorAll('.document-content table, .table-scroll');
+  function updateScrollRegions() {
+    scrollRegions.forEach((region) => {
+      if (region.scrollWidth > region.clientWidth + 1) region.tabIndex = 0;
+      else region.removeAttribute('tabindex');
+      const heading = region.closest('section')?.getAttribute('aria-labelledby');
+      if (heading) region.setAttribute('aria-labelledby', heading);
+      if (!region.matches('table')) region.setAttribute('role', 'region');
+    });
+  }
+  updateScrollRegions();
+  window.addEventListener('resize', updateScrollRegions);
+  const outline = document.querySelector('.page-outline');
+  if (outline && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          outline
+            .querySelectorAll('a')
+            .forEach((link) =>
+              link.classList.toggle('active', link.hash === `#${entry.target.id}`),
+            );
+        });
+      },
+      { rootMargin: '-90px 0px -65% 0px' },
+    );
+    document.querySelectorAll('h2[id]').forEach((heading) => observer.observe(heading));
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>MOSAIC Challenge Deck</title>
+  <style>
+    :root { --ink:#171717; --muted:#515151; --paper:#fafafa; --line:#c8c8c8; --cyan:#78e3ea; --coral:#ff785d; --yellow:#f4ca58; }
+    * { box-sizing:border-box; }
+    html,body { margin:0; color:var(--ink); font-family:"Bahnschrift","Trebuchet MS",sans-serif; letter-spacing:0; }
+    body { background:#dedede; padding:24px; display:grid; gap:24px; }
+    .slide { width:min(1280px,100%); height:720px; margin:auto; display:flex; flex-direction:column; background:var(--paper); }
+    .top { height:58px; flex:none; padding:20px 62px; display:flex; justify-content:space-between; align-items:center; gap:18px; color:var(--muted); font-size:12px; font-weight:700; }
+    .mark { display:flex; gap:4px; }
+    .mark i { display:block; width:30px; height:20px; background:var(--cyan); }
+    .mark i:nth-child(2) { background:var(--coral); }
+    .mark i:nth-child(3) { background:var(--yellow); }
+    .body { flex:1; min-height:0; display:grid; grid-template-rows:132px 1fr 54px; }
+    header { padding:16px 62px 0; }
+    h1 { margin:0; font-size:40px; line-height:1.13; }
+    .subtitle { margin:13px 0 0; font-size:22px; line-height:1.32; color:var(--muted); white-space:pre-line; }
+    h2 { margin:0; font-size:26px; line-height:1.2; }
+    p { margin:0; font-size:22px; line-height:1.35; }
+    .layout { padding:16px 66px 12px; min-height:0; }
+    .outcomes,.metrics { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:32px; }
+    .text-block { border-top:5px solid var(--cyan); padding-top:18px; }
+    .text-block:nth-child(2) { border-color:var(--coral); }
+    .text-block:nth-child(3) { border-color:var(--yellow); }
+    .text-block p { margin-top:14px; }
+    .slide-1 .body { grid-template-rows:342px 1fr 54px; }
+    .slide-1 header { background:var(--ink); padding-top:20px; color:white; }
+    .slide-1 h1 { font-size:84px; line-height:1; color:var(--cyan); }
+    .expanded-name { margin-top:6px; font-size:20px; line-height:1.3; }
+    .slide-1 .subtitle { color:white; font-size:46px; font-weight:700; line-height:1.16; margin-top:13px; }
+    .premise { margin-top:20px; font-size:22px; }
+    .slide-1 .layout { padding-top:30px; }
+    .slide-1 .text-block { padding-top:17px; }
+    .slide-1 .text-block p { font-size:22px; }
+    figure { margin:0; min-height:0; display:flex; flex-direction:column; gap:12px; }
+    figure a { display:flex; min-height:0; justify-content:center; }
+    figure img { display:block; width:100%; height:100%; min-height:0; object-fit:contain; }
+    figure>span { font-size:14px; color:var(--muted); font-weight:700; }
+    figcaption { flex:none; font-size:16px; color:var(--muted); line-height:1.35; }
+    .flow { display:grid; grid-template-rows:284px 1fr; gap:14px; padding-top:8px; }
+    .proofs { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:32px; min-height:0; }
+    .proofs figure { gap:8px; }
+    .proofs figure img { height:218px; }
+    .boundary { font-weight:700; font-size:22px; }
+    .workflow .boundary { margin-top:12px; font-size:20px; }
+    .stages { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:22px; }
+    .stage { border-top:5px solid var(--line); padding-top:13px; }
+    .stage:first-child { border-color:var(--cyan); }
+    .stage:nth-child(2) { border-color:var(--coral); }
+    .stage:nth-child(3) { border-color:var(--yellow); }
+    .stage span { font-size:14px; color:var(--muted); font-weight:700; }
+    .stage h2 { margin-top:10px; font-size:22px; white-space:pre-line; }
+    .example h2 { font-size:24px; }
+    .example p { margin-top:12px; font-size:20px; }
+    .economics { display:grid; grid-template-rows:142px 106px 1fr; gap:26px; padding-top:30px; }
+    .metrics h2 { font-size:40px; }
+    .metrics p { font-size:20px; }
+    .economic-model h2 { font-size:28px; }
+    .economic-model p { margin-top:16px; font-size:22px; color:var(--muted); }
+    .reuse p { font-size:20px; }
+    .reuse p+p { margin-top:16px; }
+    .takeaway { padding:13px 62px; color:white; background:var(--ink); font-size:22px; font-weight:700; line-height:1.25; }
+    .footer { margin:14px 62px 10px; padding-top:10px; border-top:1px solid var(--line); font-size:12px; color:var(--muted); display:flex; justify-content:space-between; gap:16px; }
+    .footer>span:last-child { white-space:nowrap; flex:none; }
+    @media screen and (max-width:1100px) {
+      .slide { height:auto; min-height:720px; }
+      .body,.slide-1 .body { grid-template-rows:auto 1fr auto; }
+      header { padding:22px 32px; }
+      h1 { font-size:34px; }
+      .top { padding-inline:32px; }
+      .slide-1 h1 { font-size:76px; }
+      .slide-1 .subtitle { font-size:38px; }
+      .layout { padding:24px 32px; }
+      .outcomes,.metrics { gap:24px; }
+      .flow,.economics { grid-template-rows:auto auto auto; gap:28px; }
+      .takeaway { padding-inline:32px; }
+      .footer { margin-inline:32px; }
+    }
+    @media screen and (max-width:800px) {
+      body { padding:12px; gap:16px; }
+      .slide { min-height:0; }
+      .top { height:auto; padding:16px 20px; font-size:10px; gap:12px; }
+      .mark i { width:13px; height:13px; }
+      header { padding:24px 20px; }
+      h1 { font-size:30px; }
+      .slide-1 h1 { font-size:64px; }
+      .slide-1 .subtitle { font-size:32px; }
+      .premise { font-size:20px; margin-top:20px; }
+      .layout { padding:24px 20px; }
+      .outcomes,.metrics,.proofs { grid-template-columns:minmax(0,1fr); gap:26px; }
+      .proofs figure img { height:auto; }
+      .stages { grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; }
+      .stage h2 { font-size:20px; }
+      figure img { height:auto; }
+      .takeaway { padding:16px 20px; font-size:20px; }
+      .footer { margin:16px 20px 14px; }
+    }
+    @page { size:13.333in 7.5in; margin:0; }
+    @media print {
+      body { padding:0; gap:0; background:white; display:block; }
+      .slide { width:13.333in; height:7.5in; break-after:page; }
+      .slide:last-child { break-after:auto; }
+    }
+  </style>
+</head>
+<body>
+<section class="slide slide-1" data-slide="1">
+  <div class="top"><span>MICROSOFT / CUSTOMER ENGINEERING</span><span class="mark" aria-hidden="true"><i></i><i></i><i></i></span></div>
+  <div class="body">
+    <header data-region="heading"><h1>MOSAIC</h1><p class="expanded-name">Multi-customer Orchestration System for Adaptive Intake and Continuous Delivery</p><p class="subtitle">From business need to governed
+solution dossier—in minutes, not days.</p><p class="premise">Business user -&gt; GitHub Copilot App -&gt; governed analysis -&gt; 23-file dossier -&gt; human decisions.</p></header>
+    <div class="layout " data-region="content"><div class="outcomes"><div class="text-block"><h2>Before</h2><p>Repeated discovery, copied notes and inconsistent handoffs.</p></div>
+<div class="text-block"><h2>With MOSAIC</h2><p>Adaptive intake, approved evidence and one review package.</p></div>
+<div class="text-block"><h2>Business value</h2><p>Less preparation and rework; experts focus on decisions.</p></div></div></div>
+    <p class="takeaway" data-region="takeaway">Scale the expertise. Keep the accountability.</p>
+  </div>
+  <footer class="footer" data-region="footer"><span>Synthetic reference. Impact not yet measured. Human approval required.</span><span>1 / 3</span></footer>
+</section>
+<section class="slide slide-2" data-slide="2">
+  <div class="top"><span>MICROSOFT / CUSTOMER ENGINEERING</span><span class="mark" aria-hidden="true"><i></i><i></i><i></i></span></div>
+  <div class="body">
+    <header data-region="heading"><h1>One governed flow, proven in the App.</h1><p class="subtitle">Synthetic example: trusted travel-policy guidance for 250 field employees.</p></header>
+    <div class="layout flow" data-region="content"><div class="proofs"><figure><span>AUTHENTIC APP INTAKE</span><img src="assets/contest-app-intake.png" alt="Authentic GitHub Copilot App adaptive intake from the final contest recording"><figcaption>GitHub Copilot App: plain-language request -&gt; adaptive intake.</figcaption></figure><figure><span>AUTHENTIC GENERATED OUTPUT</span><img src="assets/contest-report-review.png" alt="Authentic generated MOSAIC report awaiting human review from the final contest recording"><figcaption>Generated dossier: unselected discussion draft -&gt; awaiting human review.</figcaption></figure></div><div class="workflow"><div class="stages"><div class="stage"><span>1 INTAKE</span><h2>Need, scope
++ risks</h2></div><div class="stage"><span>2 GOVERN</span><h2>Approved evidence
++ bounded plan</h2></div><div class="stage"><span>3 PREPARE</span><h2>Three options
++ 23 files</h2></div><div class="stage"><span>4 REVIEW</span><h2>Select architecture;
+approve revision later</h2></div></div></div></div>
+    <p class="takeaway" data-region="takeaway">Authentic 2:55 recording. Architecture selection and design approval remain separate.</p>
+  </div>
+  <footer class="footer" data-region="footer"><span>Synthetic reference. Impact not yet measured. Human approval required.</span><span>2 / 3</span></footer>
+</section>
+<section class="slide slide-3" data-slide="3">
+  <div class="top"><span>MICROSOFT / CUSTOMER ENGINEERING</span><span class="mark" aria-hidden="true"><i></i><i></i><i></i></span></div>
+  <div class="body">
+    <header data-region="heading"><h1>Adoption motion and expected value.</h1><p class="subtitle">Illustrative planning model—not measured savings or a customer forecast.</p></header>
+    <div class="layout economics" data-region="content"><div class="metrics"><div class="text-block"><h2>96 hours</h2><p>Manual preparation</p></div>
+<div class="text-block"><h2>16 hours</h2><p>Retained human review</p></div>
+<div class="text-block"><h2>80 hours</h2><p>Potential effort saved: 83%</p></div></div><div class="economic-model"><h2>At $200/hour: $16,000 gross capacity per request.</h2><p>$1.6M at 100 requests/year, before additional effort and operating costs.</p></div><div class="reuse"><p>Adoption: synthetic proof -&gt; customer benchmark -&gt; isolated rollout -&gt; scale.</p><p>Customer-specific evidence, templates, roles and approval rules.</p></div></div>
+    <p class="takeaway" data-region="takeaway">Scale the expertise. Keep the accountability.</p>
+  </div>
+  <footer class="footer" data-region="footer"><span>Synthetic reference. Impact not yet measured. Human approval required.</span><span>3 / 3</span></footer>
+</section>
+  <script>
+    const requested = new URLSearchParams(location.search).get("slide");
+    if (["1", "2", "3"].includes(requested)) {
+      document.body.style.padding = "0";
+      document.body.style.gap = "0";
+      document.querySelectorAll(".slide").forEach(slide => {
+        slide.style.display = slide.dataset.slide === requested ? "flex" : "none";
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "schemaVersion": "1.0.0",
+  "policyId": "contoso-synthetic-source-policy",
+  "mode": "fail-closed",
+  "allowedSourceIds": ["EVD-001", "EVD-002", "EVD-003", "EVD-004"],
+  "allowedClassifications": ["SYNTHETIC", "PUBLIC-SUMMARY"],
+  "networkAccess": false,
+  "realCustomerDataAllowed": false,
+  "defaultConnectorAccess": "read-only"
+}

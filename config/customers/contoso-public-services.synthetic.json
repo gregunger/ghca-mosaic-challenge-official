@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "1.0.0",
+  "configurationId": "contoso-public-services-synthetic-1.0.0",
+  "customerId": "contoso-public-services-synthetic",
+  "displayName": "Contoso Public Services (Synthetic)",
+  "synthetic": true,
+  "sourcePolicyId": "contoso-synthetic-source-policy",
+  "requiredOptionCount": 3,
+  "requiredReviewerRoles": [
+    "Business owner",
+    "Policy owner",
+    "Qualified solution architect",
+    "Security reviewer"
+  ],
+  "requiredArtifacts": [
+    "intake-report.md",
+    "evidence-appendix.md",
+    "option-matrix.md",
+    "architecture-brief.md",
+    "meeting-request.md",
+    "meeting-agenda.md",
+    "talk-track.md",
+    "human-review.md"
+  ],
+  "terminology": {
+    "request": "solution initiative",
+    "package": "decision package",
+    "reviewer": "qualified solution architect"
+  },
+  "governance": {
+    "defaultConnectorAccess": "read-only",
+    "networkAccessInDemo": false,
+    "realCustomerDataAllowed": false,
+    "releaseRequiresHumanDecision": true
+  }
+}

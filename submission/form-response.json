@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "1.0.0",
+  "submissionStatus": "engineering-package-published-awaiting-entrant-submission",
+  "repositoryVisibility": "public",
+  "includeProductFeedback": true,
+  "rulesBasis": "Entrant-supplied official challenge and live-form sections, September 16, 2026",
+  "submissionUrl": "https://forms.cloud.microsoft/r/s4YWRF1Ti1",
+  "deadline": "2026-10-09T23:59:00-07:00",
+  "projectTitle": "MOSAIC: AI-First Solution Engineering Automation",
+  "fields": [
+    {
+      "number": 1,
+      "label": "Project summary",
+      "status": "prepared",
+      "responseFile": "project-summary.txt"
+    },
+    {
+      "number": 2,
+      "label": "Demo video URL",
+      "status": "published-and-accessible",
+      "response": "https://youtu.be/RP4CeCYt4VE",
+      "hostingNote": "The YouTube URL is anonymously reachable and identifies the 3-minute MOSAIC intake overview."
+    },
+    {
+      "number": 3,
+      "label": "Workflow repository URL",
+      "status": "published-and-accessible",
+      "response": "https://github.com/gregunger/ghca-mosaic-challenge-official"
+    },
+    {
+      "number": 4,
+      "label": "Architecture or workflow deck URL",
+      "status": "published-and-accessible",
+      "response": "https://github.com/gregunger/ghca-mosaic-challenge-official/raw/refs/heads/main/presentation/mosaic-challenge-deck.pptx",
+      "localAsset": "../presentation/mosaic-challenge-deck.pptx",
+      "hostingNote": "The rules require a 1-3-slide deck and proper file access. No specific host is required; ensure judges can open this PDF."
+    },
+    {
+      "number": 5,
+      "label": "Competitive edge against Claude Code",
+      "status": "prepared",
+      "responseFile": "competitive-positioning.txt"
+    },
+    {
+      "number": 6,
+      "label": "Product feedback on the GitHub Copilot App",
+      "status": "prepared-evidence-grounded",
+      "responseFile": "product-feedback.txt"
+    },
+    {
+      "number": 7,
+      "label": "Your team members' alias, please include yourself",
+      "status": "ready",
+      "response": "gregunger@microsoft.com; github.com/gregunger-microsoft"
+    }
+  ],
+  "submissionRule": "Pursue every scored criterion and the product-feedback bonus with supported evidence. The package is published. Greg Unger confirms team eligibility and rights, then submits the form before the deadline."
+}

@@ -1,0 +1,7 @@
+# Maintain portable source files and preserve approved evidence bytes.
+* text=auto eol=lf
+*.png binary
+*.pptx binary
+*.pdf binary
+*.mp4 binary
+examples/synthetic/sources/*.md text eol=crlf

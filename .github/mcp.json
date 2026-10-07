@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "mosaic-synthetic-evidence": {
+      "type": "stdio",
+      "command": "python",
+      "args": ["-m", "mosaic.mcp_server"],
+      "env": {
+        "PYTHONPATH": "src",
+        "PYTHONNOUSERSITE": "1"
+      },
+      "tools": ["list_approved_sources", "read_approved_source"]
+    }
+  }
+}

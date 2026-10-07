@@ -1,0 +1,18 @@
+{
+  "editor.insertSpaces": true,
+  "editor.rulers": [100],
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/*.egg-info": true,
+    "**/.pytest_cache": true,
+    "**/.ruff_cache": true,
+    "**/.venv": true,
+    "**/node_modules": true
+  },
+  "[python]": {
+    "editor.tabSize": 4
+  },
+  "[javascript][json][jsonc][css][yaml][markdown]": {
+    "editor.tabSize": 2
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mosaic.example/schemas/customer-config.schema.json",
+  "title": "MOSAIC Customer Configuration",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "configurationId",
+    "customerId",
+    "displayName",
+    "synthetic",
+    "sourcePolicyId",
+    "requiredOptionCount",
+    "requiredReviewerRoles",
+    "requiredArtifacts",
+    "terminology"
+  ],
+  "properties": {
+    "schemaVersion": { "type": "string" },
+    "configurationId": { "type": "string", "minLength": 3 },
+    "customerId": { "type": "string", "minLength": 3 },
+    "displayName": { "type": "string", "minLength": 3 },
+    "synthetic": { "const": true },
+    "sourcePolicyId": { "type": "string", "minLength": 3 },
+    "requiredOptionCount": { "const": 3 },
+    "requiredReviewerRoles": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 3, "pattern": "\\S" }
+    },
+    "requiredArtifacts": {
+      "type": "array",
+      "minItems": 8,
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[a-z0-9-]+\\.md$" }
+    },
+    "terminology": {
+      "type": "object",
+      "required": ["request", "package", "reviewer"],
+      "properties": {
+        "request": { "type": "string" },
+        "package": { "type": "string" },
+        "reviewer": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": true
+}

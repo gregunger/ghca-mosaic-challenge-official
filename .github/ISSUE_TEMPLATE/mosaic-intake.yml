@@ -1,0 +1,47 @@
+name: MOSAIC synthetic intake
+description: Start a governed, release-safe solution-intake workflow.
+title: '[MOSAIC] SYN-'
+labels: ['mosaic-intake', 'synthetic']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use fictional information only. Do not include customer data, personal data, credentials, tenant identifiers, or restricted screenshots.
+  - type: input
+    id: initiative
+    attributes:
+      label: Synthetic initiative ID
+      description: Must begin with SYN-.
+      placeholder: SYN-002
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Business problem
+      description: Describe the affected users, current process, and consequence of leaving the problem unsolved.
+    validations:
+      required: true
+  - type: textarea
+    id: outcomes
+    attributes:
+      label: Desired outcomes and success measures
+      description: State customer-owned outcomes and how they could be measured.
+    validations:
+      required: true
+  - type: textarea
+    id: constraints
+    attributes:
+      label: Constraints, risks, and known unknowns
+      description: Include identity, data, security, policy, timing, and operating constraints.
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Release-safe confirmation
+      options:
+        - label: This issue contains synthetic information only.
+          required: true
+        - label: I understand that a qualified human must approve architecture and release.
+          required: true

@@ -1,0 +1,94 @@
+{# SPDX-License-Identifier: LicenseRef-MOSAIC-Evaluation #}
+{# Local job status view; report links identify the published revision, not approval. #}
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+  {% if state.state in ['queued', 'running'] or state.notification.status in ['pending', 'sending'] %}
+  <meta http-equiv="refresh" content="5">
+  {% endif %}
+  <title>Report Job | MOSAIC</title>
+  <style>
+    {{ css }}
+    .job-view {
+      max-width: 850px;
+      margin: 0 auto;
+      padding: 36px 22px;
+    }
+    .job-view dt {
+      font-weight: 700;
+      margin-top: 20px;
+    }
+    .job-view dd {
+      margin: 4px 0;
+      overflow-wrap: anywhere;
+    }
+    .job-state {
+      font-size: 26px;
+      margin: 24px 0;
+    }
+    .job-link {
+      display: inline-block;
+      padding: 12px 0;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+<main class="job-view">
+  <p class="eyebrow">MOSAIC / Local report job</p>
+  <h1>{{ state.initiativeId }}</h1>
+  <p class="job-state">
+    {% if state.state == 'running' and state.get('analysis') and state.analysis.status == 'running' %}
+    Preparing analysis
+    {% else %}
+    {{ {'queued': 'Queued', 'running': 'Preparing reports', 'completed': 'Ready for review',
+        'failed': 'Generation failed', 'canceled': 'Canceled'}[state.state] }}
+    {% endif %}
+  </p>
+  <p class="draft-notice">Unselected discussion draft. Customer approval and release remain blocked.</p>
+  {% if state.reportPath %}
+  <a class="job-link" href="{{ state.reportPath }}">Open completed report</a>
+  {% endif %}
+  {% if state.error %}
+  <p role="alert">{{ state.error.message }}</p>
+  {% endif %}
+  {% if state.get('processingReportPath') and state.get('processingStatus') != 'failed' %}
+  <p><a class="job-link" href="{{ state.processingReportPath }}">Processing cost, performance and pipeline trace</a></p>
+  {% endif %}
+  {% if state.get('processingError') %}
+  <p role="alert">{{ state.processingError.message }}</p>
+  {% endif %}
+  {% if state.cancellationRequested and state.state == 'running' %}
+  <p role="status">Cancellation requested. Unpublished output will be discarded.</p>
+  {% endif %}
+  <dl>
+    <dt>Job identifier</dt>
+    <dd>{{ state.jobId }}</dd>
+    <dt>Created</dt>
+    <dd>{{ state.createdAt }}</dd>
+    <dt>Last state change</dt>
+    <dd>{{ state.updatedAt }}</dd>
+    <dt>Desktop notification</dt>
+    <dd>{{ state.notification.status | replace('_', ' ') }}</dd>
+    {% if state.get('analysis') %}
+    <dt>Copilot analysis</dt>
+    <dd>{{ state.analysis.status | replace('_', ' ') }}</dd>
+    <dt>Model</dt>
+    <dd>{{ state.analysis.model }}</dd>
+    <dt>AI credit cap</dt>
+    <dd>{{ state.analysis.max_ai_credits }}</dd>
+    {% endif %}
+    <dt>Input revision</dt>
+    <dd>{{ state.inputDigest }}</dd>
+    {% if state.reportRevision %}
+    <dt>Completed report revision</dt>
+    <dd>{{ state.reportRevision }}</dd>
+    {% endif %}
+  </dl>
+</main>
+</body>
+</html>

@@ -1,0 +1,33 @@
+{
+  "name": "mosaic-governed-enterprise-intake-assets",
+  "version": "0.1.0",
+  "private": true,
+  "license": "UNLICENSED",
+  "description": "Offline report verification and reproducible assets for the MOSAIC contest reference.",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "format": "prettier --write \"**/*.{md,json,js,css,yml,yaml}\"",
+    "format:check": "prettier --check \"**/*.{md,json,js,css,yml,yaml}\"",
+    "build:deck": "node presentation/build_deck.js",
+    "capture:report": "node scripts/validate_presentation.js --capture-report",
+    "test:presentation": "node scripts/validate_presentation.js",
+    "test:reports": "node scripts/validate_reports.js",
+    "export:deck": "pwsh -NoProfile -File scripts/export_presentation.ps1"
+  },
+  "dependencies": {
+    "image-size": "2.0.4",
+    "pptxgenjs": "4.0.1"
+  },
+  "overrides": {
+    "image-size": "2.0.4"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "1.63.0",
+    "ffprobe-static": "3.1.0",
+    "lucide-static": "1.46.0",
+    "prettier": "3.9.8"
+  }
+}

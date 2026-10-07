@@ -1,0 +1,647 @@
+{# SPDX-License-Identifier: LicenseRef-MOSAIC-Evaluation #}
+{# Shared offline report layout; dynamic content remains autoescaped by Jinja. #}
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'">
+  <title>{% if report.id == 'index' %}{{ use_case.assessmentTitle }}{% else %}{{ use_case.title }} - {{ report.title }}{% endif %}</title>
+  <style>{{ css | safe }}</style>
+</head>
+{% macro heading(identifier, title, purpose) -%}
+<div class="section-heading">
+  <h2 id="{{ identifier }}">{{ title }}</h2>
+  <button type="button" class="icon-button help" data-definition="{{ purpose }}"
+          aria-label="About {{ title }}">{{ icon('info') }}</button>
+</div>
+{%- endmacro %}
+{% macro transcript_text(text, extra_class='') -%}
+<pre class="transcript-text{% if extra_class %} {{ extra_class }}{% endif %}"><code>{{ text }}</code></pre>
+{%- endmacro %}
+{% macro count_bar(label, count, maximum, tone='teal') -%}
+<div class="count-row" data-count="{{ count }}" data-maximum="{{ maximum }}">
+  <span class="count-label">{{ label }}</span>
+  <div class="count-track" aria-hidden="true"><span class="count-bar count-{{ tone }}" style="width:{{ (count / ([maximum, 1] | max) * 100) | round(2) }}%"></span></div>
+  <strong class="count-value">{{ count }}</strong>
+</div>
+{%- endmacro %}
+<body>
+<a class="skip-link" href="#main-content">Skip to report</a>
+<button type="button" class="nav-scrim" aria-label="Close navigation" hidden></button>
+<aside class="sidebar" id="report-navigation" aria-label="Report navigation">
+  <div class="brand">
+    <a href="index.html">{{ use_case.title }}<span>Technical intake assessment</span></a>
+    <button type="button" class="icon-button close-nav" aria-label="Close navigation">
+      {{ icon('x') }}
+    </button>
+  </div>
+  <div class="workspace-label">
+    <span class="status-dot"></span>{{ result.initiative_id }} <span>Synthetic</span>
+  </div>
+  <nav aria-label="Documents">
+    {% for item in reports %}
+    <a class="report-link {% if item.id == report.id %}selected{% endif %}"
+       href="{{ item.id }}.html" {% if item.id == report.id %}aria-current="page"{% endif %}>
+      {{ icon('house' if item.id == 'index' else 'file-text') }}<span>{{ item.title }}</span>
+    </a>
+    {% endfor %}
+  </nav>
+  {% if sections %}
+  <nav class="page-outline" aria-label="On this page">
+    <p class="eyebrow">On this page</p>
+    {% for section in sections %}
+    <a href="#{{ section.id }}">{{ section.title }}</a>
+    {% endfor %}
+  </nav>
+  {% endif %}
+  <div class="nav-footer">
+    <a href="package.json">Structured package {{ icon('arrow-up-right') }}</a>
+    <a href="audit-ledger.json">Audit ledger {{ icon('arrow-up-right') }}</a>
+    <label for="theme">Theme</label>
+    <select id="theme">
+      <option value="light">Light</option>
+      <option value="dark">Dark</option>
+      <option value="system">System</option>
+    </select>
+  </div>
+</aside>
+<div class="report-shell">
+  <header class="topbar">
+    <button type="button" class="icon-button open-nav" aria-controls="report-navigation"
+            aria-expanded="false" aria-label="Open report navigation">{{ icon('menu') }}</button>
+    <div>
+      <span class="breadcrumb">{{ result.initiative_id }}</span>
+      <span class="breadcrumb-divider">/</span>{{ report.title }}
+    </div>
+    <a class="review-status" href="human-review.html">{{ icon('clock') }}Awaiting human review</a>
+  </header>
+  <main id="main-content" tabindex="-1">
+    <div class="page-heading">
+      <div>
+        <p class="eyebrow">Initial technical intake &middot; Unselected discussion draft</p>
+        <h1>{% if report.id == 'index' %}{{ use_case.assessmentTitle }}{% else %}{{ use_case.title }}: {{ report.title }}{% endif %}</h1>
+        {% if report.id == 'index' %}
+        <p class="page-purpose report-attribution">
+          <strong>Report generated:</strong>
+          <time datetime="{{ package.reportMetadata.generatedAt }}">{{ package.reportMetadata.generatedAt | display_time }}</time><br>
+          <strong>Intake received:</strong>
+          <time datetime="{{ result.metadata.timestamp }}">{{ result.metadata.timestamp | display_time }}</time>
+        </p>
+        <p class="page-purpose report-submitter">
+          <strong>Submitted by:</strong> {{ package.discovery.submittedBy.displayName }}
+          <span class="muted">({% if package.discovery.submittedBy.basis == 'default_placeholder' %}Default name; identity not verified{% else %}Provided name; identity not verified{% endif %})</span><br>
+          <strong>Prepared by:</strong> {{ package.reportMetadata.preparedBy }}
+        </p>
+        {% endif %}
+        <p class="page-purpose">{{ report.purpose }}</p>
+        {% if report.id != 'index' %}
+        <p class="page-context"><strong>Business context:</strong> {{ use_case.businessProblem }}</p>
+        {% endif %}
+      </div>
+      {% if report.id != 'index' %}
+      <a class="source-link" href="{{ report.id }}.md">{{ icon('file-text') }}Markdown</a>
+      {% endif %}
+    </div>
+    {% if report.id == 'index' %}
+    <section aria-labelledby="about-assessment">
+      {{ heading('about-assessment', 'About This Assessment', 'An initial technical interpretation of the supplied business need. It is intended for correction and solution discussion, not approval or implementation.') }}
+      <p>
+        This report documents the initial technical intake for <strong>{{ use_case.title }}</strong>.
+        It translates the supplied business problem into a reviewable scope, requirements, open
+        questions and three contrasting solution approaches. Customer statements remain unverified
+        until confirmed by the appropriate business and technical owners.
+      </p>
+      <p class="evidence-note">
+        Status: initial assessment for customer review; no architecture has been selected.
+      </p>
+    </section>
+    <section aria-labelledby="original-request">
+      {{ heading('original-request', 'Original Request', 'The business problem supplied for this intake, retained as the anchor for the assessment.') }}
+      <blockquote class="original-request">{{ use_case.originalRequest }}</blockquote>
+    </section>
+    <section aria-labelledby="executive-summary">
+      {{ heading('executive-summary', 'Executive Summary', 'The problem, people affected and intended business result. Correct this framing before evaluating technology choices.') }}
+      <p class="problem-statement">{{ use_case.businessProblem }}</p>
+      <div class="summary-grid">
+        <article>
+          <h3>Who is affected</h3>
+          <ul>
+            {% for user in use_case.targetUsers %}<li>{{ user }}</li>{% endfor %}
+          </ul>
+        </article>
+        <article>
+          <h3>Desired outcomes</h3>
+          <ul>
+            {% for outcome in use_case.desiredOutcomes %}<li>{{ outcome }}</li>{% endfor %}
+          </ul>
+        </article>
+      </div>
+    </section>
+    <section aria-labelledby="people-and-ownership">
+      {{ heading('people-and-ownership', 'Requestor, Users and Stakeholders', 'The people affected by the problem and the roles needed to validate facts, own outcomes and make decisions.') }}
+      <div class="summary-grid">
+        <article>
+          <h3>Requestor</h3>
+          <p><strong>{{ package.discovery.submittedBy.displayName }}</strong></p>
+          <p class="muted">{% if package.discovery.submittedBy.basis == 'default_placeholder' %}Default placeholder; identity and authority are not verified.{% else %}Supplied name; identity and authority are not verified.{% endif %}</p>
+        </article>
+        <article>
+          <h3>Ownership</h3>
+          <p>{{ use_case.ownership }}</p>
+        </article>
+      </div>
+      <div class="table-scroll">
+        <table>
+          <caption>Stakeholder roles and decision responsibilities</caption>
+          <thead><tr><th scope="col">Role</th><th scope="col">Responsibility or authority</th></tr></thead>
+          <tbody>
+            {% for stakeholder in use_case.stakeholders %}
+            <tr><td>{{ stakeholder.role }}</td><td>{{ stakeholder.authority }}</td></tr>
+            {% else %}
+            <tr><td colspan="2">No stakeholder roles were supplied. Ownership and authority are unknown.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section aria-labelledby="scope-boundaries">
+      {{ heading('scope-boundaries', 'Scope and Boundaries', 'The supplied first-release boundary and exclusions. Missing details stay explicit rather than being inferred.') }}
+      <div class="scope-grid">
+        <article class="scope-in">
+          <p class="eyebrow">In scope</p>
+          <p>{{ use_case.scope }}</p>
+        </article>
+        <article class="scope-out">
+          <p class="eyebrow">Out of scope</p>
+          <p>{{ use_case.exclusions }}</p>
+        </article>
+      </div>
+      <h3>Constraints</h3>
+      <ul>{% for constraint in use_case.constraints %}<li>{{ constraint }}</li>{% endfor %}</ul>
+    </section>
+    <section aria-labelledby="current-environment">
+      {{ heading('current-environment', 'Current Environment and Delivery Context', 'Known systems, ownership, timing, budget and baseline. Unknown items are not estimates.') }}
+      <dl class="context-grid">
+        <div><dt>Current systems</dt><dd>{{ use_case.systems }}</dd></div>
+        <div><dt>Ownership</dt><dd>{{ use_case.ownership }}</dd></div>
+        <div><dt>Budget</dt><dd>{{ use_case.budget }}</dd></div>
+        <div><dt>Timeline</dt><dd>{{ use_case.timeline }}</dd></div>
+        <div><dt>Current-state baseline</dt><dd>{{ use_case.baseline }}</dd></div>
+      </dl>
+    </section>
+    <section aria-labelledby="requirements-and-measures">
+      {{ heading('requirements-and-measures', 'Requirements and Proposed Success Measures', 'What the solution must address and how the customer could evaluate results. Proposed measures are not measured outcomes.') }}
+      <div class="summary-grid">
+        <article>
+          <h3>Functional and governance requirements</h3>
+          <ul>
+            {% for requirement in use_case.requirements %}
+            <li><span class="record-id">{{ requirement.id }}</span>{{ requirement.text }}</li>
+            {% endfor %}
+          </ul>
+        </article>
+        <article>
+          <h3>Proposed success measures</h3>
+          <ul>{% for measure in use_case.successMeasures %}<li>{{ measure }}</li>{% endfor %}</ul>
+          <p class="evidence-note">Targets require customer confirmation and an approved baseline.</p>
+        </article>
+      </div>
+    </section>
+    <section aria-labelledby="evidence-sources">
+      {{ heading('evidence-sources', 'Data Sources and Evidence', 'The source set used for this assessment. Customer production sources, classifications and access boundaries still require confirmation.') }}
+      <div class="table-scroll">
+        <table>
+          <caption>Approved sources used in this assessment revision</caption>
+          <thead><tr><th scope="col">ID</th><th scope="col">Source</th><th scope="col">Classification</th><th scope="col">Revision</th></tr></thead>
+          <tbody>
+            {% for source in package.evidenceManifest.sources %}
+            <tr><td><span class="record-id">{{ source.id }}</span></td><td>{{ source.title }}</td><td>{{ source.classification }}</td><td>{{ source.revision }}</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <p class="evidence-note">These synthetic, allowlisted sources support this assessment only; they do not establish a customer production source inventory.</p>
+    </section>
+    <section aria-labelledby="unknowns-and-risks">
+      {{ heading('unknowns-and-risks', 'Unknowns, Dependencies and Risks', 'Issues that can change scope, feasibility, security, effort or option selection. Resolve blocking items before architecture selection.') }}
+      <div class="summary-grid">
+        <article>
+          <h3>Questions requiring customer input</h3>
+          <ul class="question-list">
+            {% for unknown in package.analysis.unknowns %}
+            <li><span class="record-id">{{ unknown.id }}</span>{{ unknown.text }}{% if unknown.blocking %} <strong>(blocking)</strong>{% endif %}</li>
+            {% endfor %}
+          </ul>
+        </article>
+        <article>
+          <h3>Material risks</h3>
+          <ul class="question-list">
+            {% for risk in package.analysis.risks %}
+            <li><span class="risk-label {{ risk.severity | lower }}">{{ risk.severity | title }}</span>{{ risk.text }}</li>
+            {% endfor %}
+          </ul>
+        </article>
+        <article>
+          <h3>Dependencies</h3>
+          <ul>{% for dependency in package.analysis.dependencies %}<li>{{ dependency.text }}</li>{% endfor %}</ul>
+        </article>
+        <article>
+          <h3>Working assumptions</h3>
+          <ul>{% for assumption in package.analysis.assumptions %}<li>{{ assumption.text }}</li>{% endfor %}</ul>
+        </article>
+      </div>
+    </section>
+    <section aria-labelledby="option-summary">
+      {{ heading('option-summary', 'Three Ways Forward', 'Contrasting approaches, each with conditions and tradeoffs. Colors identify alternatives; they do not score them or imply a selected winner.') }}
+      <div class="option-grid">
+        {% for option in package.optionAnalysis.options %}
+        <article class="option-item option-{{ loop.index }}">
+          <p class="eyebrow">{{ option.id }}</p>
+          <h3>{{ option.name }}</h3>
+          <p>{{ option.bestWhen }}</p>
+          <p class="option-tradeoff"><strong>Tradeoff</strong>{{ option.tradeoffs[0] }}</p>
+          <a href="option-matrix.html">Compare conditions {{ icon('arrow-up-right') }}</a>
+        </article>
+        {% endfor %}
+      </div>
+      <div class="recommendation-callout">
+        <p class="eyebrow">Conditional assessment recommendation</p>
+        <p><strong>{{ package.optionAnalysis.recommendation.optionId }}:</strong> {{ package.optionAnalysis.recommendation.text }}</p>
+      </div>
+      <p class="evidence-note">Qualitative alternatives. No weighted scores or customer selection are recorded.</p>
+    </section>
+    <section aria-labelledby="decision-summary">
+      {{ heading('decision-summary', 'Recommended Next Steps and Decisions', 'Resolve the blocking questions, select an architecture through the customer process, then review the completed design as a separate decision.') }}
+      <div class="decision-flow">
+        <div>
+          <span class="decision-number">01</span>
+          <h3>Select an architecture</h3>
+          <p class="badge attention">Pending</p>
+          <p>Review the alternatives and resolve blocking evidence.</p>
+        </div>
+        <div>
+          <span class="decision-number">02</span>
+          <h3>Approve the exact design</h3>
+          <p class="badge blocked">Blocked pending selection</p>
+          <p>Requires the completed dossier revision and customer authority.</p>
+        </div>
+      </div>
+      <p><strong>Required roles:</strong> {{ package.humanReview.requiredReviewerRoles | join(', ') }}.</p>
+    </section>
+    <section aria-labelledby="report-directory">
+      {{ heading('report-directory', 'The Report Package', 'Open the report that answers your next question. Every document shares this revision and links back to the overview.') }}
+      <div class="document-grid">
+        {% for item in reports if item.id != 'index' %}
+        <a class="document-item" href="{{ item.id }}.html">
+          {{ icon('file-text') }}
+          <span><strong>{{ item.title }}</strong><small>{{ item.purpose }}</small></span>
+          {{ icon('arrow-up-right') }}
+        </a>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    {% if report.id == 'intake-report' %}
+    <section aria-labelledby="risk-view">
+      {{ heading('risk-view', 'Risk and Uncertainty', 'Counts of recorded risks by severity. Bar lengths show how many records exist, not probability, money at risk or a quantitative risk score.') }}
+      <div class="analytics-split">
+        <figure class="risk-chart" data-analytics="risk-severity">
+          <figcaption>Recorded risks by severity</figcaption>
+          {% for severity in ['high', 'medium', 'low'] %}
+          <div class="bar-row">
+            <span>{{ severity | title }}</span>
+            <div class="bar-track">
+              <div class="bar {{ severity }}"
+                   style="width:{{ (risks[severity] / ([risk_total, 1] | max) * 100) | round(2) }}%"></div>
+            </div>
+            <strong>{{ risks[severity] }}</strong>
+          </div>
+          {% endfor %}
+          <p class="evidence-note">{{ risk_total }} risk records. No likelihood estimate supplied.</p>
+        </figure>
+        <div>
+          <h3>Questions holding the decision</h3>
+          <ul class="question-list">
+            {% for unknown in package.analysis.unknowns if unknown.get('blocking') %}
+            <li><span class="record-id">{{ unknown.id }}</span>{{ unknown.text }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </section>
+    {% endif %}
+
+    {% if report.id == 'option-matrix' %}
+    <section aria-labelledby="comparison-lens">
+      {{ heading('comparison-lens', 'Read the Comparison', 'All options use the same criteria. The counts are coverage indicators, not ratings. A recommendation remains conditional until the customer decides.') }}
+      <div class="metric-strip">
+        <div><strong>3</strong><span>Contrasting options</span></div>
+        <div>
+          <strong>{{ package.optionAnalysis.evaluationCriteria | length }}</strong><span>Common criteria</span>
+        </div>
+        <div><strong>0</strong><span>Authorized selections</span></div>
+      </div>
+      <div class="option-legend">
+        {% for option in package.optionAnalysis.options %}
+        <span class="option-key option-{{ loop.index }}">{{ option.id }} &middot; {{ option.name }}</span>
+        {% endfor %}
+      </div>
+    </section>
+    <section aria-labelledby="option-conditions">
+      {{ heading('option-conditions', 'Conditions to Test', 'Compare the number of recorded entry conditions and disqualifiers for each option. More or fewer records do not imply better fit, less risk or lower effort. Read the actual conditions before drawing a conclusion.') }}
+      <figure data-analytics="option-conditions">
+        <figcaption>Recorded conditions and disqualifiers, on a shared count scale</figcaption>
+        <div class="comparison-bars">
+          {% for option in analytics.options %}
+          <div class="comparison-group">
+            <h3>{{ option.id }} &middot; {{ option.name }}</h3>
+            {{ count_bar('Entry conditions', option.conditions, analytics.optionMaximum) }}
+            {{ count_bar('Disqualifiers', option.disqualifiers, analytics.optionMaximum, 'coral') }}
+          </div>
+          {% endfor %}
+        </div>
+        <p class="evidence-note">Counts describe the recorded review workload, not option ratings. Validate the substance and relevance of every item.</p>
+      </figure>
+    </section>
+    {% endif %}
+
+    {% if report.id == 'architecture-brief' %}
+    <section aria-labelledby="design-map">
+      {{ heading('design-map', 'Proposed Responsibilities', 'A responsibility map from the draft architecture, not a deployed topology. Review each boundary and required decision in the sections below.') }}
+      <div class="architecture-map">
+        {% for concern, design in package.proposedDesign.architecture.items() %}
+        <div>
+          <span class="map-number">{{ '%02d' | format(loop.index) }}</span>
+          <h3>{{ concern | replace('_', ' ') | title }}</h3>
+          <p>{{ design }}</p>
+        </div>
+        {% endfor %}
+      </div>
+      <p class="evidence-note">{{ package.proposedDesign.dossierCoverage | length }} documentation areas and {{ package.proposedDesign.readinessPlans | length }} draft plans. Coverage does not mean readiness or approval.</p>
+    </section>
+    <section aria-labelledby="requirement-plan-map">
+      {{ heading('requirement-plan-map', 'Requirement-to-Plan Map', 'Check where each requirement is referenced by a proposed readiness plan. A blank cell means no recorded reference, not necessarily a defect. Review the plan content to judge whether its coverage and verification approach are sufficient.') }}
+      <div class="table-scroll">
+        <table class="trace-table plan-matrix" data-analytics="requirement-plan">
+          <caption>Recorded requirement references in proposed plans; marks do not mean completed work</caption>
+          <thead><tr><th scope="col" class="matrix-label">Requirement</th>{% for plan in package.proposedDesign.readinessPlans %}<th scope="col">{{ plan.id }}</th>{% endfor %}</tr></thead>
+          <tbody>
+            {% for requirement in package.normalizedIntake.requirements %}
+            <tr>
+              <th scope="row" class="matrix-label"><strong>{{ requirement.id }}</strong><span>{{ requirement.text }}</span></th>
+              {% for plan in package.proposedDesign.readinessPlans %}
+              <td>{% if requirement.id in plan.requirementIds %}<span class="trace-hit">{{ icon('check') }}<span class="sr-only">Referenced</span></span>{% else %}<span class="trace-empty" aria-label="No recorded reference">-</span>{% endif %}</td>
+              {% endfor %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <dl class="matrix-legend">{% for plan in package.proposedDesign.readinessPlans %}<div><dt>{{ plan.id }}</dt><dd>{{ plan.title }}</dd></div>{% endfor %}</dl>
+    </section>
+    {% endif %}
+
+    {% if report.id in ['intake-report', 'evidence-appendix'] %}
+    <section aria-labelledby="source-dependencies">
+      {{ heading('source-dependencies', 'Source Dependency Profile', 'Locate sources referenced by many requirements or claims so you can focus currency, ownership and scope checks. Counts show recorded dependencies, not source quality, independent corroboration or strength of evidence.') }}
+      <figure data-analytics="source-dependencies">
+        <figcaption>Requirements and claims citing each source, on a shared count scale</figcaption>
+        <div class="comparison-bars">
+          {% for source in analytics.sources %}
+          <div class="comparison-group">
+            <h3>{{ source.id }} &middot; {{ source.title }}</h3>
+            {{ count_bar('Requirements', source.requirements, analytics.sourceMaximum) }}
+            {{ count_bar('Claims', source.claims, analytics.sourceMaximum, 'blue') }}
+          </div>
+          {% endfor %}
+        </div>
+        <p class="evidence-note">One record may cite several sources. Bar totals therefore count references, not distinct records or independent confirmations.</p>
+      </figure>
+    </section>
+    {% endif %}
+
+    {% if report.id == 'evidence-appendix' %}
+    <section aria-labelledby="traceability-view">
+      {{ heading('traceability-view', 'Requirement-to-Evidence Map', 'Each mark means the requirement cites that source. The map reveals traceability, not whether a source is semantically sufficient or independently verified.') }}
+      <div class="table-scroll">
+        <table class="trace-table" data-analytics="requirement-evidence">
+          <caption>Recorded source references</caption>
+          <thead>
+            <tr>
+              <th scope="col">Requirement</th>
+              {% for source in package.evidenceManifest.sources %}
+              <th scope="col">{{ source.id }}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for requirement in package.normalizedIntake.requirements %}
+            <tr>
+              <th scope="row">{{ requirement.id }}</th>
+              {% for source in package.evidenceManifest.sources %}
+              <td>
+                {% if source.id in requirement.evidenceIds %}
+                <span class="trace-hit">{{ icon('check') }}<span class="sr-only">Cited</span></span>
+                {% else %}
+                <span class="trace-empty" aria-label="Not cited">-</span>
+                {% endif %}
+              </td>
+              {% endfor %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <h3>Claims by evidence status</h3>
+      <div class="claim-strip">
+        {% for label, count in claims.items() %}
+        <div class="claim claim-{{ label }}" style="flex-grow:{{ count }}">
+          <strong>{{ count }}</strong><span>{{ label | title }}</span>
+        </div>
+        {% endfor %}
+      </div>
+      <p class="evidence-note">{{ claim_total }} claims. Labels describe the recorded basis, not measured answer accuracy.</p>
+    </section>
+    {% endif %}
+
+    {% if report.id in ['architecture-brief', 'human-review'] %}
+    <section aria-labelledby="blocker-plan-map">
+      {{ heading('blocker-plan-map', 'Shared Blocking Questions', 'See which unresolved questions affect multiple proposed plans. Use shared dependencies to sequence evidence requests, not to infer risk severity or decide that an unreferenced package-level blocker can be ignored.') }}
+      {% if analytics.blockers %}
+      {% if report.id == 'human-review' %}
+      <figure class="blocker-chart" data-analytics="blocker-impact">
+        <figcaption>Proposed plans referencing each blocking question</figcaption>
+        {% for blocker in analytics.blockers %}{{ count_bar(blocker.id ~ ' - ' ~ blocker.text, blocker.planIds | length, package.proposedDesign.readinessPlans | length, 'coral') }}{% endfor %}
+        <p class="evidence-note">Ordered by reference count. Zero references do not remove a package-level blocker or establish approval readiness.</p>
+      </figure>
+      {% endif %}
+      <div class="table-scroll">
+        <table class="trace-table plan-matrix" data-analytics="blocker-plan">
+          <caption>Blocking questions referenced by each proposed plan</caption>
+          <thead><tr><th scope="col" class="matrix-label">Question to resolve</th>{% for plan in package.proposedDesign.readinessPlans %}<th scope="col">{{ plan.id }}</th>{% endfor %}</tr></thead>
+          <tbody>
+            {% for blocker in analytics.blockers %}
+            <tr>
+              <th scope="row" class="matrix-label"><strong>{{ blocker.id }}</strong><span>{{ blocker.text }}</span></th>
+              {% for plan in package.proposedDesign.readinessPlans %}
+              <td>{% if plan.id in blocker.planIds %}<span class="trace-hit">{{ icon('check') }}<span class="sr-only">Referenced</span></span>{% else %}<span class="trace-empty" aria-label="No recorded reference">-</span>{% endif %}</td>
+              {% endfor %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% if report.id == 'human-review' %}<dl class="matrix-legend">{% for plan in package.proposedDesign.readinessPlans %}<div><dt>{{ plan.id }}</dt><dd>{{ plan.title }}</dd></div>{% endfor %}</dl>{% endif %}
+      {% else %}
+      <p>No blocking questions are recorded. The separate customer selection and dossier-approval gates still apply.</p>
+      {% endif %}
+    </section>
+    {% endif %}
+
+    {% if report.id in ['meeting-agenda', 'talk-track', 'meeting-request'] %}
+    <section aria-labelledby="meeting-timeline">
+      {{ heading('meeting-timeline', 'The Discussion at a Glance', 'Time allocated to each agenda topic. Use this to protect decision time and leave with clear evidence requests; it is not a delivery schedule.') }}
+      <figure data-analytics="meeting-allocation">
+        <figcaption>{{ package.engagementPackage.meeting.durationMinutes }}-minute decision workshop</figcaption>
+        <div class="allocation-track" aria-hidden="true">
+          {% for item in package.engagementPackage.meeting.agenda %}
+          <span class="allocation-segment allocation-{{ loop.index }}" data-minutes="{{ item.minutes }}" style="width:{{ item.minutes / package.engagementPackage.meeting.durationMinutes * 100 }}%"></span>
+          {% endfor %}
+        </div>
+        <ol class="allocation-key">
+          {% for item in package.engagementPackage.meeting.agenda %}
+          <li class="allocation-{{ loop.index }}"><strong>{{ item.minutes }} min</strong><span>{{ item.topic }}</span></li>
+          {% endfor %}
+        </ol>
+        <p class="evidence-note">Proposed time allocation. Session outputs still require actual customer discussion and recorded agreement.</p>
+      </figure>
+    </section>
+    {% endif %}
+
+    {% if report.id == 'intake-transcript' %}
+    <section class="transcript-session" aria-labelledby="transcript-session">
+      {{ heading('transcript-session', 'Session', 'Participants and recorded capture dates. These dates are separate from original message timestamps and report-generation time. Missing dates are not reconstructed.') }}
+      <dl class="transcript-meta">
+        <div><dt>Participants</dt><dd>{{ package.discovery.submittedBy.displayName }} and MOSAIC</dd></div>
+        <div><dt>Capture</dt><dd>{{ transcript.captureStatus | replace('_', ' ') | title }}</dd></div>
+        {% if transcript.get('startedAt') %}
+        <div><dt>Started</dt><dd><time datetime="{{ transcript.startedAt }}">{{ transcript.startedAt | display_time }}</time></dd></div>
+        {% endif %}
+        {% if transcript.get('endedAt') %}
+        <div><dt>Ended</dt><dd><time datetime="{{ transcript.endedAt }}">{{ transcript.endedAt | display_time }}</time></dd></div>
+        {% elif transcript.get('startedAt') and transcript.captureStatus == 'partial' %}
+        <div><dt>Ended</dt><dd>In progress</dd></div>
+        {% endif %}
+      </dl>
+      {% if transcript.gaps %}
+      <aside class="transcript-gaps" aria-label="Missing history">
+        <h3>Missing history</h3>
+        {% for gap in transcript.gaps %}{{ transcript_text(gap) }}{% endfor %}
+      </aside>
+      {% endif %}
+      <details class="transcript-record-details">
+        <summary>Record details</summary>
+        <p>Messages are verbatim unless marked as a summary. Missing messages are not reconstructed.
+          Session dates describe local capture, not original message timestamps. Display names are unverified.
+          {% if package.discovery.submittedBy.basis == 'default_placeholder' %}John Doe is the default end-user name.{% endif %}</p>
+        <a href="intake-transcript.json">Structured transcript</a>
+      </details>
+    </section>
+    {% if turns %}
+    <section aria-labelledby="conversation-profile">
+      {{ heading('conversation-profile', 'Conversation at a Glance', 'Counts of captured entry types help locate questions, corrections and generation steps. They describe only the recorded history, not discovery completeness or approval. A question is unanswered when no recorded answer or correction supplies text or a selected choice in reply.') }}
+      <figure data-analytics="conversation-profile">
+        <figcaption>{{ turns | length }} captured entries &middot; {{ analytics.questions }} questions &middot; {{ analytics.unanswered }} unanswered</figcaption>
+        <div class="conversation-bars">{% for item in analytics.conversation %}{{ count_bar(item.label, item.count, analytics.conversationMaximum) }}{% endfor %}</div>
+      </figure>
+    </section>
+    <section class="transcript-conversation" aria-labelledby="transcript-conversation">
+      {{ heading('transcript-conversation', 'Conversation', 'Read the captured messages in order to check the interpretation of scope and corrections. Reply links use recorded relationships; unanswered questions and summarized capture remain explicit.') }}
+      <ol class="transcript-list">
+        {% for turn in turns %}
+        <li id="transcript-entry-{{ turn.sequence }}" class="transcript-turn transcript-{{ turn.role }}"
+            data-sequence="{{ turn.sequence }}" data-role="{{ turn.role }}" data-kind="{{ turn.kind }}">
+          <span class="transcript-number" aria-hidden="true">{{ '%02d' | format(turn.sequence) }}</span>
+          <div class="transcript-message">
+            <header class="transcript-turn-header">
+              <h3 class="transcript-speaker"><a href="#transcript-entry-{{ turn.sequence }}">{{ turn.speaker }}</a></h3>
+              {% if turn.label %}<span class="transcript-kind">{{ turn.label }}</span>{% endif %}
+              {% if turn.timestamp %}<time datetime="{{ turn.timestamp }}">{{ turn.timestamp | display_time }}</time>{% endif %}
+            </header>
+            {% if turn.replyTo is not none %}
+            <a class="transcript-reply" href="#transcript-entry-{{ turn.replyTo }}">Reply to {{ turn.replySpeaker }} &middot; {{ turn.replyTo }}</a>
+            {% endif %}
+            {% if turn.fidelity == 'summary' %}<p class="transcript-fidelity">Summary, not a verbatim message.</p>{% endif %}
+            {% if turn.text is not none %}{{ transcript_text(turn.text) }}{% endif %}
+            {% if turn.get('context') %}{{ transcript_text(turn.context, 'transcript-context') }}{% endif %}
+            {% if turn.options %}
+            <details class="transcript-choices">
+              <summary>Choices offered ({{ turn.options | length }})</summary>
+              <ol class="transcript-options">
+                {% for choice in turn.options %}
+                <li>
+                  {{ transcript_text(choice) }}
+                  {% if turn.get('optionDescriptions', {}).get(choice) %}
+                  {{ transcript_text(turn.optionDescriptions[choice], 'transcript-option-description') }}
+                  {% endif %}
+                </li>
+                {% endfor %}
+              </ol>
+            </details>
+            {% endif %}
+            {% if turn.selected %}
+            {% if turn.text %}<p class="transcript-response-label">{{ 'Approval' if turn.kind == 'generation_approval' else 'Selected' }}</p>{% endif %}
+            <ul class="transcript-responses">
+              {% for choice in turn.selected %}<li>{{ transcript_text(choice) }}</li>{% endfor %}
+            </ul>
+            {% endif %}
+            {% if turn.get('controls') %}
+            {% if turn.text or turn.selected %}<p class="transcript-response-label">Action</p>{% endif %}
+            <ul class="transcript-responses">
+              {% for control in turn.controls %}<li>{{ transcript_text(control) }}</li>{% endfor %}
+            </ul>
+            {% endif %}
+            {% if turn.unanswered %}<p class="transcript-unanswered">Unanswered</p>{% endif %}
+          </div>
+        </li>
+        {% endfor %}
+      </ol>
+    </section>
+    {% endif %}
+    {% else %}
+    {% for section in sections %}
+    <section aria-labelledby="{{ section.id }}">
+      {{ heading(section.id, section.title, section.purpose) }}
+      <div class="document-content">{{ section.body }}</div>
+    </section>
+    {% endfor %}
+    {% endif %}
+    <section class="glossary-section" aria-labelledby="glossary-heading">
+      {{ heading('glossary-heading', 'Glossary', 'Definitions used in this report package. Unknown abbreviations must be confirmed with the source owner, not guessed.') }}
+      <details>
+        <summary>Terms and abbreviations</summary>
+        <dl class="glossary-list">
+          {% for term, definition in glossary.items() %}
+          <div><dt>{{ term }}</dt><dd>{{ definition }}</dd></div>
+          {% endfor %}
+        </dl>
+      </details>
+    </section>
+    <footer class="report-footer">
+      <p><strong>Review state:</strong> {{ result.state }} &middot; Release authorized: {{ package.humanReview.releaseAuthorized | string | lower }}</p>
+      <p class="mono">{{ result.run_id }}<br>Report generated: <time datetime="{{ package.reportMetadata.generatedAt }}">{{ package.reportMetadata.generatedAt | display_time }}</time></p>
+      <details>
+        <summary>Report assets and notices</summary>
+        <p>Lucide icons. Offline HTML report generated from the recorded package.</p>
+        <pre>{{ license_text }}</pre>
+      </details>
+    </footer>
+  </main>
+</div>
+<div id="report-tooltip" class="tooltip" role="tooltip" hidden></div>
+<script>{{ script | safe }}</script>
+</body>
+</html>

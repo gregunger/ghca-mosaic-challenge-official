@@ -1,0 +1,163 @@
+{# SPDX-License-Identifier: LicenseRef-MOSAIC-Evaluation #}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+  {% if report.metadata.state in ['queued', 'running', 'preflight'] %}
+  <meta http-equiv="refresh" content="5">
+  {% endif %}
+  <title>Processing Cost &amp; Performance | MOSAIC</title>
+  <style>
+    :root { color-scheme: light; font-family: "Segoe UI", Arial, sans-serif; color: #142c43; background: #edf3f7; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    main { max-width: 1220px; margin: auto; padding: 28px 20px 60px; }
+    header { background: #102a43; color: #fff; border-radius: 18px; padding: 32px; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 12px 0; }
+    h2 { margin-top: 0; }
+    p, li, dd { line-height: 1.55; }
+    .eyebrow { text-transform: uppercase; letter-spacing: .1em; font-size: .8rem; color: #91e2da; }
+    .identifier, code, dd, td { overflow-wrap: anywhere; }
+    .notice { background: #fff5d6; border-left: 5px solid #906a00; padding: 16px 20px; border-radius: 8px; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; margin: 22px 0; }
+    .card, section { background: #fff; padding: 22px; border: 1px solid #cbd8e2; border-radius: 12px; }
+    .card strong { display: block; font-size: 1.7rem; margin-top: 10px; }
+    section { margin-top: 20px; }
+    nav { display: flex; flex-wrap: wrap; gap: 18px; margin: 22px 0; }
+    a { color: #00575c; text-underline-offset: 3px; }
+    a:focus-visible, summary:focus-visible { outline: 3px solid #0a7479; outline-offset: 4px; }
+    dl { display: grid; grid-template-columns: minmax(130px, 1fr) 2fr; gap: 10px 20px; }
+    dt { font-weight: 700; }
+    dd { margin: 0; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { padding: 11px; text-align: left; vertical-align: top; border-bottom: 1px solid #d7e2e9; }
+    th { background: #edf3f7; }
+    .scroll { overflow-x: auto; }
+    .state { font-weight: 700; }
+    details { margin: 14px 0; }
+    summary { cursor: pointer; font-weight: 700; }
+    .muted { color: #455d70; }
+    @media (max-width: 600px) { main { padding: 14px 10px 32px; } header, section, .card { padding: 18px; } dl { grid-template-columns: 1fr; gap: 6px; } dd { margin-bottom: 12px; } }
+  </style>
+</head>
+<body>
+{% set usage = report.workerUsage %}
+{% set has_tokens = usage.inputPlusOutputTokens is not none and usage.inputPlusOutputTokens > 0 %}
+{% set has_credits = usage.reportedAICredits is not none and usage.reportedAICredits > 0 %}
+{% set has_credit_value = usage.creditValueUsd is not none and usage.creditValueUsd > 0 %}
+{% set has_usage_details = has_tokens or has_credits or usage.reportedProviderCalls or usage.observedModelCallStarts or usage.legacyPremiumRequests or usage.issues %}
+{% set has_measurement_details = report.metadata.model or report.metadata.creditCap is not none or report.metadata.timeoutSeconds is not none or report.counts.analysisInvocationAttempts or report.counts.localReportRetries or usage.status in ['reported', 'partial'] %}
+<main>
+  <header>
+    <p class="eyebrow">MOSAIC / Operator diagnostics</p>
+    <h1>Processing Cost &amp; Performance</h1>
+    <p>Separate from the customer's business assessment. No customer approval or release is recorded.</p>
+    <p class="identifier">{{ report.metadata.jobId or 'Preflight' }}</p>
+    <p class="state">Job: {{ report.metadata.state | replace('_', ' ') }}</p>
+    <p class="identifier">Last observed step: {{ report.lastStep }}</p>
+  </header>
+  {% if usage.status == 'not_invoked' %}
+  <p class="notice"><strong>No new model usage in this run.</strong> This report was assembled from retained analysis, so the run generated no new provider token, AI-credit or billing telemetry. Historical usage is not reconstructed.</p>
+  {% elif usage.status == 'not_reported' %}
+  <p class="notice"><strong>Usage telemetry unavailable.</strong> The provider supplied no usable token or AI-credit counters for this run, so those fields are omitted.</p>
+  {% elif usage.status == 'partial' %}
+  <p class="notice"><strong>Partial usage telemetry.</strong> Only provider-supplied values are shown; unavailable token and cost fields are omitted.</p>
+  {% endif %}
+  <nav aria-label="Operator records">
+    <a href="processing-report.json">Structured metrics (JSON)</a>
+    <a href="pipeline-trace.jsonl">Full pipeline trace (JSONL)</a>
+    <a href="status.html">Job status</a>
+    <a href="#trace">Trace timeline</a>
+  </nav>
+  <div class="cards">
+    {% if report.timing.backendSeconds is not none %}<div class="card">Backend elapsed<strong>{{ report.timing.backendSeconds }} s</strong></div>{% endif %}
+    {% if has_tokens %}<div class="card">Recorded input + output tokens<strong>{{ usage.inputPlusOutputTokens }}</strong></div>{% endif %}
+    {% if has_credits %}<div class="card">Backend AI credits<strong>{{ usage.reportedAICredits }}</strong></div>{% endif %}
+    {% if has_credit_value %}<div class="card">Backend credit-equivalent USD<strong>{{ usage.creditValueUsd }}</strong></div>{% endif %}
+    <div class="card">Pipeline events<strong>{{ report.counts.traceEvents }}</strong></div>
+  </div>
+  <section aria-labelledby="coverage">
+    <h2 id="coverage">Measurement boundary</h2>
+    <p>{{ report.coverage.scope }}</p>
+    {% if has_measurement_details %}
+    <dl>
+      {% if report.metadata.model %}<dt>Configured worker model</dt><dd>{{ report.metadata.model }}</dd>{% endif %}
+      {% if report.metadata.creditCap is not none %}<dt>Worker credit limit</dt><dd>{{ report.metadata.creditCap }}. A limit, not actual consumption.</dd>{% endif %}
+      {% if report.metadata.timeoutSeconds is not none %}<dt>Worker deadline</dt><dd>{{ report.metadata.timeoutSeconds }} s</dd>{% endif %}
+      {% if report.counts.analysisInvocationAttempts %}<dt>Analysis invocation attempts</dt><dd>{{ report.counts.analysisInvocationAttempts }}</dd>{% endif %}
+      {% if report.counts.localReportRetries %}<dt>Local report retries</dt><dd>{{ report.counts.localReportRetries }}. These do not repeat paid analysis.</dd>{% endif %}
+      {% if usage.status in ['reported', 'partial'] %}<dt>Usage status</dt><dd>{{ usage.status }}</dd>{% endif %}
+      {% for metric in usage.models if metric.model %}{% if loop.first %}<dt>Reported worker models</dt><dd>{% endif %}{{ metric.model }}{% if not loop.last %}, {% endif %}{% if loop.last %}</dd>{% endif %}{% endfor %}
+    </dl>
+    {% endif %}
+    {% if report.metadata.get('recovery') %}
+    <p>Recovery uses retained input from <code>{{ report.metadata.recovery.sourceJobId }}</code>. Prior analysis is not charged or added to this run again.</p>
+    {% elif report.metadata.get('reusedPreparedAnalysis') %}
+    <p>This prepared input contains prior analysis. Its historical usage is not reconstructed or added to the current run.</p>
+    {% endif %}
+    {% if report.metadata.get('legacyTraceGap') %}<p class="notice">{{ report.metadata.legacyTraceGap }}</p>{% endif %}
+  </section>
+  <section aria-labelledby="timings">
+    <h2 id="timings">Timing breakdown</h2>
+    <dl>
+      {% if report.timing.preflightSeconds is not none %}<dt>Local preflight</dt><dd>{{ report.timing.preflightSeconds }} s</dd>{% endif %}
+      {% if report.timing.queueSeconds is not none %}<dt>Queued before worker execution</dt><dd>{{ report.timing.queueSeconds }} s</dd>{% endif %}
+      {% if report.timing.approvalToEngineStartSeconds is not none %}<dt>Recorded approval to worker start</dt><dd>{{ report.timing.approvalToEngineStartSeconds }} s</dd>{% endif %}
+      {% if report.timing.submissionToFinishSeconds is not none %}<dt>Local submission to finish</dt><dd>{{ report.timing.submissionToFinishSeconds }} s</dd>{% endif %}
+      {% if report.timing.approvalToPublicationSeconds is not none %}<dt>Recorded approval to publication</dt><dd>{{ report.timing.approvalToPublicationSeconds }} s</dd>{% endif %}
+    </dl>
+    <p class="muted">Approval-based intervals use the timestamp supplied in the captured conversation, when available. The interval before worker execution includes App preparation, local preflight and any queue delay; it is not a measurement of model thinking time. Capture storage times are not substituted for original message times. Backend step durations use a monotonic clock.</p>
+    {% if report.timingIssues %}
+    <ul>{% for issue in report.timingIssues %}<li>{{ issue }}</li>{% endfor %}</ul>
+    {% endif %}
+  </section>
+  {% if has_usage_details %}
+  <section aria-labelledby="usage">
+    <h2 id="usage">Backend token and cost details</h2>
+    <dl>
+      {% for name, count in report.workerUsage.tokens.items() %}
+      {% if count is not none and count > 0 %}<dt>{{ name }}</dt><dd>{{ count }}</dd>{% endif %}
+      {% endfor %}
+      {% if usage.reportedProviderCalls %}<dt>Reported provider calls</dt><dd>{{ usage.reportedProviderCalls }}</dd>{% endif %}
+      {% if usage.observedModelCallStarts %}<dt>Observed model-call starts</dt><dd>{{ usage.observedModelCallStarts }}</dd>{% endif %}
+      {% if usage.legacyPremiumRequests %}<dt>Legacy premium-request metric</dt><dd>{{ usage.legacyPremiumRequests }}. Separate from AI credits and dollars.</dd>{% endif %}
+    </dl>
+    {% if has_tokens %}
+    <p>Input plus output is a sum of the reported counters, not an independent billable-token measure. Cache and reasoning counters are shown separately and are not added again.</p>
+    {% endif %}
+    {% if has_credits %}
+    <p>{{ report.costBasis.meaning }} Credit-value basis verified {{ report.costBasis.verifiedOn }}:
+      <a href="{{ report.costBasis.source }}">GitHub Copilot pricing</a>.
+      <a href="{{ report.costBasis.usageSchemaSource }}">Usage field definitions</a>.</p>
+    {% endif %}
+    {% if report.workerUsage.issues %}
+    <h3>Usage data issues</h3>
+    <ul>{% for issue in report.workerUsage.issues %}<li>{{ issue }}</li>{% endfor %}</ul>
+    {% endif %}
+  </section>
+  {% endif %}
+  <section aria-labelledby="trace">
+    <h2 id="trace">Pipeline trace</h2>
+    <p>{{ report.coverage.trace }} Only allowlisted metadata is recorded: no raw prompts, answers, credentials, model reasoning or diagnostic text.</p>
+    {% if report.metadata.state in ['queued', 'running'] %}<p>This local view refreshes every five seconds while work is active.</p>{% endif %}
+    <div class="scroll" role="region" aria-label="Pipeline events" tabindex="0">
+      <table>
+        <thead><tr><th scope="col">#</th><th scope="col">UTC timestamp</th><th scope="col">Step</th><th scope="col">Outcome</th><th scope="col">Details</th></tr></thead>
+        <tbody>
+        {% for event in events %}
+        <tr><td>{{ event.sequence }}</td><td>{{ event.at }}</td><td>{{ event.step }}</td><td>{{ event.status }}</td><td>{% for name, detail in event.details.items() %}<div><strong>{{ name }}:</strong> {{ detail }}</div>{% endfor %}</td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <details><summary>Trace integrity and limitations</summary>
+      <p>Each event includes a sequence and hash of the preceding event. The terminal operator report and trace are sealed separately from the customer's immutable report package. These checks detect inconsistent records; they do not establish authenticated authorship, customer authority or durable App resume.</p>
+      <p class="identifier">Trace head: {{ report.traceHead or 'No events yet' }}</p>
+    </details>
+  </section>
+</main>
+</body>
+</html>

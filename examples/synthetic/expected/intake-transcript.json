@@ -1,0 +1,10 @@
+{
+  "captureStatus": "not_recorded",
+  "classification": "SYNTHETIC",
+  "entries": [],
+  "gaps": [
+    "No intake transcript was recorded for this input. No dialogue was reconstructed."
+  ],
+  "initiativeId": "SYN-001",
+  "schemaVersion": "1.0.0"
+}

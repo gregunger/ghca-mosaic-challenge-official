@@ -1,0 +1,199 @@
+{
+  "schemaVersion": "1.0.0",
+  "customerId": "contoso-public-services-synthetic",
+  "initiativeId": "SYN-001",
+  "sourceTicketRef": "github://synthetic/mosaic-demo/issues/1",
+  "workflowVersion": "1.0.0",
+  "policyVersion": "contoso-synthetic-1.0.0",
+  "correlationId": "CORR-SYN-001-20260915",
+  "requestedAt": "2026-09-15T16:00:00Z",
+  "classification": "SYNTHETIC",
+  "initiativeTitle": "Employee Policy Guidance",
+  "businessProblem": "Employees cannot reliably find current policy answers across distributed content, creating repeated service inquiries, inconsistent guidance, and slow escalation to accountable policy owners.",
+  "targetUsers": [
+    "Employees seeking policy guidance",
+    "Service desk analysts handling repeated inquiries",
+    "Policy owners accountable for authoritative interpretation"
+  ],
+  "desiredOutcomes": [
+    "Give employees evidence-linked answers from approved policy sources",
+    "Route ambiguity and sensitive decisions to accountable humans",
+    "Create a repeatable audit trail for evidence, risks, options, and approvals"
+  ],
+  "successMeasures": [
+    "At least 95 percent of factual statements cite approved evidence in the controlled benchmark",
+    "Zero unsupported material claims released during the controlled benchmark",
+    "Every ambiguous or policy-sensitive request is routed to a named human-owned queue",
+    "Qualified reviewers accept or return every package against an immutable revision"
+  ],
+  "stakeholders": [
+    { "role": "Business owner", "authority": "Owns outcomes and acceptance criteria" },
+    { "role": "Policy owner", "authority": "Interprets policy and approves source currency" },
+    { "role": "Solution architect", "authority": "Approves architecture and design readiness" },
+    { "role": "Security reviewer", "authority": "Approves identity, data, and control boundaries" }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "text": "Answers must cite an approved policy source.",
+      "evidenceIds": ["EVD-001", "EVD-002"]
+    },
+    {
+      "id": "REQ-002",
+      "text": "Restricted data must not enter the synthetic demonstration.",
+      "evidenceIds": ["EVD-003"]
+    },
+    {
+      "id": "REQ-003",
+      "text": "Architecture and release decisions require qualified human approval.",
+      "evidenceIds": ["EVD-002", "EVD-004"]
+    },
+    {
+      "id": "REQ-004",
+      "text": "The workflow must preserve evidence and decision traceability.",
+      "evidenceIds": ["EVD-004"]
+    }
+  ],
+  "constraints": [
+    "Use synthetic data and offline sources in the default demonstration",
+    "Do not make production identity, region, retention, or model decisions",
+    "Keep enterprise connectors read-only and optional",
+    "Stop before customer-facing release or implementation"
+  ],
+  "preservedTerms": ["policy owner", "qualified review", "evidence manifest"],
+  "claims": [
+    {
+      "id": "CLM-001",
+      "label": "fact",
+      "statement": "The synthetic intake requires evidence-linked policy responses.",
+      "evidenceIds": ["EVD-001"]
+    },
+    {
+      "id": "CLM-002",
+      "label": "fact",
+      "statement": "The synthetic security standard requires human review for architecture and release decisions.",
+      "evidenceIds": ["EVD-002"]
+    },
+    {
+      "id": "CLM-003",
+      "label": "assumption",
+      "statement": "A managed conversational surface may reduce adoption friction.",
+      "evidenceIds": []
+    },
+    {
+      "id": "CLM-004",
+      "label": "unknown",
+      "statement": "The final production identity model has not been selected.",
+      "evidenceIds": []
+    },
+    {
+      "id": "CLM-005",
+      "label": "risk",
+      "statement": "Stale policy content could produce plausible but outdated guidance.",
+      "evidenceIds": ["EVD-002", "EVD-004"]
+    }
+  ],
+  "analysisSeed": {
+    "gaps": [
+      {
+        "id": "GAP-001",
+        "label": "unknown",
+        "text": "No approved production content inventory or freshness owner is recorded."
+      },
+      {
+        "id": "GAP-002",
+        "label": "unknown",
+        "text": "No baseline inquiry volume or answer-quality sample is approved."
+      }
+    ],
+    "risks": [
+      {
+        "id": "RSK-001",
+        "label": "risk",
+        "text": "Outdated source content may be presented as current guidance.",
+        "severity": "high",
+        "evidenceIds": ["EVD-002", "EVD-004"]
+      },
+      {
+        "id": "RSK-002",
+        "label": "risk",
+        "text": "Identity propagation errors may expose content beyond a user's authorization.",
+        "severity": "high",
+        "evidenceIds": ["EVD-002", "EVD-003"]
+      },
+      {
+        "id": "RSK-003",
+        "label": "risk",
+        "text": "Users may treat generated guidance as an authoritative policy decision.",
+        "severity": "medium",
+        "evidenceIds": ["EVD-001", "EVD-002"]
+      }
+    ],
+    "dependencies": [
+      { "id": "DEP-001", "text": "Approved source inventory and accountable content owners" },
+      { "id": "DEP-002", "text": "Security-approved identity and access design" },
+      { "id": "DEP-003", "text": "Customer-owned acceptance rubric and benchmark cases" }
+    ],
+    "assumptions": [
+      {
+        "id": "ASM-001",
+        "label": "assumption",
+        "text": "Employees have workforce identities that can be propagated to approved sources."
+      }
+    ],
+    "unknowns": [
+      {
+        "id": "UNK-001",
+        "label": "unknown",
+        "text": "Who is the final production data owner?",
+        "blocking": true
+      },
+      {
+        "id": "UNK-002",
+        "label": "unknown",
+        "text": "What production identity and authorization model is approved?",
+        "blocking": true
+      },
+      {
+        "id": "UNK-003",
+        "label": "unknown",
+        "text": "What retention period applies to prompts, evidence, and review records?",
+        "blocking": true
+      },
+      {
+        "id": "UNK-004",
+        "label": "unknown",
+        "text": "Which model, deployment region, and acceptance thresholds are approved?",
+        "blocking": true
+      }
+    ],
+    "customerQuestions": [
+      {
+        "id": "Q-001",
+        "text": "Which content owners can approve the initial source inventory and freshness SLA?"
+      },
+      {
+        "id": "Q-002",
+        "text": "Which policy questions must always escalate without a generated answer?"
+      },
+      {
+        "id": "Q-003",
+        "text": "Which identity claims and source permissions must be preserved end to end?"
+      },
+      {
+        "id": "Q-004",
+        "text": "What benchmark defines a correct, useful, and safely escalated response?"
+      }
+    ]
+  },
+  "optionCriteria": [
+    "Outcome alignment",
+    "Evidence and grounding",
+    "Identity and data boundary",
+    "Extensibility",
+    "Lifecycle governance",
+    "Operating ownership",
+    "Cost and adoption"
+  ],
+  "releaseAudience": "challenge-judges-and-field-reviewers"
+}

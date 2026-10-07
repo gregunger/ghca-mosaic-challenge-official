@@ -1,0 +1,102 @@
+{
+  "events": [
+    {
+      "controlObjective": "problem_validation",
+      "correlationId": "CORR-SYN-001-20260915",
+      "customerId": "contoso-public-services-synthetic",
+      "initiativeId": "SYN-001",
+      "policyVersion": "contoso-synthetic-1.0.0",
+      "sourceTicketRef": "github://synthetic/mosaic-demo/issues/1",
+      "stage": "discover",
+      "status": "completed",
+      "timestamp": "2026-09-15T16:00:00Z",
+      "workflowVersion": "1.0.0"
+    },
+    {
+      "controlObjective": "approved_evidence_boundary",
+      "correlationId": "CORR-SYN-001-20260915",
+      "customerId": "contoso-public-services-synthetic",
+      "initiativeId": "SYN-001",
+      "policyVersion": "contoso-synthetic-1.0.0",
+      "sourceTicketRef": "github://synthetic/mosaic-demo/issues/1",
+      "stage": "acquire",
+      "status": "completed",
+      "timestamp": "2026-09-15T16:00:00Z",
+      "workflowVersion": "1.0.0"
+    },
+    {
+      "controlObjective": "structured_intake_integrity",
+      "correlationId": "CORR-SYN-001-20260915",
+      "customerId": "contoso-public-services-synthetic",
+      "initiativeId": "SYN-001",
+      "policyVersion": "contoso-synthetic-1.0.0",
+      "sourceTicketRef": "github://synthetic/mosaic-demo/issues/1",
+      "stage": "normalize",
+      "status": "completed",
+      "timestamp": "2026-09-15T16:00:00Z",
+      "workflowVersion": "1.0.0"
+    },
+    {
+      "controlObjective": "gap_risk_and_dependency_analysis",
+      "correlationId": "CORR-SYN-001-20260915",
+      "customerId": "contoso-public-services-synthetic",
+      "initiativeId": "SYN-001",
+      "policyVersion": "contoso-synthetic-1.0.0",
+      "sourceTicketRef": "github://synthetic/mosaic-demo/issues/1",
+      "stage": "analyze",
+      "status": "completed",
+      "timestamp": "2026-09-15T16:00:00Z",
+      "workflowVersion": "1.0.0"
+    },
+    {
+      "controlObjective": "contrasting_solution_options",
+      "correlationId": "CORR-SYN-001-20260915",
+      "customerId": "contoso-public-services-synthetic",
+      "initiativeId": "SYN-001",
+      "policyVersion": "contoso-synthetic-1.0.0",
+      "sourceTicketRef": "github://synthetic/mosaic-demo/issues/1",
+      "stage": "option",
+      "status": "completed",
+      "timestamp": "2026-09-15T16:00:00Z",
+      "workflowVersion": "1.0.0"
+    },
+    {
+      "controlObjective": "proposed_design_readiness",
+      "correlationId": "CORR-SYN-001-20260915",
+      "customerId": "contoso-public-services-synthetic",
+      "initiativeId": "SYN-001",
+      "policyVersion": "contoso-synthetic-1.0.0",
+      "sourceTicketRef": "github://synthetic/mosaic-demo/issues/1",
+      "stage": "design",
+      "status": "completed",
+      "timestamp": "2026-09-15T16:00:00Z",
+      "workflowVersion": "1.0.0"
+    },
+    {
+      "controlObjective": "customer_engagement_readiness",
+      "correlationId": "CORR-SYN-001-20260915",
+      "customerId": "contoso-public-services-synthetic",
+      "initiativeId": "SYN-001",
+      "policyVersion": "contoso-synthetic-1.0.0",
+      "sourceTicketRef": "github://synthetic/mosaic-demo/issues/1",
+      "stage": "prepare",
+      "status": "completed",
+      "timestamp": "2026-09-15T16:00:00Z",
+      "workflowVersion": "1.0.0"
+    },
+    {
+      "controlObjective": "qualified_human_authority",
+      "correlationId": "CORR-SYN-001-20260915",
+      "customerId": "contoso-public-services-synthetic",
+      "initiativeId": "SYN-001",
+      "policyVersion": "contoso-synthetic-1.0.0",
+      "sourceTicketRef": "github://synthetic/mosaic-demo/issues/1",
+      "stage": "review",
+      "status": "waiting_for_human",
+      "timestamp": "2026-09-15T16:00:00Z",
+      "workflowVersion": "1.0.0"
+    }
+  ],
+  "runId": "RUN-SYN-001-B5FB705DA2EB",
+  "schemaVersion": "1.0.0"
+}

@@ -1,0 +1,23 @@
+# Dependencies, private local state and generated output.
+.git/
+.venv/
+node_modules/
+build/
+dist/
+demo-output/
+**/*.egg-info/
+.mcp.json
+.env*
+docs/contest-info.json
+
+# Canonical reports are generated; evidence bytes are deliberately preserved.
+examples/synthetic/expected/
+examples/synthetic/sources/
+templates/report-icons.json
+templates/lucide-LICENSE
+
+# Reproducible presentation and recording outputs are validated separately.
+presentation/
+video/
+scripts/export_presentation.ps1
+scripts/validate_presentation.js

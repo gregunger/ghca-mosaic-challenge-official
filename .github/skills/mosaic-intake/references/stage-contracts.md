@@ -1,0 +1,12 @@
+# Stage Contracts
+
+| Stage     | Required output                                                                           | Completion condition                                                                                                                           |
+| --------- | ----------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| Discover  | Eligible problem, users, outcomes, measures, constraints                                  | Required intake fields are present and synthetic                                                                                               |
+| Acquire   | Allowlisted evidence manifest with revisions and hashes                                   | Every policy source is present and approved                                                                                                    |
+| Normalize | Requirements, stakeholders, constraints, labeled claims                                   | Every cited evidence ID resolves                                                                                                               |
+| Analyze   | Separate gaps, risks, dependencies, assumptions, unknowns, questions                      | Blocking unknowns remain explicit                                                                                                              |
+| Option    | Exactly three comparable options and one conditional recommendation                       | Common criteria, tradeoffs, conditions, disqualifiers                                                                                          |
+| Design    | Unselected discussion design; ten dossier areas and seven traceable draft readiness plans | Maturity `proposed`, selection `unselected_discussion_draft`, implementation `not_started`; full selected dossier waits for customer selection |
+| Prepare   | Reviewable intake and customer engagement package                                         | Agenda totals 30 minutes and decisions are explicit                                                                                            |
+| Review    | Customer-policy roles and two unrecorded decisions                                        | Architecture selection pending; exact-revision design approval blocked pending selection; PR review is not implicit customer authority         |

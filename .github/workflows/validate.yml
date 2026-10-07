@@ -1,0 +1,82 @@
+name: Validate MOSAIC package
+
+on:
+  push:
+    branches: ['main']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install project and validation dependencies
+        run: python -m pip install -e ".[dev,mcp]"
+
+      - name: Install report and presentation dependencies
+        run: npm ci
+
+      - name: Audit Node.js dependencies
+        run: npm audit --audit-level=high
+
+      - name: Install validation browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Lint Python
+        run: python -m ruff check .
+
+      - name: Check Python formatting
+        run: python -m ruff format --check src tests scripts
+
+      - name: Check maintained document and asset formatting
+        run: npm run format:check
+
+      - name: Run tests
+        run: python -m pytest
+
+      - name: Build challenge deck
+        run: npm run build:deck
+
+      - name: Validate responsive presentation
+        run: npm run test:presentation
+
+      - name: Generate synthetic package
+        run: python -m mosaic.cli --output build/SYN-001
+
+      - name: Validate offline reports
+        run: npm run test:reports -- build/SYN-001
+
+      - name: Validate submission package
+        run: python scripts/validate_submission.py --output build/readiness-report.json
+
+      - name: Upload review evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: mosaic-review-evidence
+          path: |
+            build/SYN-001
+            build/readiness-report.json
+            build/report-checks
+            build/presentation-qa
+          if-no-files-found: error
+          retention-days: 14

@@ -1,0 +1,198 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mosaic.example/schemas/intake-package.schema.json",
+  "title": "MOSAIC Intake Package",
+  "type": "object",
+  "required": ["runId", "initiativeId", "state", "generatedAt", "metadata", "stages", "package"],
+  "properties": {
+    "runId": { "type": "string", "pattern": "^RUN-SYN-" },
+    "initiativeId": { "type": "string", "pattern": "^SYN-" },
+    "state": { "const": "awaiting_human_review" },
+    "generatedAt": { "type": "string", "pattern": "Z$" },
+    "metadata": { "$ref": "#/$defs/metadata" },
+    "stages": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "prefixItems": [
+        { "$ref": "#/$defs/completedStage", "properties": { "name": { "const": "discover" } } },
+        { "$ref": "#/$defs/completedStage", "properties": { "name": { "const": "acquire" } } },
+        { "$ref": "#/$defs/completedStage", "properties": { "name": { "const": "normalize" } } },
+        { "$ref": "#/$defs/completedStage", "properties": { "name": { "const": "analyze" } } },
+        { "$ref": "#/$defs/completedStage", "properties": { "name": { "const": "option" } } },
+        { "$ref": "#/$defs/completedStage", "properties": { "name": { "const": "design" } } },
+        { "$ref": "#/$defs/completedStage", "properties": { "name": { "const": "prepare" } } },
+        { "$ref": "#/$defs/reviewStage" }
+      ],
+      "items": false
+    },
+    "package": {
+      "type": "object",
+      "required": [
+        "discovery",
+        "evidenceManifest",
+        "normalizedIntake",
+        "analysis",
+        "optionAnalysis",
+        "proposedDesign",
+        "engagementPackage",
+        "humanReview"
+      ],
+      "properties": {
+        "reportMetadata": {
+          "type": "object",
+          "required": ["generatedAt", "preparedBy"],
+          "properties": {
+            "generatedAt": { "type": "string", "format": "date-time", "pattern": "Z$" },
+            "preparedBy": { "const": "MOSAIC" }
+          },
+          "additionalProperties": false
+        },
+        "optionAnalysis": {
+          "type": "object",
+          "required": ["options", "recommendation", "selectionState"],
+          "properties": {
+            "options": { "type": "array", "minItems": 3, "maxItems": 3 },
+            "selectionState": { "const": "awaiting_authorized_customer_selection" }
+          }
+        },
+        "proposedDesign": {
+          "type": "object",
+          "required": [
+            "maturity",
+            "implementationStatus",
+            "selectionStatus",
+            "dossierCoverage",
+            "readinessPlans"
+          ],
+          "properties": {
+            "dossierCoverage": { "type": "array", "minItems": 10, "maxItems": 10 },
+            "readinessPlans": {
+              "type": "array",
+              "minItems": 7,
+              "maxItems": 7,
+              "items": { "$ref": "#/$defs/readinessPlan" }
+            },
+            "maturity": { "const": "proposed" },
+            "implementationStatus": { "const": "not_started" },
+            "selectionStatus": { "const": "unselected_discussion_draft" }
+          }
+        },
+        "humanReview": {
+          "type": "object",
+          "required": [
+            "decision",
+            "status",
+            "releaseAuthorized",
+            "authoritySystem",
+            "pullRequestReviewIsCustomerApproval",
+            "architectureSelection",
+            "designPackageApproval",
+            "requiredReviewerRoles",
+            "policyConfigurationId"
+          ],
+          "properties": {
+            "requiredReviewerRoles": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": { "type": "string", "minLength": 3, "pattern": "\\S" }
+            },
+            "policyConfigurationId": { "type": ["string", "null"] },
+            "decision": { "const": "pending" },
+            "status": { "const": "waiting_for_human" },
+            "releaseAuthorized": { "const": false },
+            "authoritySystem": { "const": "customer_workflow" },
+            "pullRequestReviewIsCustomerApproval": { "const": false },
+            "architectureSelection": {
+              "const": {
+                "decision": "pending",
+                "selectedOptionId": null,
+                "sourceDecisionRef": null
+              }
+            },
+            "designPackageApproval": {
+              "const": {
+                "decision": "blocked_pending_selection",
+                "approvedRevision": null,
+                "sourceDecisionRef": null
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "readinessPlan": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "label",
+        "proposal",
+        "requiredEvidence",
+        "requirementIds",
+        "evidenceIds",
+        "blockingUnknownIds"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^PLAN-[0-9]{3}$" },
+        "title": { "type": "string", "minLength": 1 },
+        "label": { "const": "recommendation" },
+        "proposal": { "type": "string", "minLength": 1 },
+        "requiredEvidence": { "type": "string", "minLength": 1 },
+        "requirementIds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^REQ-" }
+        },
+        "evidenceIds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^EVD-" }
+        },
+        "blockingUnknownIds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^UNK-" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "metadata": {
+      "type": "object",
+      "required": [
+        "customerId",
+        "initiativeId",
+        "sourceTicketRef",
+        "workflowVersion",
+        "policyVersion",
+        "correlationId",
+        "controlObjective",
+        "timestamp"
+      ]
+    },
+    "completedStage": {
+      "type": "object",
+      "required": ["name", "status", "control_objective", "metadata", "output"],
+      "properties": {
+        "status": { "const": "completed" },
+        "metadata": { "$ref": "#/$defs/metadata" }
+      }
+    },
+    "reviewStage": {
+      "type": "object",
+      "required": ["name", "status", "control_objective", "metadata", "output"],
+      "properties": {
+        "name": { "const": "review" },
+        "status": { "const": "waiting_for_human" },
+        "metadata": { "$ref": "#/$defs/metadata" }
+      }
+    }
+  },
+  "additionalProperties": false
+}

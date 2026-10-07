@@ -1,0 +1,86 @@
+{
+  "checks": [
+    {
+      "name": "eight_stages_in_order",
+      "status": "pass"
+    },
+    {
+      "name": "seven_automated_stages_complete",
+      "status": "pass"
+    },
+    {
+      "name": "human_review_waiting",
+      "status": "pass"
+    },
+    {
+      "name": "release_not_self_authorized",
+      "status": "pass"
+    },
+    {
+      "name": "customer_authority_preserved",
+      "status": "pass"
+    },
+    {
+      "name": "architecture_selection_not_recorded",
+      "status": "pass"
+    },
+    {
+      "name": "design_approval_blocked_pending_selection",
+      "status": "pass"
+    },
+    {
+      "name": "design_is_unselected_discussion_draft",
+      "status": "pass"
+    },
+    {
+      "name": "exactly_three_options",
+      "status": "pass"
+    },
+    {
+      "name": "option_ids_unique",
+      "status": "pass"
+    },
+    {
+      "name": "options_use_common_criteria",
+      "status": "pass"
+    },
+    {
+      "name": "recommendation_matches_discussion_design",
+      "status": "pass"
+    },
+    {
+      "name": "evidence_ids_unique",
+      "status": "pass"
+    },
+    {
+      "name": "evidence_hashed",
+      "status": "pass"
+    },
+    {
+      "name": "claim_labels_valid",
+      "status": "pass"
+    },
+    {
+      "name": "material_claims_traceable",
+      "status": "pass"
+    },
+    {
+      "name": "readiness_plans_traceable",
+      "status": "pass"
+    },
+    {
+      "name": "ten_dossier_areas_visible",
+      "status": "pass"
+    },
+    {
+      "name": "machine_payload_metadata_complete",
+      "status": "pass"
+    }
+  ],
+  "errors": [],
+  "generatedAt": "2026-09-15T16:00:00Z",
+  "initiativeId": "SYN-001",
+  "runId": "RUN-SYN-001-B5FB705DA2EB",
+  "schemaVersion": "1.0.0",
+  "status": "pass"
+}

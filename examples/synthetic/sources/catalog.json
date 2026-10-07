@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "1.0.0",
+  "sources": [
+    {
+      "id": "EVD-001",
+      "title": "Synthetic employee policy assistant intake",
+      "file": "synthetic-intake.md",
+      "owner": "Synthetic Business Services",
+      "revision": "1.0",
+      "retrievedAt": "2026-09-15T16:00:00Z",
+      "classification": "SYNTHETIC",
+      "approved": true,
+      "facts": ["Evidence-linked answers are required", "Ambiguous policy interpretation must escalate"]
+    },
+    {
+      "id": "EVD-002",
+      "title": "Synthetic AI security standard",
+      "file": "synthetic-security-standard.md",
+      "owner": "Synthetic Security Office",
+      "revision": "2.1",
+      "retrievedAt": "2026-09-15T16:00:00Z",
+      "classification": "SYNTHETIC",
+      "approved": true,
+      "facts": ["Least privilege is required", "Architecture and release decisions require human approval"]
+    },
+    {
+      "id": "EVD-003",
+      "title": "Synthetic data classification policy",
+      "file": "synthetic-data-policy.md",
+      "owner": "Synthetic Data Governance Council",
+      "revision": "3.0",
+      "retrievedAt": "2026-09-15T16:00:00Z",
+      "classification": "SYNTHETIC",
+      "approved": true,
+      "facts": ["Synthetic demonstrations cannot contain regulated or customer data", "Access must be enforced at the source"]
+    },
+    {
+      "id": "EVD-004",
+      "title": "Synthetic architecture and evidence standard",
+      "file": "synthetic-architecture-standard.md",
+      "owner": "Synthetic Architecture Review Board",
+      "revision": "1.4",
+      "retrievedAt": "2026-09-15T16:00:00Z",
+      "classification": "SYNTHETIC",
+      "approved": true,
+      "facts": ["Material claims require immutable evidence references", "Three contrasting options must use a common evaluation rubric"]
+    }
+  ]
+}

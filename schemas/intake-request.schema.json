@@ -1,0 +1,325 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mosaic.example/schemas/intake-request.schema.json",
+  "title": "MOSAIC Synthetic Intake Request",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "customerId",
+    "initiativeId",
+    "sourceTicketRef",
+    "workflowVersion",
+    "policyVersion",
+    "correlationId",
+    "requestedAt",
+    "classification",
+    "initiativeTitle",
+    "businessProblem",
+    "targetUsers",
+    "desiredOutcomes",
+    "successMeasures",
+    "requirements",
+    "claims",
+    "analysisSeed"
+  ],
+  "properties": {
+    "inputMode": { "enum": ["reference", "conversation"] },
+    "intakeTranscript": {
+      "type": "object",
+      "required": [
+        "schemaVersion",
+        "initiativeId",
+        "classification",
+        "captureStatus",
+        "gaps",
+        "entries"
+      ],
+      "properties": {
+        "schemaVersion": { "const": "1.0.0" },
+        "initiativeId": { "type": "string", "pattern": "^SYN-[A-Z0-9-]+$" },
+        "classification": { "const": "SYNTHETIC" },
+        "captureStatus": { "enum": ["complete", "partial", "not_recorded"] },
+        "startedAt": { "type": ["string", "null"], "format": "date-time", "pattern": "Z$" },
+        "endedAt": { "type": ["string", "null"], "format": "date-time", "pattern": "Z$" },
+        "gaps": {
+          "type": "array",
+          "maxItems": 100,
+          "items": { "type": "string", "minLength": 1, "maxLength": 4000 }
+        },
+        "entries": {
+          "type": "array",
+          "maxItems": 500,
+          "items": {
+            "type": "object",
+            "required": [
+              "sequence",
+              "role",
+              "kind",
+              "fidelity",
+              "text",
+              "timestamp",
+              "replyTo",
+              "options",
+              "selected"
+            ],
+            "properties": {
+              "sequence": { "type": "integer", "minimum": 1 },
+              "role": { "enum": ["user", "assistant"] },
+              "kind": {
+                "enum": [
+                  "message",
+                  "question",
+                  "answer",
+                  "correction",
+                  "summary",
+                  "generation_plan",
+                  "generation_approval",
+                  "control"
+                ]
+              },
+              "fidelity": { "enum": ["verbatim", "summary"] },
+              "text": { "type": ["string", "null"], "maxLength": 65536 },
+              "context": { "type": ["string", "null"], "maxLength": 65536 },
+              "timestamp": { "type": ["string", "null"], "format": "date-time", "pattern": "Z$" },
+              "replyTo": { "type": ["integer", "null"], "minimum": 1 },
+              "options": {
+                "type": "array",
+                "maxItems": 30,
+                "items": { "type": "string", "minLength": 1, "maxLength": 2000 }
+              },
+              "optionDescriptions": {
+                "type": "object",
+                "maxProperties": 30,
+                "additionalProperties": { "type": "string", "maxLength": 2000 }
+              },
+              "selected": {
+                "type": "array",
+                "maxItems": 30,
+                "uniqueItems": true,
+                "items": { "type": "string", "minLength": 1, "maxLength": 2000 }
+              },
+              "controls": {
+                "type": "array",
+                "maxItems": 10,
+                "uniqueItems": true,
+                "items": { "type": "string", "minLength": 1, "maxLength": 2000 }
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "intakeContext": {
+      "type": "object",
+      "required": ["scope", "exclusions", "budget", "timeline", "systems", "ownership", "baseline"],
+      "properties": {
+        "scope": { "type": ["string", "null"] },
+        "exclusions": { "type": ["string", "null"] },
+        "budget": { "type": ["string", "null"] },
+        "timeline": { "type": ["string", "null"] },
+        "systems": { "type": ["string", "null"] },
+        "ownership": { "type": ["string", "null"] },
+        "baseline": { "type": ["string", "null"] }
+      },
+      "additionalProperties": false
+    },
+    "optionDraft": {
+      "type": "object",
+      "required": [
+        "options",
+        "assessmentBasis",
+        "recommendation",
+        "selectionState",
+        "evaluationCriteria"
+      ],
+      "properties": {
+        "options": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "name",
+              "pattern",
+              "bestWhen",
+              "strengths",
+              "tradeoffs",
+              "conditions",
+              "disqualifiers",
+              "criterionAssessments"
+            ],
+            "properties": {
+              "id": { "type": "string" },
+              "name": { "type": "string" },
+              "pattern": { "type": "string" },
+              "bestWhen": { "type": "string" },
+              "strengths": { "$ref": "#/$defs/nonEmptyStrings" },
+              "tradeoffs": { "$ref": "#/$defs/nonEmptyStrings" },
+              "conditions": { "$ref": "#/$defs/nonEmptyStrings" },
+              "disqualifiers": { "$ref": "#/$defs/nonEmptyStrings" },
+              "criterionAssessments": {
+                "type": "object",
+                "additionalProperties": { "type": "string" }
+              }
+            }
+          }
+        },
+        "assessmentBasis": { "type": "string", "minLength": 10 },
+        "evaluationCriteria": { "$ref": "#/$defs/nonEmptyStrings" },
+        "selectionState": { "const": "awaiting_authorized_customer_selection" },
+        "recommendation": {
+          "type": "object",
+          "required": ["label", "optionId", "text", "evidenceIds"],
+          "properties": {
+            "label": { "const": "recommendation" },
+            "optionId": { "type": "string" },
+            "text": { "type": "string", "minLength": 10 },
+            "evidenceIds": { "$ref": "#/$defs/nonEmptyStrings" }
+          }
+        }
+      }
+    },
+    "designDraft": {
+      "type": "object",
+      "required": [
+        "maturity",
+        "selectedForDiscovery",
+        "selectionStatus",
+        "assessmentBasis",
+        "architecture",
+        "trustBoundaries",
+        "implementationStatus",
+        "requiredDecisions",
+        "dossierCoverage",
+        "readinessPlans"
+      ],
+      "properties": {
+        "maturity": { "const": "proposed" },
+        "selectionStatus": { "const": "unselected_discussion_draft" },
+        "implementationStatus": { "const": "not_started" },
+        "architecture": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": { "type": "string" }
+        },
+        "trustBoundaries": { "$ref": "#/$defs/nonEmptyStrings" },
+        "requiredDecisions": { "$ref": "#/$defs/nonEmptyStrings" },
+        "dossierCoverage": { "type": "array", "minItems": 10, "maxItems": 10 },
+        "readinessPlans": { "type": "array", "minItems": 7, "maxItems": 7 }
+      }
+    },
+    "schemaVersion": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "customerId": { "type": "string", "minLength": 3 },
+    "initiativeId": { "type": "string", "pattern": "^SYN-[A-Z0-9-]+$" },
+    "submittedBy": { "type": "string", "minLength": 1, "maxLength": 200, "pattern": "\\S" },
+    "sourceTicketRef": { "type": "string", "minLength": 3 },
+    "workflowVersion": { "type": "string", "minLength": 1 },
+    "policyVersion": { "type": "string", "minLength": 1 },
+    "correlationId": { "type": "string", "minLength": 3 },
+    "requestedAt": { "type": "string", "format": "date-time", "pattern": "Z$" },
+    "classification": { "const": "SYNTHETIC" },
+    "initiativeTitle": { "type": "string", "minLength": 5, "maxLength": 200, "pattern": "\\S" },
+    "businessProblem": { "type": "string", "minLength": 40 },
+    "targetUsers": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "stakeholders": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          { "type": "string", "minLength": 1 },
+          {
+            "type": "object",
+            "required": ["role", "authority"],
+            "properties": {
+              "role": { "type": "string", "minLength": 1 },
+              "authority": { "type": "string", "minLength": 1 }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "desiredOutcomes": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "successMeasures": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "requirements": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "text", "evidenceIds"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^REQ-[0-9]+$" },
+          "text": { "type": "string", "minLength": 10 },
+          "evidenceIds": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "pattern": "^EVD-[0-9]+$" }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "claims": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "label", "statement", "evidenceIds"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^CLM-[0-9]+$" },
+          "label": {
+            "enum": ["fact", "assumption", "unknown", "risk", "recommendation", "decision"]
+          },
+          "statement": { "type": "string", "minLength": 10 },
+          "evidenceIds": {
+            "type": "array",
+            "items": { "type": "string", "pattern": "^EVD-[0-9]+$" }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "analysisSeed": {
+      "type": "object",
+      "required": ["gaps", "risks", "dependencies", "assumptions", "unknowns", "customerQuestions"]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "inputMode": { "const": "conversation" } },
+        "required": ["inputMode"]
+      },
+      "then": { "required": ["intakeContext", "optionDraft", "designDraft"] }
+    }
+  ],
+  "dependentSchemas": {
+    "intakeTranscript": {
+      "required": ["inputMode"],
+      "properties": { "inputMode": { "const": "conversation" } }
+    },
+    "intakeContext": {
+      "required": ["inputMode"],
+      "properties": { "inputMode": { "const": "conversation" } }
+    },
+    "optionDraft": {
+      "required": ["inputMode"],
+      "properties": { "inputMode": { "const": "conversation" } }
+    },
+    "designDraft": {
+      "required": ["inputMode"],
+      "properties": { "inputMode": { "const": "conversation" } }
+    }
+  },
+  "$defs": {
+    "nonEmptyStrings": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  },
+  "additionalProperties": true
+}

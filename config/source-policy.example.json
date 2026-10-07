@@ -1,0 +1,10 @@
+{
+  "schemaVersion": "1.0.0",
+  "policyId": "replace-with-approved-source-policy-id",
+  "mode": "fail-closed",
+  "allowedSourceIds": [],
+  "allowedClassifications": ["PUBLIC-SUMMARY"],
+  "networkAccess": false,
+  "realCustomerDataAllowed": false,
+  "defaultConnectorAccess": "read-only"
+}

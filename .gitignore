@@ -1,0 +1,36 @@
+# Local environments and installed dependencies.
+.venv/
+node_modules/
+
+# Python build products, test state and coverage.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+dist/
+*.egg-info/
+
+# Private local configuration, execution records and generated reports.
+.mcp.json
+docs/contest-info.json
+build/
+demo-output/
+presentation/rendered/
+video/recordings/
+VIDEO-INTAKE-TALK-TRACK.md
+VIDEO-SYSTEM-VALUE-TALK-TRACK.md
+VIDEO-CONTEST-3-MINUTE-TALK-TRACK.md
+.env
+.env.*
+!.env.example
+!.env.sample
+
+# Editor, operating-system and application temporary files.
+*.log
+~$*
+.DS_Store
+Thumbs.db
+Desktop.ini
