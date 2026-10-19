@@ -32,8 +32,10 @@ was not decrypted or republished.
 ### Presenting
 
 Use Presenter View and rehearse slides 1-15. The first 2:15 establishes the business need
-and explicitly contrasts the App's agent-directed workspace with hands-on IDE work and a
-standalone application. These are selection lenses, not exclusive capability claims.
+and an explicit recommendation for GitHub-centered teams: choose Copilot App when native
+GitHub work, broad model/provider choice and reusable expertise belong together in a
+dedicated agent workspace. Slide 3 states these three reasons rather than implying that
+IDEs cannot orchestrate agents.
 Slide 4 reserves 3:20 for a short introduction and the complete
 [published recording](https://youtu.be/RP4CeCYt4VE). The remaining story maps the App
 to connected context, reusable expertise, specialists, the shared CLI engine and model choice, visible work,
@@ -42,13 +44,19 @@ pilot. The video is linked, not embedded; pre-open it and check audio. The three
 authentic MOSAIC captures provide a documented offline narration fallback. The
 separate 10:12 walkthrough is not added to the 15-minute slot.
 
-The differentiation is the **combined working experience**: an agent engine, extensible
-workspace and GitHub-connected review, with MOSAIC supplying the domain process and
-validation. It is not exclusive ownership of MCP, agents, model selection or Git
-integration. Slide 14 proposes a same-task comparison with the customer's current IDE
-or execution tool; the optional competitive conversation explicitly includes Claude
-Code without inventing competitor limitations or a head-to-head result. Keep the IDE
-where it adds value. Measure effort, handoffs, cycle time, quality, corrections and total
+The differentiation is the **combined first-party GitHub working experience**, with
+MOSAIC supplying the domain process and validation. Slide 14 identifies the best-fit
+customer and recommends one measured pilot; slide 15 explicitly asks customers to make
+Copilot App their GitHub agent workspace when that profile fits. This is a recommendation,
+not a universal superiority or lowest-cost claim.
+
+The competitive appendix cites official Claude Desktop, VS Code and Visual Studio
+documentation. Claude Desktop is not chat-only, VS Code already orchestrates agents,
+and the Copilot runtime/SDK is shared rather than App-exclusive. The appendix explains
+when to choose Copilot App despite this overlap. There is no exclusive ownership claim
+for MCP, agents, WorkIQ, model selection or Git integration, and no invented head-to-head
+result. If an existing tool meets the needs, require a demonstrated benefit before
+switching. Measure effort, handoffs, cycle time, quality, corrections and total
 incremental costs before asserting an advantage.
 
 No connected customer tenant or live inference is required to present this deck.

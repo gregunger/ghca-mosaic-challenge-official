@@ -81,6 +81,18 @@ const sources = {
   ],
   S19: ['Playwright MCP browser tools', 'https://github.com/microsoft/playwright-mcp'],
   S20: ['Azure DevOps MCP integration', 'https://github.com/microsoft/azure-devops-mcp'],
+  S21: [
+    'Claude Desktop: Chat, Cowork and Code capabilities',
+    'https://code.claude.com/docs/en/desktop',
+  ],
+  S22: [
+    'VS Code agent harnesses and shared Copilot runtime',
+    'https://code.visualstudio.com/docs/agents/run/agent-harnesses',
+  ],
+  S23: [
+    'Visual Studio agent mode and shared SDK foundation',
+    'https://learn.microsoft.com/en-us/visualstudio/ide/copilot-agent-mode?view=visualstudio',
+  ],
   M01: [
     'Authentic App/report captures and provenance',
     `${repository}presentation/assets/README.md`,
@@ -633,7 +645,7 @@ const slides = [
     refs: ['S01', 'M02'],
     kind: 'cover',
     claim: 'recommendation',
-    talk: `What if your team's expertise could become a repeatable workflow, rather than another prompt someone has to reconstruct? GitHub Copilot App is a dedicated workspace for directing agent work, connecting context and reviewing results. MOSAIC is our proof point: a business conversation becomes a governed solution-engineering discussion draft. Today, evaluate the App as the working environment, not just the model answering the question. Watch the workflow, then imagine the expertise your team could package next.`,
+    talk: `If GitHub is where your team works, make GitHub Copilot App your agent workspace. It combines native GitHub review, broad model choice and reusable expertise in a dedicated desktop experience. MOSAIC makes that recommendation tangible: a business conversation becomes a governed solution-engineering discussion draft. You bring approved context and decision rights; the App brings the working environment. We recommend it for that combination, not because other tools cannot run agents. Watch the workflow, then identify the expertise your team could package next.`,
   },
   {
     title: 'Give teams their context back.',
@@ -644,12 +656,12 @@ const slides = [
     talk: `A requester describes a need. A solution engineer searches for the right guidance. Reviewers ask for the missing assumptions and alternatives. Too often, each handoff means rebuilding context. The opportunity is not another chat window. It is a repeatable way to carry intent, evidence and decisions through the work. In the App, a conversation, an attached approved brief or an issue can become the starting point. MOSAIC adds the domain process. The target is less repeated preparation and clearer review, not the removal of the people accountable for the result.`,
   },
   {
-    title: 'Why the App? Direct work, not just code.',
+    title: 'Why choose Copilot App for GitHub teams?',
     seconds: 55,
-    refs: ['S01', 'S02', 'S03', 'S12', 'S15', 'M02'],
+    refs: ['S01', 'S02', 'S03', 'S10', 'S12', 'M02'],
     kind: 'positioning',
     claim: 'recommendation',
-    talk: `Choose the working experience, not a feature checklist. Use an IDE when the main activity is hands-on coding and debugging. Evaluate Copilot App when the main activity is directing agents, supervising parallel work and reviewing results in a GitHub-connected workspace. Build a standalone application when you need a dedicated customer experience and are prepared to own its integration and operations. These choices can coexist. IDEs and other agent applications also offer agents, MCP and Git integration. Our case is the combination in one working environment, not feature exclusivity. MOSAIC demonstrates why that experience matters for preparation beyond code editing.`,
+    talk: `Our recommendation rests on three customer needs. First, GitHub is already your system for engineering work: direct agents and review issues, changes and checks in a first-party GitHub workspace. Second, you want model choice: select permitted models and evaluate approved hosted or local BYOK providers in preview. Third, you want expertise to travel: package procedures and integrations as skills, agents, MCP and plugins. Choose Copilot App when you want those needs served together in a dedicated workspace. This is a best-fit recommendation for that customer profile, not a universal winner claim. MOSAIC shows the reusable workflow pattern.`,
   },
   {
     title: 'Watch the App do the coordinating.',
@@ -733,20 +745,20 @@ const slides = [
     talk: `Here is a transparent way to discuss value without presenting estimates as results. The planning case assumes ninety-six hours of manual intake and design preparation and sixteen hours of retained human review. That leaves a potential eighty hours of capacity, or about eighty-three percent. At an illustrative two hundred dollars per hour, it is sixteen thousand dollars of gross capacity per request. Additional coordination, corrections, model and platform consumption, integration and operations reduce the opportunity. Capacity is not cash savings. Use the App's usage visibility and a customer baseline to measure actual effort, review quality, rework, elapsed time and all incremental costs before making a business commitment.`,
   },
   {
-    title: 'Prove the fit on your own workflow.',
+    title: 'Choose the App when these needs align.',
     seconds: 55,
-    refs: ['S01', 'S02', 'S03', 'S08', 'M06'],
+    refs: ['S01', 'S02', 'S03', 'S10', 'S12', 'M06'],
     kind: 'adoption',
     claim: 'recommendation',
-    talk: `Start with the synthetic MOSAIC workflow. Then compare Copilot App with your current IDE or execution tool on the same approved task. Keep inputs, evidence, acceptance criteria and reviewer standards comparable; record tool versions, models and all costs. Measure operator effort, handoffs, elapsed time, corrections and output quality. For a Claude Code comparison, run that same task rather than guessing from feature lists. Add approved context or parallelism only when it improves the result. The App complements existing tools; choose it where the working experience earns its place. This demo is not a comparative benchmark.`,
+    talk: `Here is the buying decision. If GitHub is your engineering hub, you want broad model choice, and you want reusable team workflows in a dedicated agent workspace, our recommendation is Copilot App. Start with MOSAIC's synthetic example, then one approved pilot. If your current VS Code, Visual Studio or Claude Desktop environment already meets those needs, switching needs a demonstrated benefit. Use the same task and evidence to measure effort, handoffs, quality, corrections and total cost. Retain the IDE and debugger where they help. The recommendation is clear; customer validation determines whether the fit is best for you.`,
   },
   {
-    title: 'Bring your next workflow to Copilot App.',
+    title: 'Make Copilot App your GitHub agent workspace.',
     seconds: 45,
     refs: ['S01', 'S16', 'M02', 'M06'],
     kind: 'close',
     claim: 'recommendation',
-    talk: `Bring one workflow your team keeps reconstructing. Replay MOSAIC, identify the expertise you could package, and evaluate Copilot App against your current way of working. The App brings the agent engine, extensible workspace and GitHub-connected review. Your team brings approved context, domain expertise and decision rights. MOSAIC shows those pieces working together, with a clear boundary around what is demonstrated and what comes next. The next step is a measured pilot, not a platform replacement promise. Start with one workflow and earn the case to scale.`,
+    talk: `Make Copilot App your GitHub agent workspace when this customer profile fits. Start with one workflow your team keeps reconstructing. Replay MOSAIC, package your expertise, and bring the result back to accountable human review. The proposition is native GitHub work, broad model choice and reusable team expertise together, not a claim that agents or MCP are exclusive. The next step is one measured pilot with approved context and clear acceptance criteria. MOSAIC is the example. Your team's next repeatable workflow is the opportunity.`,
   },
 ];
 
@@ -983,7 +995,7 @@ function renderCore(content, index) {
       });
       text(
         slide,
-        'Direct agent work. Review the outcome.\nMOSAIC shows the pattern beyond code.',
+        'Your GitHub agent workspace.\nMOSAIC shows expertise becoming workflow.',
         0.66,
         4.32,
         8.65,
@@ -1043,23 +1055,28 @@ function renderCore(content, index) {
     }
     case 'positioning': {
       const choices = [
-        ['IDE', 'Hands-on coding', 'Edit, debug and refine\nsoftware directly.', C.purple],
         [
-          'GITHUB COPILOT APP',
-          'Agent-directed work',
-          'Direct sessions, inspect results\nand review work with GitHub.',
+          'NATIVE GITHUB WORK',
+          'Work to review',
+          'Issues, agent sessions,\ndiffs, PRs and CI in one App.',
           C.blue,
         ],
         [
-          'STANDALONE APPLICATION',
-          'Your own experience',
-          'Own the product interface,\nintegration and operations.',
+          'BROAD MODEL CHOICE',
+          'Choose your model',
+          'Permitted models + approved\nhosted or local BYOK providers.',
+          C.purple,
+        ],
+        [
+          'REUSABLE EXPERTISE',
+          'Scale your practice',
+          'Skills, agents, MCP and plugins\ncarry your way of working.',
           C.green,
         ],
       ];
       choices.forEach(([heading, focus, body, accent], i) => {
         const x = 0.6 + i * 4.12;
-        box(slide, x, 2.0, 3.89, 2.92, i === 1 ? 'E7EEF8' : C.white, C.line, true);
+        box(slide, x, 2.0, 3.89, 2.92, C.white, C.line, true);
         text(slide, heading, x + 0.19, 2.22, 3.51, 0.31, 14, {
           color: accent,
           bold: true,
@@ -1067,7 +1084,7 @@ function renderCore(content, index) {
         });
         text(slide, focus, x + 0.19, 2.94, 3.51, 0.67, 25, {
           bold: true,
-          color: i === 1 ? C.blue : C.ink,
+          color: accent,
         });
         text(slide, body, x + 0.19, 3.96, 3.51, 0.67, 18, {
           color: C.muted,
@@ -1076,7 +1093,7 @@ function renderCore(content, index) {
       });
       text(
         slide,
-        'Selection lenses, not exclusive capabilities. IDEs and other agent tools also support agents, MCP and Git.',
+        'The differentiator is the combined first-party GitHub experience, not exclusive features. BYOK is preview.',
         0.83,
         5.25,
         11.65,
@@ -1084,7 +1101,10 @@ function renderCore(content, index) {
         18,
         { color: C.muted, name: 'caption' },
       );
-      statement(slide, 'Choose the complete working experience. Keep the IDE where it adds value.');
+      statement(
+        slide,
+        'Our recommendation for GitHub-centered teams: put these needs together in Copilot App.',
+      );
       break;
     }
     case 'harness': {
@@ -1579,10 +1599,13 @@ function renderCore(content, index) {
     }
     case 'adoption': {
       const steps = [
-        ['1  Same task', 'Same approved task,\nevidence and acceptance criteria.'],
-        ['2  Compare', 'Copilot App versus your current IDE or execution tool.'],
-        ['3  Measure', 'Effort, handoffs,\ncycle time, quality,\ncorrections and cost.'],
-        ['4  Decide', 'Add approved extensions; scale only where the fit is proven.'],
+        ['GitHub is home', 'Your requests, code\nand reviews already\nlive in GitHub.'],
+        ['Choice matters', 'You want permitted\nmodels and approved\nprovider options.'],
+        ['Expertise scales', 'You want reusable\nteam workflows in a\ndedicated agent App.'],
+        [
+          'Start one pilot',
+          'Same task and evidence.\nMeasure effort, handoffs,\nquality and total cost.',
+        ],
       ];
       steps.forEach(([heading, body], i) =>
         card(
@@ -1598,7 +1621,7 @@ function renderCore(content, index) {
       );
       text(
         slide,
-        'Record versions, models and configurations. No head-to-head result is claimed by this demo.',
+        'Already satisfied by your IDE or another agent app? Require a measured benefit before switching.',
         0.85,
         5.72,
         11.61,
@@ -1608,12 +1631,12 @@ function renderCore(content, index) {
       );
       statement(
         slide,
-        'A feature list is not a benchmark. Prove the workflow advantage with customer evidence.',
+        'When these needs align, choose Copilot App for a measured pilot. Keep the IDE where it helps.',
       );
       break;
     }
     case 'close': {
-      text(slide, 'Bring your next workflow\nto GitHub Copilot App.', 0.65, 1.14, 11.94, 1.72, 47, {
+      text(slide, 'Make Copilot App your\nGitHub agent workspace.', 0.65, 1.14, 11.94, 1.72, 47, {
         color: C.white,
         bold: true,
         fontFace: 'Bahnschrift',
@@ -1621,7 +1644,11 @@ function renderCore(content, index) {
       const links = [
         ['Explore the App', 'Product capabilities', 'https://github.com/features/ai/github-app'],
         ['Replay MOSAIC', 'Authentic 2:55 workflow', video],
-        ['Compare the fit', 'Measure fit before scaling', `${repository}docs/adoption-playbook.md`],
+        [
+          'Start your pilot',
+          'One workflow. Prove value.',
+          `${repository}docs/adoption-playbook.md`,
+        ],
       ];
       links.forEach(([heading, body, url], i) => {
         const x = 0.65 + i * 4.13;
@@ -1636,7 +1663,7 @@ function renderCore(content, index) {
       });
       text(
         slide,
-        'Agent engine + extensible workspace + GitHub-connected review.\nYour expertise becomes the workflow. People retain the decision rights.',
+        'Native GitHub work + broad model choice + reusable team expertise.\nMOSAIC is the example. Your workflow is the opportunity.',
         0.85,
         5.77,
         11.67,
@@ -1724,34 +1751,34 @@ function renderCapabilities(group, groupIndex) {
 function renderComparison() {
   const slide = newSlide(
     {
-      title: 'Competitive conversation: fit, not feature myths.',
-      refs: ['S01', 'S02', 'S03', 'S12', 'S15', 'M02', 'M05'],
+      title: 'Why choose the App over your alternatives?',
+      refs: ['S01', 'S02', 'S10', 'S12', 'S21', 'S22', 'S23', 'M02', 'M05'],
       claim: 'recommendation',
-      talk: 'Use this as a customer selection framework, not a scored vendor comparison. Copilot App combines agent direction, extensibility and GitHub review in a dedicated workspace. IDEs, terminal agents and other desktop agent applications overlap with that surface; no missing competitor capability is asserted here. For Claude Code or any alternative, run the same authorized task, disclose versions, models, settings and customization effort, and retain results. Measure total effort, handoffs, time, corrections, quality and incremental costs. The current MOSAIC evidence is App intake, skill and synthetic MCP use plus the browser handoff. Native fleets, WorkIQ, canvas and hosted PR/CI flows remain proposed MOSAIC extensions. No head-to-head result, feature exclusivity or replacement mandate is claimed.',
+      talk: 'The recommendation is Copilot App when a dedicated first-party GitHub workspace, broad model/provider choice and reusable workflows fit the customer. Claude Desktop includes Chat, Cowork and Code; its Code tab supports parallel Git-isolated sessions, connectors, diffs and PR/CI monitoring. Do not describe it as chat-only. VS Code supports orchestration and multiple harnesses, including the shared Copilot runtime; it is not merely an editor. Visual Studio agent mode executes tools and iterates, and its optional newer chat experience uses the shared SDK foundation. The App differentiates its packaged GitHub-centered experience, not exclusive ownership of the engine. Keep the existing tool if it already meets the needs. No same-task benchmark has established superiority here; compare effort, handoffs, quality, time and all costs before scaling. MOSAIC demonstrates the App intake, skill, synthetic MCP and browser handoff; native fleets, WorkIQ, canvas and hosted PR/CI are still extensions.',
     },
     manifestSlides.length + 1,
     true,
   );
   const rows = [
     [
-      'IDE',
-      'Keep hands-on editing and debugging.',
-      'Compare workflow supervision + review handoffs.',
+      'Claude Desktop',
+      'Chat, Cowork + Code; parallel Git sessions, tools and PR / CI.',
+      'GitHub-first workspace and broad model/provider choice.',
     ],
     [
-      'Terminal / CLI runner',
-      'Keep scriptable execution and automation.',
-      'Compare session visibility + GitHub review.',
+      'VS Code',
+      'Orchestration, multiple harnesses and shared Copilot runtime.',
+      'Prefer a dedicated GitHub workspace; retain the IDE as needed.',
     ],
     [
-      'Other agent apps',
-      'Include Claude Code in a same-task trial.',
-      'Compare the end-to-end experience, not model rank.',
+      'Visual Studio',
+      'Agent tools, iteration and optional shared SDK foundation.',
+      'Prefer GitHub-centered supervision; keep IDE debugging.',
     ],
     [
-      'Custom application',
-      'Build a dedicated customer interface when needed.',
-      'Compare integration, maintenance and user needs.',
+      'Other apps / engines',
+      'Capabilities vary; custom apps own their user experience.',
+      'Evaluate workflow fit, integration and operating effort.',
     ],
   ];
   text(slide, 'ALTERNATIVE', 0.78, 1.99, 2.7, 0.26, 13, {
@@ -1759,12 +1786,12 @@ function renderComparison() {
     bold: true,
     name: 'label',
   });
-  text(slide, 'WHEN IT CAN FIT', 3.64, 1.99, 4.15, 0.26, 13, {
+  text(slide, 'CAPABILITIES ALREADY AVAILABLE', 3.64, 1.99, 4.15, 0.26, 13, {
     color: C.blue,
     bold: true,
     name: 'label',
   });
-  text(slide, 'WHAT TO EVALUATE', 8.16, 1.99, 4.15, 0.26, 13, {
+  text(slide, 'WHEN TO CHOOSE COPILOT APP', 8.16, 1.99, 4.15, 0.26, 13, {
     color: C.blue,
     bold: true,
     name: 'label',
@@ -1805,11 +1832,11 @@ function renderPresenter() {
     'Presenter setup and sources',
   );
   const blocks = [
-    ['00:00-02:15', 'Business need + why the App versus alternatives'],
+    ['00:00-02:15', 'Business need + three reasons to choose the App'],
     ['02:15-05:35', 'Authentic 2:55.57 demo + introduction'],
     ['05:35-10:40', 'Context, expertise, agents, shared engine, surfaces, GitHub'],
     ['10:40-13:20', 'Repeatability, human control and value hypothesis'],
-    ['13:20-15:00', 'Adoption path + customer next step'],
+    ['13:20-15:00', 'Best-fit customer + recommended pilot'],
   ];
   blocks.forEach(([time, topic], i) => {
     const y = 2.03 + i * 0.73;

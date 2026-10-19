@@ -66,16 +66,18 @@ try {
         $allNotes.Add($notes)
     }
     Assert-Deck ($manifest.slides[2].kind -eq 'positioning') 'Slide 3 must explicitly explain why to choose the App.'
-    foreach ($phrase in @('IDE', 'GITHUB COPILOT APP', 'STANDALONE APPLICATION', 'Agent-directed work', 'not exclusive capabilities')) {
+    foreach ($phrase in @('NATIVE GITHUB WORK', 'BROAD MODEL CHOICE', 'REUSABLE EXPERTISE', 'Our recommendation for GitHub-centered teams', 'not exclusive features')) {
         Assert-Deck ($slideText[3].Contains($phrase)) "Slide 3 is missing required differentiation: $phrase"
     }
     foreach ($phrase in @('SHARED COPILOT CLI RUNTIME', 'MOSAIC PROCESS + VALIDATION WORKER', 'App models do not configure the separate worker')) {
         Assert-Deck ($slideText[8].Contains($phrase)) "Slide 8 is missing runtime attribution: $phrase"
     }
-    foreach ($phrase in @('current IDE or execution tool', 'Effort, handoffs', 'No head-to-head result is claimed')) {
+    foreach ($phrase in @('GitHub is home', 'Choice matters', 'Expertise scales', 'Start one pilot', 'Require a measured benefit before switching')) {
         Assert-Deck ($slideText[14].Contains($phrase)) "Slide 14 is missing comparative evaluation: $phrase"
     }
-    Assert-Deck ($slideText[26].Contains('Claude Code')) 'The competitive appendix must address the named alternative.'
+    foreach ($phrase in @('Claude Desktop', 'VS Code', 'Visual Studio', 'shared Copilot runtime', 'WHEN TO CHOOSE COPILOT APP')) {
+        Assert-Deck ($slideText[26].Contains($phrase)) "Competitive appendix is missing a substantiated alternative or choice rationale: $phrase"
+    }
     Assert-Deck ($slideText[26].Contains('NEXT TO PROVE')) 'The competitive appendix must distinguish observed and proposed evidence.'
     $combinedNotes = $allNotes -join "`n"
     foreach ($feature in $manifest.features) {
