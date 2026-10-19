@@ -6,6 +6,10 @@
 
 **Scale the expertise. Keep the accountability.** Start with the [three-slide PDF](presentation/mosaic-challenge-deck.pdf), [browser deck](presentation/mosaic-challenge-deck.html), or [2:55 workflow video](https://youtu.be/RP4CeCYt4VE). The [submission finish line](submission/OPEN-ITEMS.md) separates completed repository work from entrant-owned submission actions.
 
+**New Windows clone? Run [`scripts/setup_mosaic_app.ps1`](scripts/setup_mosaic_app.ps1) from the repository root for guided bootstrap, then complete [GitHub Copilot App Setup](GitHubCopilotAppSetup.md).** It covers accounts, local tools, MOSAIC agents and skills, MCP verification, the separate analysis worker, a first safe intake and troubleshooting.
+
+**Customer demo:** The [15-minute App-first PowerPoint](presentation/mosaic-copilot-app-demo-15min.pptx) and [PDF companion](presentation/mosaic-copilot-app-demo-15min.pdf) show how GitHub Copilot App enables and extends MOSAIC, with timed notes and a sourced capability reference.
+
 ## What MOSAIC Is
 
 MOSAIC is an **AI-first business process automation and orchestration system for the solution-engineering lifecycle**. A business user describes a problem, requirement or opportunity in plain language. In **GitHub Copilot App**, MOSAIC asks only relevant follow-up questions, acquires approved evidence, structures the problem, compares exactly three solution approaches, prepares a proposed design and delivery-readiness plans, validates the package, and hands an auditable solution dossier to qualified people for decisions.

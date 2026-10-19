@@ -4,6 +4,8 @@ MOSAIC is AI-first business process automation and orchestration for solution en
 
 ## Development Setup
 
+Starting from a fresh Windows clone? Run [`scripts/setup_mosaic_app.ps1`](scripts/setup_mosaic_app.ps1) for the guided bootstrap, then complete [GitHub Copilot App Setup](GitHubCopilotAppSetup.md) for sign-in, project trust, MCP and the separate analysis-worker profile.
+
 Use an editable checkout, Python 3.12 or later, and Node.js 22 or later. The Python package locates schemas, templates and examples relative to the repository; a standalone wheel is not the supported runtime.
 
 ```powershell

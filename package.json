@@ -11,9 +11,11 @@
     "format": "prettier --write \"**/*.{md,json,js,css,yml,yaml}\"",
     "format:check": "prettier --check \"**/*.{md,json,js,css,yml,yaml}\"",
     "build:deck": "node presentation/build_deck.js",
+    "build:demo-deck": "node presentation/build_copilot_app_demo.js",
     "capture:report": "node scripts/validate_presentation.js --capture-report",
     "test:presentation": "node scripts/validate_presentation.js",
     "test:judges": "node scripts/validate_judges_brief.js",
+    "test:demo-deck": "pwsh -NoProfile -File scripts/validate_copilot_app_demo.ps1",
     "test:reports": "node scripts/validate_reports.js",
     "export:deck": "pwsh -NoProfile -File scripts/export_presentation.ps1"
   },

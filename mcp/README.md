@@ -21,6 +21,8 @@ The connector rejects duplicate source IDs and paths that resolve outside the ev
 
 ## Enable
 
+For a new computer or checkout, use the complete [GitHub Copilot App setup walkthrough](../GitHubCopilotAppSetup.md), including the per-checkout interpreter configuration and in-App two-tool verification.
+
 Install the optional SDK dependency in the active environment:
 
 ```powershell

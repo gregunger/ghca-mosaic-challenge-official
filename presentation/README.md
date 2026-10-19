@@ -1,5 +1,88 @@
 # Challenge Deck
 
+## GitHub Copilot App Customer Demo (15 Minutes)
+
+The editable [customer demo PowerPoint](mosaic-copilot-app-demo-15min.pptx) leads with
+**GitHub Copilot App**, using MOSAIC as the proof point rather than the headline product.
+The [PDF companion](mosaic-copilot-app-demo-15min.pdf) includes the complete reference
+appendix. These are separate assets; the existing three-slide submission deck, judges
+HTML brief and recordings are not rebuilt or replaced.
+
+- **15 main slides, exactly 15 minutes allocated**, including the authentic 2:55.57
+  published workflow recording. Full talk tracks, timing, demo actions and source URLs
+  are in PowerPoint speaker notes.
+- **60 feature-to-MOSAIC mappings** cover the shared CLI runtime, model choice and
+  BYOK, WorkIQ's four marketplace plugins, MCP servers, skills, custom agents,
+  delegation, hooks, LSP configurations, canvases, computer use, GitHub integration,
+  automations, history, usage and administration. Every entry in the 47-entry public
+  App slash-command reference and all six built-in App skills is mapped.
+- **17 optional appendix slides** contain the capability map, competitive conversation, presenter runbook and
+  linked sources. They are hidden in the normal PowerPoint slideshow and included in
+  the PDF. Use them for questions rather than adding them to the timed presentation.
+- Product documentation was verified on **October 19, 2026**. This is a bounded
+  documented-surface inventory, not a claim to enumerate every third-party plugin or
+  future feature. Recheck current availability, preview status, policy and
+  client-specific support before reuse.
+
+The owner-provided 22-page reference PDF was analyzed privately for its product-first
+storytelling and field-enablement structure. Its text, graphics, contacts, implementation
+claims and metrics were not copied into these assets. The original encrypted PowerPoint
+was not decrypted or republished.
+
+### Presenting
+
+Use Presenter View and rehearse slides 1-15. The first 2:15 establishes the business need
+and explicitly contrasts the App's agent-directed workspace with hands-on IDE work and a
+standalone application. These are selection lenses, not exclusive capability claims.
+Slide 4 reserves 3:20 for a short introduction and the complete
+[published recording](https://youtu.be/RP4CeCYt4VE). The remaining story maps the App
+to connected context, reusable expertise, specialists, the shared CLI engine and model choice, visible work,
+GitHub review, repeatability, human authority, illustrative economics and a customer
+pilot. The video is linked, not embedded; pre-open it and check audio. The three
+authentic MOSAIC captures provide a documented offline narration fallback. The
+separate 10:12 walkthrough is not added to the 15-minute slot.
+
+The differentiation is the **combined working experience**: an agent engine, extensible
+workspace and GitHub-connected review, with MOSAIC supplying the domain process and
+validation. It is not exclusive ownership of MCP, agents, model selection or Git
+integration. Slide 14 proposes a same-task comparison with the customer's current IDE
+or execution tool; the optional competitive conversation explicitly includes Claude
+Code without inventing competitor limitations or a head-to-head result. Keep the IDE
+where it adds value. Measure effort, handoffs, cycle time, quality, corrections and total
+incremental costs before asserting an advantage.
+
+No connected customer tenant or live inference is required to present this deck.
+WorkIQ is not inherently read-only: the MOSAIC proposal permits only separately
+authorized reads and keeps enterprise connectors disabled until approved. The native
+specialist fleet, WorkIQ integration, plugin distribution, canvases and scheduled
+refreshes are extension proposals, not claims of demonstrated MOSAIC execution.
+The SDK is a separate programmatic extension path, not an existing embedded service.
+
+All figures are explicitly illustrative, with retained human review and incremental
+costs visible. Both customer architecture selection and exact-revision dossier
+approval remain unrecorded. This is a discussion draft for owner/product-team review,
+not customer, brand, security, implementation, deployment or publication approval.
+
+### Build And Validate
+
+Use the repository's existing Node dependencies. Native rendering requires Windows,
+PowerShell 7 and installed desktop Microsoft PowerPoint:
+
+```powershell
+npm run build:demo-deck
+npm run test:demo-deck
+# Also compare coverage with the current official command and skill references:
+npm run test:demo-deck -- -CheckPublicReferences
+```
+
+The [generator](build_copilot_app_demo.js) keeps editable text, diagrams, presenter
+notes and the capability/source registry together. The
+[validator](../scripts/validate_copilot_app_demo.ps1) checks the actual PowerPoint
+package, notes, source coverage, evidence-image bytes, hidden appendix, native text
+bounds, overlaps and slide geometry, then exports the PDF and 1920x1080 QA images.
+Local manifests, screenshots and results stay under ignored
+`build/copilot-app-demo-qa/`.
+
 ## Final-Round Judges Brief
 
 The [15-minute judges brief](mosaic-judges-brief.html) is a separate, single-page HTML
