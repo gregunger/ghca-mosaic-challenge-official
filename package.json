@@ -13,6 +13,7 @@
     "build:deck": "node presentation/build_deck.js",
     "capture:report": "node scripts/validate_presentation.js --capture-report",
     "test:presentation": "node scripts/validate_presentation.js",
+    "test:judges": "node scripts/validate_judges_brief.js",
     "test:reports": "node scripts/validate_reports.js",
     "export:deck": "pwsh -NoProfile -File scripts/export_presentation.ps1"
   },

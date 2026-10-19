@@ -1,0 +1,3700 @@
+<!doctype html>
+<!-- MOSAIC judges brief. SPDX-License-Identifier: LicenseRef-MOSAIC-Evaluation -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <meta
+      name="description"
+      content="A 15-minute GitHub Copilot App value story: MOSAIC demonstrates a repeatable path from native context, skills and connected tools to governed solution engineering."
+    />
+    <title>GitHub Copilot App | Make expertise repeatable with MOSAIC</title>
+    <style>
+      :root {
+        --paper: #f5f5f0;
+        --surface: #fff;
+        --ink: #172224;
+        --muted: #516063;
+        --line: #d8dfd9;
+        --green: #146447;
+        --lime: #c9f774;
+        --aqua: #9ee6df;
+        --purple: #e4d9ff;
+        --amber: #fff0c5;
+        --rail: 236px;
+        --radius: 20px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      [hidden] {
+        display: none !important;
+      }
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 100px;
+      }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font:
+          17px/1.6 'Segoe UI',
+          system-ui,
+          sans-serif;
+      }
+      h1,
+      h2,
+      h3,
+      p,
+      figure {
+        margin: 0;
+      }
+      h1,
+      h2,
+      h3 {
+        line-height: 1.1;
+        letter-spacing: -0.035em;
+      }
+      h1,
+      h2,
+      h3,
+      p,
+      li,
+      figcaption {
+        overflow-wrap: break-word;
+      }
+      h1 {
+        font-size: clamp(42px, 4.4vw, 72px);
+        font-weight: 760;
+        max-width: 940px;
+      }
+      h2 {
+        font-size: clamp(30px, 3vw, 46px);
+        max-width: 850px;
+      }
+      h3 {
+        font-size: 22px;
+        margin-bottom: 12px;
+      }
+      p + p {
+        margin-top: 16px;
+      }
+      a {
+        color: var(--green);
+        text-underline-offset: 3px;
+      }
+      a:hover {
+        text-decoration-thickness: 2px;
+      }
+      button,
+      input {
+        font: inherit;
+      }
+      button {
+        cursor: pointer;
+      }
+      button,
+      .button {
+        border: 1px solid var(--line);
+        border-radius: 9px;
+        padding: 9px 13px;
+        color: var(--ink);
+        background: white;
+        font-size: 14px;
+        font-weight: 650;
+      }
+      button:hover,
+      .button:hover {
+        background: #edf4e9;
+      }
+      button:disabled {
+        opacity: 0.5;
+        cursor: default;
+      }
+      :focus-visible {
+        outline: 3px solid #8250df;
+        outline-offset: 4px;
+      }
+      .skip {
+        position: fixed;
+        z-index: 10;
+        top: -100px;
+        left: 20px;
+        padding: 12px;
+        background: var(--lime);
+        color: var(--ink);
+      }
+      .skip:focus {
+        top: 12px;
+      }
+      .rail {
+        position: fixed;
+        inset: 0 auto 0 0;
+        width: var(--rail);
+        padding: 30px 20px;
+        background: #172224;
+        color: #f3f6f1;
+        overflow-y: auto;
+      }
+      .brand {
+        font-size: 23px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+      }
+      .rail-sub {
+        font-size: 12px;
+        color: #bdcdc6;
+        margin-top: 8px;
+        line-height: 1.5;
+      }
+      .rail nav {
+        margin-top: 34px;
+      }
+      .rail nav a {
+        display: flex;
+        align-items: baseline;
+        gap: 11px;
+        padding: 11px 9px;
+        margin: 3px 0;
+        border-radius: 8px;
+        color: #c7d4ce;
+        text-decoration: none;
+        font-size: 13px;
+        line-height: 1.4;
+      }
+      .rail nav a span {
+        color: #a3b5aa;
+        font-size: 11px;
+        font-variant-numeric: tabular-nums;
+      }
+      .rail nav a[aria-current='step'] {
+        background: var(--lime);
+        color: #172224;
+        font-weight: 750;
+      }
+      .rail nav a[aria-current='step'] span {
+        color: #28422d;
+      }
+      .rail-bottom {
+        margin-top: 30px;
+        border-top: 1px solid #42534a;
+        padding-top: 18px;
+        color: #bdcdc6;
+        font-size: 12px;
+      }
+      .rail-bottom a {
+        color: var(--aqua);
+      }
+      .shell {
+        margin-left: var(--rail);
+      }
+      .toolbar {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 34px;
+        background: rgba(245, 245, 240, 0.97);
+        border-bottom: 1px solid var(--line);
+      }
+      .tools {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+      }
+      .view-label {
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 650;
+      }
+      .section-picker {
+        display: none;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        max-width: 100%;
+      }
+      .section-picker select {
+        min-width: 0;
+        max-width: 250px;
+        padding: 7px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: white;
+        color: var(--ink);
+        font: inherit;
+      }
+      main {
+        max-width: 1320px;
+        margin: auto;
+        padding: 30px 34px 64px;
+      }
+      .hero {
+        position: relative;
+        overflow: hidden;
+        padding: clamp(28px, 4vw, 58px);
+        border-radius: 24px;
+        background: #172224;
+        color: #f7f9f3;
+      }
+      .eyebrow {
+        display: block;
+        font-size: 12px;
+        font-weight: 750;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+      }
+      .hero .eyebrow {
+        color: var(--lime);
+      }
+      .hero h1 em {
+        font-style: normal;
+        color: var(--lime);
+      }
+      .hero .lede {
+        max-width: 770px;
+        margin-top: 26px;
+        color: #d1ddd6;
+        font-size: 21px;
+        line-height: 1.5;
+      }
+      .hero-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 9px;
+        margin-top: 28px;
+      }
+      .hero-tags span {
+        border: 1px solid #52675a;
+        color: #e2eadf;
+        border-radius: 30px;
+        padding: 5px 12px;
+        font-size: 12px;
+      }
+      .hero-value {
+        max-width: 800px;
+        margin-top: 26px;
+        padding-top: 22px;
+        border-top: 1px solid #52675a;
+        font-size: 16px;
+        color: #d1ddd6;
+      }
+      .hero-value strong {
+        color: var(--lime);
+        font-size: 22px;
+      }
+      .hero-value small {
+        display: block;
+        margin-top: 7px;
+        line-height: 1.5;
+      }
+      .hero-bottom {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        align-items: center;
+        margin-top: 32px;
+      }
+      .hero .button {
+        display: inline-block;
+        background: var(--lime);
+        color: #172224;
+        border: none;
+        text-decoration: none;
+      }
+      .hero small {
+        font-size: 12px;
+        color: #bfcfc5;
+      }
+      .overview {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        margin: 18px 0;
+      }
+      .overview > div {
+        padding: 22px;
+        background: white;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+      }
+      .overview strong {
+        display: block;
+        font-size: 20px;
+        margin-bottom: 5px;
+      }
+      .overview p {
+        font-size: 14px;
+        color: var(--muted);
+      }
+      .orientation {
+        padding: 12px 0 18px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .chapter {
+        margin-top: 25px;
+        padding: clamp(24px, 3.3vw, 46px);
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+      }
+      .chapter-head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+      .chapter-head .eyebrow {
+        margin: 0;
+        color: var(--green);
+      }
+      .time {
+        padding: 5px 10px;
+        border-radius: 20px;
+        background: #edf3e8;
+        color: #284a35;
+        font-size: 12px;
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+      }
+      .intro {
+        margin-top: 20px;
+        max-width: 850px;
+        font-size: 20px;
+        line-height: 1.5;
+        color: var(--muted);
+      }
+      .grid {
+        display: grid;
+        gap: 18px;
+        margin-top: 26px;
+      }
+      .two {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .three {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+      .card {
+        padding: 24px;
+        background: #f5f7f2;
+        border-radius: 14px;
+        min-width: 0;
+      }
+      .card p,
+      .card li {
+        font-size: 15px;
+      }
+      ul,
+      ol {
+        padding-left: 22px;
+        margin: 12px 0 0;
+      }
+      li + li {
+        margin-top: 8px;
+      }
+      .accent {
+        background: var(--lime);
+      }
+      .aqua {
+        background: #e2f5f1;
+      }
+      .lavender {
+        background: #f0ebfc;
+      }
+      .callout {
+        margin-top: 24px;
+        padding: 20px 24px;
+        border-left: 4px solid var(--green);
+        background: #edf4e8;
+        border-radius: 0 12px 12px 0;
+      }
+      .callout p {
+        font-size: 16px;
+      }
+      .caution {
+        border-color: #966008;
+        background: #fff6df;
+      }
+      .evidence {
+        margin-top: 22px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .evidence a {
+        white-space: normal;
+      }
+      .status {
+        display: inline-block;
+        padding: 3px 9px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 750;
+        letter-spacing: 0.025em;
+        vertical-align: middle;
+        background: #e7f2e3;
+        color: #265639;
+      }
+      .status.configured {
+        background: #eee7fa;
+        color: #5b3d88;
+      }
+      .status.proposed {
+        background: var(--amber);
+        color: #6b4a0b;
+      }
+      .status.observed {
+        background: #e2f5f1;
+        color: #20574d;
+      }
+      .flow {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 28px;
+      }
+      .flow > div {
+        padding: 18px;
+        background: #f0f4ed;
+        border-radius: 12px;
+        border-top: 3px solid #658569;
+      }
+      .flow b {
+        font-size: 17px;
+        display: block;
+        margin: 6px 0;
+      }
+      .flow small {
+        font-size: 12px;
+        display: block;
+        line-height: 1.5;
+        color: #45584a;
+      }
+      .flow .stop {
+        background: #fff3d1;
+        border-color: #a56a0a;
+      }
+      .flow .num {
+        font-size: 11px;
+        font-weight: 750;
+        color: #49644c;
+      }
+      .architecture {
+        display: grid;
+        grid-template-columns: 1fr 1.4fr 1fr;
+        gap: 14px;
+        align-items: stretch;
+        margin-top: 28px;
+      }
+      .architecture > div {
+        padding: 25px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: #f5f7f2;
+      }
+      .architecture .app-core {
+        background: #172224;
+        color: white;
+        border-color: #172224;
+      }
+      .app-core h3 {
+        color: var(--lime);
+      }
+      .architecture p {
+        font-size: 14px;
+      }
+      .architecture .connector {
+        font-size: 12px;
+        font-weight: 700;
+        margin-top: 15px;
+        color: var(--green);
+      }
+      .app-leverage {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 24px;
+      }
+      .app-leverage > div {
+        padding: 18px;
+        background: #edf4e8;
+        border: 1px solid #d3e3c8;
+        border-radius: 12px;
+      }
+      .app-leverage strong {
+        display: block;
+        font-size: 18px;
+        color: var(--green);
+      }
+      .app-leverage span {
+        display: block;
+        font-size: 13px;
+        color: #40584a;
+        margin-top: 5px;
+      }
+      .app-core .connector {
+        color: var(--aqua);
+      }
+      figure {
+        min-width: 0;
+      }
+      figure a {
+        display: block;
+      }
+      figure img {
+        display: block;
+        width: 100%;
+        height: auto;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #fff;
+      }
+      figcaption {
+        margin-top: 12px;
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.55;
+      }
+      .proof-strip {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 24px;
+      }
+      .proof-strip a {
+        font-size: 14px;
+        font-weight: 650;
+      }
+      .big-number {
+        display: block;
+        font-size: 52px;
+        line-height: 1.1;
+        letter-spacing: -0.05em;
+        font-weight: 800;
+        margin-bottom: 10px;
+      }
+      .big-number small {
+        font-size: 20px;
+        font-weight: 600;
+      }
+      .gate {
+        display: grid;
+        grid-template-columns: 42px 1fr;
+        gap: 14px;
+      }
+      .gate > span {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: #d6edc7;
+        display: grid;
+        place-items: center;
+        font-weight: 750;
+      }
+      .gate h3 {
+        font-size: 19px;
+      }
+      .gate p {
+        font-size: 14px;
+      }
+      .authority {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 24px;
+        align-items: center;
+        padding: 22px;
+        background: #172224;
+        color: #f4f8ef;
+        border-radius: 14px;
+      }
+      .authority strong {
+        color: var(--lime);
+      }
+      .authority span {
+        font-size: 14px;
+      }
+      code {
+        padding: 2px 5px;
+        background: #edf1e8;
+        border-radius: 4px;
+        color: #234637;
+        font-size: 0.86em;
+        overflow-wrap: anywhere;
+      }
+      .economics {
+        margin-top: 26px;
+        background: #172224;
+        color: #f7faf2;
+        padding: 28px;
+        border-radius: 16px;
+      }
+      .economics .label {
+        color: var(--lime);
+        font-size: 12px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+      .economics .formula {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        align-items: center;
+        margin: 24px 0;
+      }
+      .formula strong {
+        font-size: 44px;
+        line-height: 1.1;
+      }
+      .formula small {
+        display: block;
+        font-size: 12px;
+        color: #cedbce;
+        margin-top: 8px;
+      }
+      .formula .operator {
+        color: var(--aqua);
+        font-size: 30px;
+      }
+      .economics > p {
+        font-size: 14px;
+        color: #d1ded1;
+      }
+      .model-inputs {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 24px;
+      }
+      .model-inputs label {
+        font-size: 13px;
+        font-weight: 650;
+      }
+      .model-inputs input {
+        display: block;
+        width: 100%;
+        margin-top: 5px;
+        border: 1px solid #a5b2a5;
+        border-radius: 8px;
+        padding: 9px 11px;
+        background: white;
+        color: var(--ink);
+        min-width: 0;
+      }
+      .model-output {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 18px;
+      }
+      .model-output > div {
+        background: #edf5e5;
+        padding: 18px;
+        border-radius: 12px;
+        min-width: 0;
+      }
+      .model-output strong {
+        display: block;
+        font-size: 28px;
+        letter-spacing: -0.04em;
+        overflow-wrap: anywhere;
+      }
+      .model-output small {
+        font-size: 12px;
+        display: block;
+      }
+      #model-error {
+        color: #9f2d1d;
+        font-weight: 650;
+        margin-top: 15px;
+        font-size: 14px;
+      }
+      #model-error:empty {
+        display: none;
+      }
+      .cost-note {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 14px;
+      }
+      .sensitivity {
+        margin-top: 18px;
+        font-size: 14px;
+        color: var(--muted);
+      }
+      .sensitivity strong {
+        color: var(--ink);
+      }
+      details {
+        border-top: 1px solid var(--line);
+        margin-top: 26px;
+        padding-top: 17px;
+      }
+      summary {
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--green);
+      }
+      .script {
+        margin-top: 18px;
+        padding: 24px;
+        border-radius: 12px;
+        background: #f6f5ef;
+        font-size: 16px;
+        line-height: 1.75;
+      }
+      .script p + p {
+        margin-top: 15px;
+      }
+      .support {
+        margin-top: 38px;
+      }
+      .support > h2 {
+        margin-bottom: 18px;
+      }
+      .support > p {
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .table-wrap {
+        overflow-x: auto;
+        margin-top: 18px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: white;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        min-width: 660px;
+        font-size: 13px;
+      }
+      th,
+      td {
+        padding: 15px 17px;
+        text-align: left;
+        vertical-align: top;
+        border-bottom: 1px solid var(--line);
+      }
+      th {
+        background: #e9eee3;
+        font-size: 12px;
+      }
+      td:first-child {
+        font-weight: 650;
+      }
+      tr:last-child td {
+        border-bottom: 0;
+      }
+      td .status {
+        margin-bottom: 5px;
+      }
+      .source-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px 28px;
+        list-style: none;
+        padding: 0;
+      }
+      .source-list li {
+        margin: 0;
+        border-top: 1px solid var(--line);
+        padding-top: 12px;
+        font-size: 13px;
+        overflow-wrap: anywhere;
+      }
+      .source-list b {
+        display: block;
+        color: var(--green);
+        font-size: 11px;
+        letter-spacing: 0.08em;
+      }
+      .source-list small {
+        display: block;
+        color: var(--muted);
+        margin-top: 4px;
+      }
+      .qa details {
+        background: white;
+        padding: 18px 22px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        margin-top: 10px;
+      }
+      .qa details p {
+        margin-top: 14px;
+        font-size: 15px;
+      }
+      .closing {
+        background: #172224;
+        color: #f6faef;
+      }
+      .closing .chapter-head .eyebrow {
+        color: var(--lime);
+      }
+      .closing .intro {
+        color: #d2dfd2;
+      }
+      .closing .card {
+        color: var(--ink);
+      }
+      .closing .evidence,
+      .closing .evidence a {
+        color: #c3e7b4;
+      }
+      .closing details {
+        border-color: #53644f;
+      }
+      .closing summary {
+        color: var(--lime);
+      }
+      .closing .script {
+        color: var(--ink);
+      }
+      .closing-quote {
+        margin-top: 28px;
+        font-size: clamp(26px, 2.7vw, 40px);
+        line-height: 1.2;
+        letter-spacing: -0.03em;
+        font-weight: 750;
+        color: var(--lime);
+      }
+      footer {
+        margin-top: 42px;
+        padding-top: 24px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .focus-view main > * {
+        display: none;
+      }
+      .focus-view main > .focused-section {
+        display: block;
+        margin-top: 0;
+      }
+      .focus-view .toolbar {
+        border-bottom: 3px solid var(--green);
+      }
+      .rail-bottom a[aria-current] {
+        color: var(--lime);
+        font-weight: 750;
+      }
+      .section-info {
+        display: inline-grid;
+        place-items: center;
+        width: 26px;
+        height: 26px;
+        padding: 0;
+        margin-left: 12px;
+        border-radius: 50%;
+        vertical-align: middle;
+        font-size: 14px;
+        font-weight: 750;
+        letter-spacing: 0;
+      }
+      abbr[data-tooltip] {
+        text-decoration: underline dotted #6c8874;
+        text-underline-offset: 4px;
+        cursor: help;
+      }
+      #report-tooltip {
+        position: fixed;
+        z-index: 20;
+        width: max-content;
+        max-width: min(340px, calc(100vw - 24px));
+        max-height: calc(100vh - 24px);
+        padding: 13px 16px;
+        border: 1px solid #536c5e;
+        border-radius: 12px;
+        background: #172224;
+        color: #f6faef;
+        box-shadow: 0 12px 32px #10241d33;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.55;
+        pointer-events: none;
+      }
+      .analytics {
+        margin-top: 26px;
+        padding: 28px;
+        border-radius: 18px;
+        background: #142b2a;
+        color: #f2f8ef;
+      }
+      .analytics .eyebrow {
+        color: var(--aqua);
+        margin-bottom: 12px;
+      }
+      .analytics h3 {
+        color: white;
+      }
+      .analytics p {
+        color: #ceded6;
+        font-size: 14px;
+      }
+      .analytics svg {
+        display: block;
+        width: 100%;
+        height: auto;
+        overflow: visible;
+      }
+      .analytics svg text {
+        font-family: 'Segoe UI', sans-serif;
+        fill: #edf5ea;
+      }
+      .composition {
+        display: grid;
+        grid-template-columns: minmax(180px, 0.8fr) 1.2fr;
+        align-items: center;
+        gap: 28px;
+      }
+      .chart-legend {
+        list-style: none;
+        padding: 0;
+      }
+      .chart-legend li {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 0;
+        border-bottom: 1px solid #45625a;
+        font-size: 16px;
+      }
+      .chart-legend b {
+        margin-left: auto;
+        font-size: 26px;
+        color: white;
+      }
+      .swatch {
+        display: inline-block;
+        width: 13px;
+        height: 13px;
+        border-radius: 4px;
+        flex: 0 0 auto;
+      }
+      .chart-caption {
+        margin-top: 14px;
+      }
+      .video-feature {
+        display: grid;
+        gap: 8px;
+        margin-top: 24px;
+        padding: 26px;
+        border-radius: 16px;
+        background: #172224;
+        color: #f6faef;
+        text-decoration: none;
+        border-left: 5px solid var(--lime);
+      }
+      .video-feature:hover {
+        background: #233b32;
+      }
+      .video-feature .eyebrow {
+        color: var(--lime);
+        margin: 0;
+      }
+      .video-feature strong {
+        font-size: 25px;
+        line-height: 1.25;
+      }
+      .video-feature small {
+        color: #d0ded4;
+        font-size: 14px;
+      }
+      .effort-summary {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: space-between;
+        align-items: baseline;
+        margin: 12px 0 22px;
+      }
+      #reduction-output {
+        color: var(--lime);
+        font-size: 30px;
+        font-weight: 800;
+        letter-spacing: -0.04em;
+      }
+      .bar-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 18px;
+        font-size: 12px;
+        margin-top: 14px;
+      }
+      .bar-legend span {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+      }
+      @media (min-width: 1800px) {
+        body {
+          font-size: 19px;
+        }
+      }
+      @media (max-width: 1180px) {
+        :root {
+          --rail: 198px;
+        }
+        .rail {
+          padding: 25px 14px;
+        }
+        main {
+          padding: 24px;
+        }
+        .toolbar {
+          padding: 10px 24px;
+        }
+        .architecture {
+          grid-template-columns: 1fr;
+        }
+        .three {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media (max-width: 860px) {
+        .section-picker {
+          display: flex;
+        }
+        .rail {
+          display: none;
+        }
+        .shell {
+          margin-left: 0;
+        }
+        .toolbar {
+          padding: 10px 18px;
+        }
+        .toolbar small {
+          display: none;
+        }
+        main {
+          padding: 20px 18px 44px;
+        }
+        .hero {
+          padding: 30px;
+        }
+        .hero .lede {
+          font-size: 18px;
+        }
+        .flow {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .overview {
+          grid-template-columns: 1fr;
+        }
+        .overview > div {
+          padding: 18px;
+        }
+      }
+      @media (max-width: 560px) {
+        .app-leverage {
+          grid-template-columns: 1fr 1fr;
+        }
+        body {
+          font-size: 16px;
+        }
+        .toolbar {
+          gap: 8px;
+        }
+        button,
+        .button {
+          font-size: 12px;
+          padding: 8px 10px;
+        }
+        .tools {
+          gap: 5px;
+        }
+        h1 {
+          font-size: clamp(32px, 10vw, 39px);
+        }
+        h2 {
+          font-size: 31px;
+        }
+        .hero {
+          padding: 26px;
+        }
+        .chapter {
+          padding: 25px 22px;
+        }
+        .two,
+        .source-list {
+          grid-template-columns: 1fr;
+        }
+        .model-inputs,
+        .model-output {
+          grid-template-columns: 1fr;
+        }
+        .flow > div {
+          padding: 14px;
+        }
+        .flow b {
+          font-size: 15px;
+        }
+        .intro {
+          font-size: 18px;
+        }
+        .economics {
+          padding: 22px;
+        }
+        .formula strong {
+          font-size: 36px;
+        }
+        .formula .operator {
+          font-size: 24px;
+        }
+        .script {
+          padding: 18px;
+        }
+        .analytics {
+          padding: 20px;
+        }
+        .composition {
+          grid-template-columns: 1fr;
+        }
+        .composition svg {
+          max-width: 230px;
+          margin: auto;
+        }
+        .view-label {
+          font-size: 12px;
+        }
+      }
+      @media print {
+        html {
+          scroll-padding-top: 0;
+        }
+        body {
+          font-size: 11pt;
+          background: white;
+        }
+        .rail,
+        .toolbar,
+        .skip,
+        .orientation,
+        .hero-bottom,
+        .model-inputs,
+        #reset-model {
+          display: none !important;
+        }
+        .shell {
+          margin: 0;
+        }
+        main {
+          max-width: none;
+          padding: 0;
+        }
+        .hero,
+        .closing,
+        .economics {
+          background: #f0f3ed;
+          color: #172224;
+        }
+        .hero h1 em,
+        .closing-quote,
+        .hero .eyebrow,
+        .closing .chapter-head .eyebrow {
+          color: #146447;
+        }
+        .hero .lede,
+        .hero small,
+        .closing .intro,
+        .economics > p,
+        .formula small {
+          color: #34463a;
+        }
+        .hero {
+          padding: 28px;
+        }
+        h1 {
+          font-size: 32pt;
+        }
+        h2 {
+          font-size: 24pt;
+        }
+        .chapter {
+          break-inside: avoid;
+          padding: 24px 0;
+          border: 0;
+          border-top: 1px solid #aaa;
+          border-radius: 0;
+          min-height: 0 !important;
+        }
+        .support {
+          display: block !important;
+        }
+        .focus-view main > .hero,
+        .focus-view main > .chapter,
+        .focus-view main > footer {
+          display: block;
+        }
+        .focus-view main > .overview {
+          display: grid;
+        }
+        #report-tooltip {
+          display: none !important;
+        }
+        .analytics {
+          print-color-adjust: exact;
+        }
+        .script {
+          font-size: 10pt;
+          background: white;
+          padding: 12px 0;
+        }
+        figure,
+        .card,
+        tr {
+          break-inside: avoid;
+        }
+        .table-wrap {
+          overflow: visible;
+        }
+        table {
+          min-width: 0;
+          font-size: 9pt;
+        }
+        th,
+        td {
+          padding: 8px;
+        }
+        .evidence {
+          font-size: 9pt;
+        }
+        a {
+          color: #146447;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to presentation</a>
+    <aside class="rail" aria-label="Presentation outline">
+      <div class="brand">GitHub<br />Copilot App</div>
+      <p class="rail-sub">
+        MOSAIC / A repeatable path<br />from platform capability to business value.
+      </p>
+      <nav aria-label="Timed chapters">
+        <a href="#chapter-1" aria-current="step"><span>00:00</span> The opportunity</a>
+        <a href="#chapter-2"><span>01:00</span> Why Copilot App</a>
+        <a href="#chapter-3"><span>02:00</span> See the proof</a>
+        <a href="#chapter-4"><span>04:00</span> The governed process</a>
+        <a href="#chapter-5"><span>05:30</span> The useful output</a>
+        <a href="#chapter-6"><span>07:00</span> Security &amp; authority</a>
+        <a href="#chapter-7"><span>09:00</span> The value equation</a>
+        <a href="#chapter-8"><span>11:00</span> Adopt &amp; extend</a>
+        <a href="#chapter-9"><span>12:30</span> The GTM case</a>
+        <a href="#chapter-10"><span>14:00</span> The App opportunity</a>
+      </nav>
+      <div class="rail-bottom">
+        <a href="#capability-map">Full capability map</a><br />
+        <a href="#judge-questions">Key questions</a><br />
+        <a href="#sources">Evidence register</a>
+        <p style="margin-top: 15px">
+          Evidence reviewed<br /><time datetime="2026-10-18">18 October 2026</time><br />Repository
+          baseline: 4d18656
+        </p>
+      </div>
+    </aside>
+    <div class="shell">
+      <header class="toolbar" aria-label="Report reading controls">
+        <span id="view-label" class="view-label" aria-live="polite"
+          >Complete report / 15-minute presentation</span
+        >
+        <div class="tools">
+          <button id="notes-toggle" type="button" aria-pressed="false">Show talk tracks</button>
+          <button id="focus-toggle" type="button" aria-pressed="false">Focus view</button>
+          <button id="print" type="button">Print</button>
+        </div>
+        <label class="section-picker" for="section-picker"
+          >Section<select id="section-picker" aria-label="Choose report section"></select
+        ></label>
+      </header>
+      <main id="main">
+        <section class="hero" aria-labelledby="hero-title">
+          <span class="eyebrow">GitHub Copilot App / Judges presentation / 15:00</span>
+          <h1 id="hero-title">GitHub Copilot App.<br /><em>Make expertise repeatable.</em></h1>
+          <p class="lede">
+            One agent-driven workbench for reusable expertise, connected context and human review.
+            MOSAIC shows a path from those App capabilities to recurring business value:
+            better-prepared solution proposals, less repeated effort and more capacity for experts
+            to focus on the customer.
+          </p>
+          <div class="hero-value">
+            <strong>80 expert hours: the modeled opportunity per eligible request.</strong><br />
+            $16,000 in gross capacity. A high-value reason to put Copilot App to work.<small
+              >Illustrative, not measured: 96 manual hours minus 16 retained review hours, at
+              $200/hour, before added effort and costs. Capacity value is not cash savings.</small
+            >
+          </div>
+          <div class="hero-tags">
+            <span>Business-first intake</span><span>App-native customization</span
+            ><span>Approved evidence</span><span>Human authority</span>
+          </div>
+          <div class="hero-bottom">
+            <a class="button" href="#chapter-1">Begin the 15-minute story</a>
+          </div>
+        </section>
+        <div class="overview" aria-label="The case in three statements">
+          <div>
+            <strong>The business problem</strong>
+            <p>
+              Scarce experts repeatedly rebuild discovery, research, options and handoff context.
+            </p>
+          </div>
+          <div>
+            <strong>The App connection</strong>
+            <p>
+              Skills, custom agents, connected tools and review surfaces become one reusable field
+              method.
+            </p>
+          </div>
+          <div>
+            <strong>The App adoption opportunity</strong>
+            <p>
+              Use MOSAIC to demonstrate a valuable recurring job for Copilot App, prove it in a
+              pilot and expand reusable practice across eligible teams.
+            </p>
+          </div>
+        </div>
+        <p class="orientation">
+          Explore the complete report, or choose Focus view to read one section at a time using the
+          navigation. Each chapter includes its presentation talk track. The capability map, key
+          questions and evidence register provide further detail.
+        </p>
+
+        <section class="chapter" id="chapter-1" data-seconds="60" aria-labelledby="title-1">
+          <div class="chapter-head">
+            <span class="eyebrow">01 / The opportunity</span
+            ><span class="time">00:00-01:00 / 1 min</span>
+          </div>
+          <h2 id="title-1">Make Copilot App the place great solutions begin.</h2>
+          <p class="intro">
+            A customer brings an outcome. The team inherits an incomplete request, scattered
+            knowledge and a chain of specialist handoffs.
+          </p>
+          <div class="grid two">
+            <div class="card">
+              <h3>Before: reconstruct the work</h3>
+              <p>
+                Repeated interviews. Repeated research. Inconsistent assumptions. Alternatives
+                buried in chat. Specialists rebuilding the same context.
+              </p>
+            </div>
+            <div class="card accent">
+              <h3>After: reuse the method</h3>
+              <p>
+                One guided conversation. Approved evidence. Comparable options. Traceable draft
+                plans. A shared review package with explicit decision rights.
+              </p>
+            </div>
+          </div>
+          <div class="callout">
+            <p>
+              <strong>The App opportunity reaches beyond code generation.</strong>
+              Give teams a repeatable way to clarify business intent, apply approved expertise and
+              prepare the next engineering decision. MOSAIC is the working pattern that connects
+              those capabilities.
+            </p>
+          </div>
+          <p class="evidence">
+            Basis: <a href="#r01">R01 / mission &amp; workflow</a> ·
+            <a href="#r14">R14 / field roles</a>. Benefits are evaluation targets, not measured
+            outcomes.
+          </p>
+          <details class="talk-track">
+            <summary>Speaker talk track / opening</summary>
+            <div class="script">
+              <p>
+                When a customer says, "We need a better way to do this," the first bottleneck is not
+                code. It is turning that need into a trustworthy, reviewable proposal. An account
+                team repeats discovery. An architect searches for standards. Security asks what
+                evidence was used. The next specialist reconstructs the story again.
+              </p>
+              <p>
+                That is an opportunity for GitHub Copilot App: become the workbench where great
+                solutions begin, not only where code gets written. MOSAIC gives the App a repeatable
+                job: guide discovery, connect approved expertise, compare alternatives and prepare
+                the handoff. The result we aim to prove is more expert capacity and better-prepared
+                customer conversations. Today the App is the platform; MOSAIC is the path to that
+                business value.
+              </p>
+            </div>
+          </details>
+        </section>
+
+        <section class="chapter" id="chapter-2" data-seconds="60" aria-labelledby="title-2">
+          <div class="chapter-head">
+            <span class="eyebrow">02 / Why GitHub Copilot App</span
+            ><span class="time">01:00-02:00 / 1 min</span>
+          </div>
+          <h2 id="title-2">Native GitHub context.<br />Reusable expertise. One workbench.</h2>
+          <div class="architecture" aria-label="MOSAIC implementation architecture">
+            <div>
+              <h3>Business intent</h3>
+              <p>
+                Requester describes an outcome. Relevant follow-up questions preserve scope,
+                constraints, corrections and unknowns.
+              </p>
+              <p class="connector">Interactive conversation</p>
+            </div>
+            <div class="app-core">
+              <h3>GitHub Copilot App</h3>
+              <p>
+                Repository instructions + intake skill + MOSAIC Orchestrator + approved MCP tools +
+                bounded generation plan.
+              </p>
+              <p class="connector">Human-approved local analysis and validation</p>
+            </div>
+            <div>
+              <h3>Reviewable record</h3>
+              <p>
+                A 23-artifact discussion dossier. Human review first; GitHub diffs, checks and PR
+                discussion can support a separately authorized review flow.
+              </p>
+              <p class="connector">Clear human decision rights</p>
+            </div>
+          </div>
+          <div class="callout">
+            <p>
+              <strong>App primitives map to real work:</strong> Interactive for discovery; Plan for
+              the disclosed boundary; skills for repeatability; MCP for approved context; custom
+              agents for bounded expertise; GitHub for proposed changes and review evidence.
+            </p>
+          </div>
+          <div
+            class="app-leverage"
+            aria-label="GitHub Copilot App capabilities and their value in this workflow"
+          >
+            <div>
+              <strong>Native GitHub context</strong
+              ><span>Work beside repositories, issues and review.</span>
+            </div>
+            <div>
+              <strong>Reusable skills</strong
+              ><span>Teach the process once. Apply the method again.</span>
+            </div>
+            <div>
+              <strong>Custom agents</strong
+              ><span>Give specialist responsibilities a clear focus.</span>
+            </div>
+            <div>
+              <strong>Connected tools</strong><span>Bring approved evidence into the work.</span>
+            </div>
+            <div>
+              <strong>Session modes</strong><span>Choose how closely people steer each step.</span>
+            </div>
+            <div>
+              <strong>Isolated workspaces</strong
+              ><span>Support independent parallel workstreams.</span>
+            </div>
+          </div>
+          <p class="evidence">
+            <a href="#r02">R02 / App product page</a> ·
+            <a href="#r03">R03 / official App overview</a> ·
+            <a href="#r04">R04 / customization</a> · <a href="#r06">R06 / MOSAIC architecture</a>.
+            Native GitHub review is a documented fit, not a recorded MOSAIC PR demo.
+          </p>
+          <details class="talk-track">
+            <summary>Speaker talk track / platform fit</summary>
+            <div class="script">
+              <p>
+                Why GitHub Copilot App? It brings the ingredients of this workflow together: native
+                GitHub context, reusable expertise, connected tools and a place to direct and
+                inspect the work. That combination is the platform advantage for GitHub-centered
+                teams.
+              </p>
+              <p>
+                The App supplies those building blocks. MOSAIC connects them into a field method.
+                Interactive conversation handles discovery. Plan establishes the evidence, tools,
+                outputs and stopping point before generation. Repository skills carry the procedure.
+                MCP exposes approved evidence. Custom agents define bounded specialist
+                responsibilities. GitHub provides the change-and-review path.
+              </p>
+              <p>
+                MOSAIC gives those capabilities a recognizable job and a repeatable outcome. The App
+                is the workbench, the skill carries the method and the supporting worker prepares a
+                validated handoff. That is a practical way to move from trying an agent to adopting
+                an App workflow.
+              </p>
+            </div>
+          </details>
+        </section>
+
+        <section class="chapter" id="chapter-3" data-seconds="120" aria-labelledby="title-3">
+          <div class="chapter-head">
+            <span class="eyebrow">03 / The working proof</span
+            ><span class="time">02:00-04:00 / 2 min</span>
+          </div>
+          <h2 id="title-3">
+            See the App turn a business conversation<br />into an engineering handoff.
+          </h2>
+          <p class="intro">
+            Fictional Contoso Public Services: 250 field employees need trustworthy travel-policy
+            guidance. MOSAIC prepares the proposal; it does not implement the employee assistant.
+          </p>
+          <div class="grid two">
+            <div class="card aqua">
+              <h3>A business-led App experience</h3>
+              <p>
+                The recorded workflow starts with the user's problem, asks relevant follow-up
+                questions and obtains approval of the generation boundary. The requester does not
+                write a specification or prepare JSON.
+              </p>
+              <p>
+                <span class="status observed">Observed App use</span> Authentic October 7 intake
+                recording.
+              </p>
+            </div>
+            <div class="card accent">
+              <h3>A reviewable decision package</h3>
+              <p>
+                The same recorded run hands off a navigable dossier with alternatives, evidence,
+                readiness plans and explicit unknowns. The design remains an unselected discussion
+                draft awaiting human review.
+              </p>
+              <p>
+                <span class="status observed">Observed browser handoff</span> No customer decision
+                is recorded.
+              </p>
+            </div>
+          </div>
+          <a
+            class="video-feature"
+            href="https://youtu.be/dUU2s_N283E"
+            target="_blank"
+            rel="noopener"
+            data-tooltip="Open the extended MOSAIC intake walkthrough on YouTube. Duration supplied by the project author: 10 minutes 12 seconds. The video does not load or play until you choose to open it."
+          >
+            <span class="eyebrow">Extended workflow walkthrough</span>
+            <strong>See MOSAIC in GitHub Copilot App.</strong>
+            <small>10:12 / Watch on YouTube / Optional deeper viewing</small>
+          </a>
+          <details class="evidence-links">
+            <summary>View the recorded workflow and supporting evidence</summary>
+            <div class="proof-strip">
+              <a
+                href="https://github.com/gregunger/ghca-mosaic-challenge-official/blob/4d1865687cdd0cdf6fe0777ac102085a2f1d5c9e/presentation/assets/contest-app-intake.png"
+                target="_blank"
+                rel="noopener"
+                >Recorded App intake</a
+              ><span aria-hidden="true">/</span>
+              <a
+                href="https://github.com/gregunger/ghca-mosaic-challenge-official/blob/4d1865687cdd0cdf6fe0777ac102085a2f1d5c9e/presentation/assets/contest-report-review.png"
+                target="_blank"
+                rel="noopener"
+                >Recorded dossier handoff</a
+              ><span aria-hidden="true">/</span>
+              <a
+                href="https://github.com/gregunger/ghca-mosaic-challenge-official/tree/4d1865687cdd0cdf6fe0777ac102085a2f1d5c9e/examples/synthetic/expected"
+                target="_blank"
+                rel="noopener"
+                >Inspect the reference package on GitHub</a
+              ><span aria-hidden="true">/</span
+              ><a
+                href="https://github.com/gregunger/ghca-mosaic-challenge-official/blob/4d1865687cdd0cdf6fe0777ac102085a2f1d5c9e/presentation/assets/copilot-app-detail.png"
+                target="_blank"
+                rel="noopener"
+                >See connected context in the App</a
+              ><span aria-hidden="true">/</span
+              ><a href="https://youtu.be/RP4CeCYt4VE" target="_blank" rel="noopener"
+                >Watch the 2:55 workflow video</a
+              >
+            </div>
+          </details>
+          <details class="implementation-detail">
+            <summary>How the recorded workflow and reference relate</summary>
+            <div class="callout">
+              <p>
+                <strong>Proof boundary:</strong> the October footage shows App intake through
+                browser handoff. The linked canonical dossier is the separate prewritten reference,
+                not the recorded conversational output. One approved, separately authenticated
+                Copilot CLI analysis call plus local assembly is not native multi-agent
+                collaboration. No hosted issue-to-PR-to-review sequence is claimed.
+              </p>
+            </div>
+          </details>
+          <p class="evidence">
+            <a href="#r16">R16 / authentic capture provenance</a> ·
+            <a href="#r17">R17 / archived MCP observation</a> ·
+            <a href="#r09">R09 / canonical reference</a> ·
+            <a href="#r06">R06 / implementation scope</a>.
+          </p>
+          <details class="talk-track">
+            <summary>Speaker talk track / guided proof</summary>
+            <div class="script">
+              <p>
+                Start with the person using the App. A fictional Employee Services lead wants better
+                travel-policy guidance for two hundred and fifty field employees. They describe the
+                problem in ordinary language. MOSAIC asks what success would look like: fewer wrong
+                answers, fewer repeat questions or fewer rejected claims?
+              </p>
+              <p>
+                This is where App capabilities become a business experience. The intake skill
+                carries the method. Approved evidence gives the analysis a foundation. The plan
+                makes scope, tools, costs and the review boundary visible before the user authorizes
+                generation. The requester stays focused on the outcome rather than template fields.
+              </p>
+              <p>
+                The recorded run then hands off a navigable assessment: alternatives, evidence,
+                readiness plans and meeting material. The next specialist receives a structured
+                proposal rather than a blank page. The customer retains the architecture and design
+                decisions. The App is the front door; the dossier carries the work forward.
+              </p>
+              <p>
+                You can inspect the authentic App interaction and browser handoff. A separate
+                reproducible reference exposes the underlying package and controls; an earlier
+                capture shows the evidence tools. Together, these give the field a concrete App
+                story to demonstrate and a practical starting point for evaluation.
+              </p>
+            </div>
+          </details>
+        </section>
+
+        <section class="chapter" id="chapter-4" data-seconds="90" aria-labelledby="title-4">
+          <div class="chapter-head">
+            <span class="eyebrow">04 / The governed process</span
+            ><span class="time">04:00-05:30 / 1.5 min</span>
+          </div>
+          <h2 id="title-4">Teach the App a method.<br />Reuse it across engagements.</h2>
+          <div class="flow" aria-label="Eight ordered MOSAIC stages">
+            <div>
+              <span class="num">01</span><b>Discover</b
+              ><small>Outcome, users, scope and eligibility.</small>
+            </div>
+            <div>
+              <span class="num">02</span><b>Acquire</b
+              ><small>Only authorized evidence, with provenance.</small>
+            </div>
+            <div>
+              <span class="num">03</span><b>Normalize</b
+              ><small>Requirements, constraints and labeled claims.</small>
+            </div>
+            <div>
+              <span class="num">04</span><b>Analyze</b
+              ><small>Gaps, risks, dependencies and questions.</small>
+            </div>
+            <div>
+              <span class="num">05</span><b>Option</b
+              ><small>Exactly three contrasting approaches.</small>
+            </div>
+            <div>
+              <span class="num">06</span><b>Design</b
+              ><small>Unselected discussion draft and readiness plans.</small>
+            </div>
+            <div>
+              <span class="num">07</span><b>Prepare</b
+              ><small>Evidence, reports and a decision workshop.</small>
+            </div>
+            <div class="stop">
+              <span class="num">08</span><b>Review / stop</b
+              ><small>Customer selection and dossier approval remain pending.</small>
+            </div>
+          </div>
+          <div class="grid two">
+            <div class="card lavender">
+              <h3>Reusable specialist responsibilities</h3>
+              <p>
+                MOSAIC Orchestrator coordinates. Intake Analyst, Evidence Curator, Solution
+                Architect and Engagement Planner provide separately requested, bounded expertise.
+              </p>
+              <p>
+                <span class="status configured">Configured roles</span> Keep intake conversational;
+                request bounded specialist work when it helps.
+              </p>
+            </div>
+            <div class="card aqua">
+              <h3>Real alternatives, not a predetermined sale</h3>
+              <p>
+                The canonical example compares managed low-code, custom governed application and
+                hybrid patterns against the same outcome, grounding, identity, extensibility,
+                governance, ownership and cost criteria.
+              </p>
+            </div>
+          </div>
+          <details class="implementation-detail">
+            <summary>How specialist responsibilities are used</summary>
+            <p class="cost-note">
+              The repository configures these roles for separately requested work. Default
+              generation uses a bounded analysis worker, not five native agents executing in
+              parallel. Specialist handoffs are not required between interview turns.
+            </p>
+          </details>
+          <p class="evidence">
+            <a href="#r01">R01 / stage contract</a> ·
+            <a href="#r10">R10 / three-option comparison</a> ·
+            <a href="#r23">R23 / implementation &amp; customizations</a>.
+          </p>
+          <details class="talk-track">
+            <summary>Speaker talk track / reusable expertise</summary>
+            <div class="script">
+              <p>
+                Skills and repository instructions make expertise reusable in Copilot App. MOSAIC
+                packages that expertise as a consistent process. The workflow always moves through
+                these eight stages. It starts by understanding the business outcome, then acquires
+                approved evidence, structures the requirements and surfaces what is missing.
+              </p>
+              <p>
+                The options stage requires exactly three contrasting approaches assessed against
+                common criteria. In our reference, those are a managed low-code agent, a custom
+                governed application and a hybrid. The method supports a customer-fit decision,
+                rather than forcing every engagement toward the same implementation.
+              </p>
+              <p>
+                Design prepares a discussion draft and delivery-readiness plans. Prepare builds the
+                review conversation. Review stops with authority still held by people.
+              </p>
+              <p>
+                The repository also defines specialist responsibilities that can be requested for
+                bounded work in the App. Default generation uses the separate analysis worker. The
+                value is reusable expertise: the same preparation discipline across engagements,
+                with the right specialist contribution when needed.
+              </p>
+            </div>
+          </details>
+        </section>
+
+        <section class="chapter" id="chapter-5" data-seconds="90" aria-labelledby="title-5">
+          <div class="chapter-head">
+            <span class="eyebrow">05 / The useful output</span
+            ><span class="time">05:30-07:00 / 1.5 min</span>
+          </div>
+          <h2 id="title-5">The next person does not have to start over.</h2>
+          <div class="analytics composition">
+            <svg
+              id="dossier-chart"
+              viewBox="0 0 220 220"
+              role="img"
+              aria-label="One dossier contains 23 files: 10 HTML pages, 9 Markdown reports and 4 JSON records."
+              data-tooltip="These are actual output-format counts: 10 browser pages, 9 Markdown reports and 4 structured records. Multiple formats make one dossier inspectable; file count is not a measure of solution quality."
+              tabindex="0"
+            >
+              <circle cx="110" cy="110" r="74" fill="none" stroke="#38534c" stroke-width="24" />
+              <g transform="rotate(-90 110 110)" fill="none" stroke-width="24">
+                <circle
+                  data-format="HTML"
+                  data-count="10"
+                  cx="110"
+                  cy="110"
+                  r="74"
+                  pathLength="100"
+                  stroke="#c9f774"
+                  stroke-dasharray="43.478261 56.521739"
+                />
+                <circle
+                  data-format="Markdown"
+                  data-count="9"
+                  cx="110"
+                  cy="110"
+                  r="74"
+                  pathLength="100"
+                  stroke="#9ee6df"
+                  stroke-dasharray="39.130435 60.869565"
+                  stroke-dashoffset="-43.478261"
+                />
+                <circle
+                  data-format="JSON"
+                  data-count="4"
+                  cx="110"
+                  cy="110"
+                  r="74"
+                  pathLength="100"
+                  stroke="#d4c0ff"
+                  stroke-dasharray="17.391304 82.608696"
+                  stroke-dashoffset="-82.608696"
+                />
+              </g>
+              <text x="110" y="118" text-anchor="middle" style="font-size: 54px; font-weight: 800">
+                23
+              </text>
+              <text x="110" y="144" text-anchor="middle" style="font-size: 13px">
+                files / one dossier
+              </text>
+            </svg>
+            <div>
+              <span class="eyebrow">Actual reference output / format composition</span>
+              <h3>One body of work.<br />Three ways to inspect it.</h3>
+              <ul class="chart-legend">
+                <li>
+                  <span class="swatch" style="background: #c9f774"></span>Offline HTML pages
+                  <b>10</b>
+                </li>
+                <li>
+                  <span class="swatch" style="background: #9ee6df"></span>Markdown reports <b>9</b>
+                </li>
+                <li>
+                  <span class="swatch" style="background: #d4c0ff"></span>Structured JSON records
+                  <b>4</b>
+                </li>
+              </ul>
+              <p class="chart-caption">
+                Readable by people. Inspectable by tools. These are complementary representations,
+                not 23 independent work products.
+              </p>
+            </div>
+          </div>
+          <div class="grid three">
+            <div class="card accent">
+              <span class="big-number">23</span>
+              <h3>Governed artifacts</h3>
+              <p>
+                10 offline HTML pages + 9 Markdown reports + 4 JSON records. Human-readable and
+                machine-inspectable representations of one package, not 23 independent deliverables.
+              </p>
+            </div>
+            <div class="card">
+              <span class="big-number">10</span>
+              <h3>Dossier coverage areas</h3>
+              <p>
+                Business outcomes; requirements; feasibility; alternatives; threats/data flow;
+                implementation/verification; interfaces; security; deployment/rollback;
+                operations/adoption/measurement.
+              </p>
+            </div>
+            <div class="card">
+              <span class="big-number">7</span>
+              <h3>Traceable draft plans</h3>
+              <p>
+                Evidence, requirement and blocking-question references make readiness gaps visible.
+                Plans remain proposals, not executed implementation or verified product fit.
+              </p>
+            </div>
+          </div>
+          <div class="grid two">
+            <div class="card aqua">
+              <h3>For the customer-facing team</h3>
+              <p>
+                Discovery context, exact available transcript, three-option comparison, discussion
+                brief, meeting agenda and a 30-minute facilitator talk track. Turn a handoff into a
+                decision workshop.
+              </p>
+            </div>
+            <div class="card lavender">
+              <h3>For engineering and reviewers</h3>
+              <p>
+                Evidence manifest, architecture brief, validation report, audit ledger and blocked
+                human-review record. Shared templates, navigation, themes and accessible
+                explanations support inspection.
+              </p>
+            </div>
+          </div>
+          <div class="callout">
+            <p>
+              <strong>Observable operations, separate from the dossier:</strong> local jobs also
+              produce a Processing Cost &amp; Performance Report and hash-linked pipeline trace.
+              Available timings and worker usage are visible; App usage, actual billed dollars and
+              human effort are not invented.
+            </p>
+          </div>
+          <p class="evidence">
+            <a href="#r09">R09 / package</a> · <a href="#r11">R11 / coverage &amp; draft plans</a> ·
+            <a href="#r24">R24 / operator observability</a>.
+          </p>
+          <details class="talk-track">
+            <summary>Speaker talk track / durable handoff</summary>
+            <div class="script">
+              <p>
+                The output is not valuable because it is long. It is valuable because the next
+                person can see what was asked, what evidence was used, what alternatives were
+                considered and what still needs a decision.
+              </p>
+              <p>
+                The package has twenty-three files: ten browser pages, nine Markdown reports and
+                four structured records. Those are different representations of one governed
+                dossier. Ten coverage areas include the business case, requirements, alternatives,
+                threats, interfaces and readiness for delivery. Seven draft plans carry evidence,
+                requirements and blocking-question references.
+              </p>
+              <p>
+                Account teams can qualify the opportunity. Solution sales can discuss tradeoffs.
+                Architects and developers can inspect the boundaries. Customer success can
+                facilitate the workshop. Nobody has to mistake the proposal for an approved
+                implementation.
+              </p>
+              <p>
+                Operators get a separate performance and cost view with pipeline events, available
+                worker counters and explicit telemetry gaps. That makes the process more inspectable
+                without pretending we know complete App billing or the human cost of the engagement.
+              </p>
+            </div>
+          </details>
+        </section>
+
+        <section class="chapter" id="chapter-6" data-seconds="120" aria-labelledby="title-6">
+          <div class="chapter-head">
+            <span class="eyebrow">06 / Security, governance &amp; Responsible AI</span
+            ><span class="time">07:00-09:00 / 2 min</span>
+          </div>
+          <h2 id="title-6">Useful autonomy.<br />Confident human control.</h2>
+          <div class="grid two">
+            <div class="gate">
+              <span>1</span>
+              <div>
+                <h3>Use only authorized evidence</h3>
+                <p>
+                  Only approved sources enter the workflow. Read-only MCP tools limit retrieval;
+                  source identity, classification, revision and integrity checks make the evidence
+                  traceable. Unapproved sources stop processing.
+                </p>
+              </div>
+            </div>
+            <div class="gate">
+              <span>2</span>
+              <div>
+                <h3>Expose uncertainty</h3>
+                <p>
+                  Fact, assumption, unknown, risk, recommendation and decision labels. Facts,
+                  recommendations and decisions require valid evidence IDs. Humans assess whether
+                  evidence actually supports the claim.
+                </p>
+              </div>
+            </div>
+            <div class="gate">
+              <span>3</span>
+              <div>
+                <h3>Bound inference and cost</h3>
+                <p>
+                  Approved brief and evidence; separate authenticated CLI profile; configured model,
+                  cap and deadline; no model tools, automatic paid retry or silent provider switch.
+                  Raw transcript stays outside the analysis prompt.
+                </p>
+              </div>
+            </div>
+            <div class="gate">
+              <span>4</span>
+              <div>
+                <h3>Publish only a complete revision</h3>
+                <p>
+                  Sealed inputs, source/engine integrity checks, private staging, schema and
+                  authority checks, atomic publication and artifact hashes. Eligible local rebuild
+                  reuses verified analysis without another model call.
+                </p>
+              </div>
+            </div>
+            <div class="gate">
+              <span>5</span>
+              <div>
+                <h3>Protect the viewing surface</h3>
+                <p>
+                  Escaped untrusted report text, blocked active Markdown content, offline report
+                  assets and heuristic content scans. Conversations and operational inputs stay in
+                  ignored local storage.
+                </p>
+              </div>
+            </div>
+            <div class="gate">
+              <span>6</span>
+              <div>
+                <h3>Keep judgment human</h3>
+                <p>
+                  No source authorization, policy exception, risk acceptance, customer fact,
+                  commitment, architecture decision or release can be delegated to the generator.
+                  Qualified review is mandatory.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="authority">
+            <strong>Two customer decisions remain unrecorded</strong
+            ><span>1. Authorized architecture selection</span><span aria-hidden="true">&rarr;</span
+            ><span>2. Approval of the exact selected dossier revision</span>
+          </div>
+          <div class="callout">
+            <p>
+              <strong>Make governance part of the App workflow.</strong> Documented session modes,
+              optional sandboxes and supported enterprise policies help people direct the work.
+              MOSAIC adds explicit evidence and output checks, so teams can inspect the proposal and
+              make informed decisions with clear accountability.
+            </p>
+          </div>
+          <details class="implementation-detail">
+            <summary>Control ownership and production prerequisites</summary>
+            <p class="cost-note">
+              The App and MOSAIC provide different control layers. A worktree is not tenant
+              isolation. Prompts are not access controls. Local hashes are not signatures. A PR is
+              not customer approval. Production identity, encryption, retention, connectors and
+              durable execution require separate implementation and qualified review.
+            </p>
+          </details>
+          <p class="evidence">
+            <a href="#r07">R07 / control gates</a> · <a href="#r08">R08 / security boundary</a> ·
+            <a href="#r12">R12 / blocked review record</a> ·
+            <a href="#r05">R05 / App sessions &amp; sandboxing</a>. SOC 2, applicable NIST
+            publications and ITIL 4 are customer-specific alignment targets, not certifications.
+          </p>
+          <details class="talk-track">
+            <summary>Speaker talk track / control that supports adoption</summary>
+            <div class="script">
+              <p>
+                Copilot App becomes more useful when teams can direct the work and inspect the
+                result. MOSAIC shows that value in practice: a prepared, validated proposal with a
+                clear human-review handoff.
+              </p>
+              <p>
+                First, evidence access is explicit. Policies define which sources the workflow may
+                use; the agent does not decide its own access. Source identity, classification,
+                revision and integrity checks travel with the package. Read-only MCP tools keep
+                evidence retrieval separate from permission to change the source. Unapproved sources
+                stop the workflow.
+              </p>
+              <p>
+                Second, claims expose their status. Facts, recommendations and decisions need valid
+                evidence references. Assumptions and unknowns stay visible. A valid citation
+                identifier is not proof that the source supports the sentence. Qualified reviewers
+                still check meaning.
+              </p>
+              <p>
+                Third, generation has a disclosed boundary. The separate analysis call uses the
+                configured model, cap and deadline, has no tools and is not automatically retried.
+                The raw transcript is excluded from that prompt. Complete outputs are validated
+                before publication; an eligible recovery reuses integrity-checked analysis rather
+                than silently buying another inference.
+              </p>
+              <p>
+                Finally, the customer retains two distinct decisions: architecture selection, then
+                approval of the exact selected dossier revision. This reference records neither. A
+                pull request supports review; it does not substitute for customer authority.
+              </p>
+              <p>
+                The control layers have distinct jobs: App session controls help people direct work;
+                MOSAIC checks its evidence and outputs; qualified people own customer decisions.
+                That gives the field a concrete governance conversation alongside the business-value
+                conversation.
+              </p>
+            </div>
+          </details>
+        </section>
+
+        <section class="chapter" id="chapter-7" data-seconds="120" aria-labelledby="title-7">
+          <div class="chapter-head">
+            <span class="eyebrow">07 / The economic opportunity</span
+            ><span class="time">09:00-11:00 / 2 min</span>
+          </div>
+          <h2 id="title-7">Put the App to work<br />on a valuable capacity opportunity.</h2>
+          <div class="economics">
+            <span class="label">Illustrative planning case / not measured savings</span>
+            <div class="formula">
+              <div><strong>96 h</strong><small>Manual intake + design preparation</small></div>
+              <span class="operator" aria-label="minus">&minus;</span>
+              <div><strong>16 h</strong><small>Retained human validation</small></div>
+              <span class="operator" aria-label="equals">=</span>
+              <div><strong>80 h</strong><small>Returned capacity / about 83%</small></div>
+            </div>
+            <p>
+              At an assumed $200/hour:
+              <strong>$16,000 gross capacity per eligible request.</strong> At an illustrative 100
+              requests/year: <strong>8,000 hours / $1.6M gross capacity</strong>, before added
+              costs. This models preparation and review, not the entire delivery lifecycle.
+            </p>
+          </div>
+          <div class="model-inputs" id="value-model">
+            <label for="baseline"
+              >Manual hours / request<input
+                id="baseline"
+                type="number"
+                min="0"
+                max="1000000"
+                step="any"
+                value="96"
+                required
+            /></label>
+            <label for="review"
+              >Retained review hours<input
+                id="review"
+                type="number"
+                min="0"
+                max="1000000"
+                step="any"
+                value="16"
+                required
+            /></label>
+            <label for="other"
+              >Other retained hours<input
+                id="other"
+                type="number"
+                min="0"
+                max="1000000"
+                step="any"
+                value="0"
+                required
+            /></label>
+            <label for="rate"
+              >Loaded value / hour (USD)<input
+                id="rate"
+                type="number"
+                min="0"
+                max="1000000"
+                step="any"
+                value="200"
+                required
+            /></label>
+            <label for="volume"
+              >Eligible requests / year<input
+                id="volume"
+                type="number"
+                min="0"
+                max="1000000"
+                step="1"
+                value="100"
+                required
+            /></label>
+            <label for="cost"
+              >Additional annual cost (USD)<input
+                id="cost"
+                type="number"
+                min="0"
+                max="1000000000000"
+                step="any"
+                value="0"
+                required
+            /></label>
+          </div>
+          <p id="model-error" role="alert"></p>
+          <div class="model-output" id="model-results" aria-live="polite" aria-atomic="true">
+            <div>
+              <strong id="hours-output">80 h</strong><small>Returned hours per request</small>
+            </div>
+            <div>
+              <strong id="gross-output">$1,600,000</strong
+              ><small>Annual gross capacity value</small>
+            </div>
+            <div>
+              <strong id="net-output">$1,600,000</strong
+              ><small>Modeled value after entered added cost</small>
+            </div>
+          </div>
+          <div class="analytics" id="effort-analytics">
+            <span class="eyebrow">Interactive scenario / not an observed result</span>
+            <div class="effort-summary">
+              <h3>Where the expert hours go.</h3>
+              <span id="reduction-output">83.3% modeled effort reduction</span>
+            </div>
+            <svg
+              id="effort-chart"
+              viewBox="0 0 680 190"
+              role="img"
+              aria-label="Illustrative effort comparison: 96 manual hours, 16 retained review hours, no other retained effort and 80 returned hours."
+            >
+              <text
+                id="baseline-chart-label"
+                x="0"
+                y="20"
+                style="font-size: 17px; font-weight: 650"
+              >
+                Manual preparation / 96 hours
+              </text>
+              <rect id="baseline-bar" x="0" y="35" width="680" height="30" rx="5" fill="#84a69d" />
+              <text
+                id="retained-chart-label"
+                x="0"
+                y="101"
+                style="font-size: 17px; font-weight: 650"
+              >
+                Modeled preparation / 16 retained hours
+              </text>
+              <rect id="review-bar" x="0" y="116" width="113.333333" height="30" fill="#f2ce7c" />
+              <rect id="other-bar" x="113.333333" y="116" width="0" height="30" fill="#d4c0ff" />
+              <rect
+                id="returned-bar"
+                x="113.333333"
+                y="116"
+                width="566.666667"
+                height="30"
+                fill="#c9f774"
+              />
+              <rect id="overrun-bar" x="680" y="116" width="0" height="30" fill="#ff9c8c" />
+              <text id="capacity-chart-label" x="0" y="180" style="font-size: 15px">
+                80 hours available for productive redeployment per eligible request
+              </text>
+            </svg>
+            <div class="bar-legend">
+              <span><i class="swatch" style="background: #f2ce7c"></i>Retained review</span
+              ><span><i class="swatch" style="background: #d4c0ff"></i>Other retained effort</span
+              ><span><i class="swatch" style="background: #c9f774"></i>Returned capacity</span
+              ><span><i class="swatch" style="background: #ff9c8c"></i>Effort above baseline</span>
+            </div>
+            <p class="chart-caption">
+              Both bars use the same hours scale. Change the assumptions above to see retained
+              effort, returned capacity or an overrun. Costs reduce modeled value separately; no
+              financial saving is implied.
+            </p>
+          </div>
+          <p class="cost-note">
+            The added-cost field starts at
+            <strong>$0 to reproduce the gross case, not because operation is free.</strong> Include
+            App/worker usage, licensing, integration, hosting, governance, support and other costs
+            not already counted in retained labor. Do not deduct the same human time twice. Negative
+            outcomes remain negative.
+          </p>
+          <p class="sensitivity">
+            Review sensitivity, holding the other base inputs fixed:
+            <strong>24 h review &rarr; 72 h / $14,400</strong> gross per request;
+            <strong>16 h &rarr; 80 h / $16,000</strong>; <strong>8 h &rarr; 88 h / $17,600</strong>.
+          </p>
+          <button id="reset-model" type="button" style="margin-top: 16px">
+            Reset planning assumptions
+          </button>
+          <div class="callout caution">
+            <p>
+              <strong>Not cash savings, a staffing reduction or a forecast.</strong> Capacity
+              creates financial value only when productively redeployed or expenditure is avoided.
+              Measure matched-case effort, corrections, quality, total cost and elapsed time before
+              making an outcome claim. Machine runtime is not human labor saved.
+            </p>
+          </div>
+          <p class="evidence">
+            <a href="#r13">R13 / planning economics, provenance &amp; sensitivity</a>. These
+            existing repository planning assumptions are not observed MOSAIC or Copilot results.
+          </p>
+          <details class="talk-track">
+            <summary>Speaker talk track / quantify without pretending</summary>
+            <div class="script">
+              <p>
+                The business case for adopting the App is expert capacity. The repository's planning
+                model uses ninety-six hours of manual intake and design preparation. Retain sixteen
+                hours for human validation and the difference is eighty specialist hours, roughly
+                eighty-three percent.
+              </p>
+              <p>
+                At an illustrative loaded value of two hundred dollars an hour, that is sixteen
+                thousand dollars of gross capacity per eligible request. At one hundred eligible
+                requests a year, the illustration becomes eight thousand hours and one point six
+                million dollars before additional costs.
+              </p>
+              <p>
+                Those are not measured savings. They are not a promise to remove staff. They are a
+                hypothesis about returning expert capacity to higher-value work.
+              </p>
+              <p>
+                This model lets us challenge the assumptions. Increase review to twenty-four hours
+                and the gross capacity becomes seventy-two hours per request. Add correction and
+                coordination time. Add the full cost of platforms, integration, governance and
+                operation. If retained effort exceeds the baseline, the result turns negative; we do
+                not hide it.
+              </p>
+              <p>
+                The pilot measures the whole work system: requirements coverage, corrections, expert
+                review, total cost and productive reuse of returned time. That gives the field an
+                App value case a business leader can inspect and test. The opportunity is more
+                expert capacity for better customer conversations and more eligible engagements.
+              </p>
+            </div>
+          </details>
+        </section>
+
+        <section class="chapter" id="chapter-8" data-seconds="90" aria-labelledby="title-8">
+          <div class="chapter-head">
+            <span class="eyebrow">08 / Implementation, extensibility &amp; compatibility</span
+            ><span class="time">11:00-12:30 / 1.5 min</span>
+          </div>
+          <h2 id="title-8">Start with familiar tools.<br />Expand with reusable expertise.</h2>
+          <div class="grid three">
+            <div class="card aqua">
+              <h3>Start in Copilot App</h3>
+              <p>
+                After documented setup, open the repository, use the intake skill, describe the
+                business outcome and review the generation plan. Reusable instructions, an agent
+                profile and read-only evidence tools support the experience.
+              </p>
+            </div>
+            <div class="card accent">
+              <h3>Reusable by design</h3>
+              <p>
+                Stage contracts, schemas, claim labels, agents, skills, templates and validators are
+                shared. Reviewer-role configuration and required-document compatibility are
+                exercised locally.
+              </p>
+            </div>
+            <div class="card lavender">
+              <h3>Extensible with authority</h3>
+              <p>
+                Customer doctrine, read-only connectors, terminology, branding and workflow adapters
+                belong behind approved boundaries. Arbitrary runtime-selected templates, live
+                enterprise adapters and a durable private runner remain extension work.
+              </p>
+            </div>
+          </div>
+          <div class="grid two">
+            <div class="card">
+              <h3>Familiar tools, portable outputs</h3>
+              <p>
+                GitHub Copilot App is documented for Windows, macOS and Linux. MOSAIC includes
+                PowerShell/POSIX demo entry points and browser/Markdown/JSON output. Its
+                provider-neutral contracts do not mean every platform adapter is implemented or
+                certified.
+              </p>
+            </div>
+            <div class="card">
+              <h3>Internal Microsoft or customer adoption</h3>
+              <p>
+                Account teams, customer success, solution sales, developers and architects can reuse
+                the method. Cross-industry opportunity is the repeatable preparation problem;
+                industry-specific fit, regulations, systems and economics must be qualified.
+              </p>
+            </div>
+          </div>
+          <div class="callout">
+            <p>
+              <strong>App adoption ladder:</strong> reference walkthrough &rarr; measured pilot
+              &rarr; second isolated customer pattern &rarr; approved read-only rollout &rarr;
+              evidence-based scale decision. One customer per installed runtime; production
+              isolation is not established by a configuration selector.
+            </p>
+          </div>
+          <details class="implementation-detail">
+            <summary>Evaluation setup and extension scope</summary>
+            <p class="cost-note">
+              The offline reference needs Python 3.12+, Git and an editable checkout; Node 22+
+              supports browser checks. After setup, one CLI command generates it without a customer
+              tenant, credentials or model call. The App workflow adds the configured skill, agent
+              and read-only MCP tools, plus a separately authenticated and approved analysis
+              connection. Live customer connectors, arbitrary runtime-selected templates and durable
+              private execution remain extension work, subject to licensing and qualified review.
+            </p>
+          </details>
+          <p class="evidence">
+            <a href="#r14">R14 / adoption &amp; customization</a> ·
+            <a href="#r06">R06 / adapter and runner boundaries</a> ·
+            <a href="#r03">R03 / App operating systems</a> ·
+            <a href="#r20">R20 / evaluation-use license</a>. External customer redistribution
+            requires approved rights and licensing; this is not an unrestricted open-source grant.
+          </p>
+          <details class="talk-track">
+            <summary>Speaker talk track / easy proof, governed adoption</summary>
+            <div class="script">
+              <p>
+                The App starts with a familiar foundation: the GitHub repository and a reusable
+                skill. This field kit adds a method, a custom agent and approved connected tools.
+                Teams can inspect the offline reference first, then explore the App experience with
+                a bounded, authorized analysis run. That creates a practical starting point for
+                evaluation without requiring a production deployment.
+              </p>
+              <p>
+                The reusable core is the process contract: stages, schemas, evidence semantics,
+                templates and validation. The reference already exercises reviewer roles and
+                document compatibility. It does not prove that every customer can be onboarded by
+                editing a configuration file.
+              </p>
+              <p>
+                The opportunity reaches beyond this travel-policy example: Microsoft field
+                engagements, customer employee services and industry-specific solution proposals all
+                need structured preparation. Those are candidate reuse scenarios. The shared method
+                stays consistent while customer evidence, policies and approvals remain specific to
+                each installation.
+              </p>
+              <p>
+                Our adoption path therefore starts with a bounded benchmark, then a second isolated
+                pattern, then approved read-only access. Production connectors, durable execution
+                and industry-specific controls come with separate engineering and authority.
+                Evaluation licensing must also be resolved before external reuse.
+              </p>
+            </div>
+          </details>
+        </section>
+
+        <section class="chapter" id="chapter-9" data-seconds="90" aria-labelledby="title-9">
+          <div class="chapter-head">
+            <span class="eyebrow">09 / The developer go-to-market case</span
+            ><span class="time">12:30-14:00 / 1.5 min</span>
+          </div>
+          <h2 id="title-9">Turn App capability<br />into a repeatable adoption motion.</h2>
+          <div class="grid two">
+            <div class="card accent">
+              <h3>Land &rarr; prove &rarr; expand</h3>
+              <ol>
+                <li>Land with a recognizable business problem and an authentic App walkthrough.</li>
+                <li>Prove preparation quality and cost in a bounded, governed pilot.</li>
+                <li>
+                  Expand reusable field practice across approved teams and isolated installations.
+                </li>
+              </ol>
+              <p style="margin-top: 15px">
+                Proposed GTM outcome: adoption anchored in recurring useful work, not a one-off
+                demo.
+              </p>
+            </div>
+            <div class="card">
+              <h3>Our choice for GitHub-centered teams</h3>
+              <p>
+                Native repositories, issues, branches and review. Skills that carry the method.
+                Custom agents that focus expertise. MCP that brings approved context into the work.
+                Session modes that let people steer the process. The strength is the combination in
+                a first-party GitHub workbench.
+              </p>
+              <p>
+                <strong
+                  >MOSAIC turns that combination into a repeatable field demonstration.</strong
+                >
+              </p>
+            </div>
+          </div>
+          <div class="callout">
+            <p>
+              <strong>Give the field an outcome-led App story:</strong> a shared method carries
+              discovery questions, evidence rules, option criteria and review expectations into the
+              next eligible engagement. The intended result is less repeated preparation and a more
+              consistent customer conversation, with adoption and value measured before expansion.
+            </p>
+          </div>
+          <p class="evidence">
+            <a href="#r02">R02 / first-party App workflow</a> ·
+            <a href="#r14">R14 / field reuse and adoption</a> ·
+            <a href="#r22">R22 / official Claude documentation</a>.
+          </p>
+          <details class="implementation-detail">
+            <summary>Competitive positioning and evidence</summary>
+            <p class="cost-note">
+              The case for Copilot App is first-party GitHub workflow fit and the combination of
+              native context, reusable skills, custom agents and connected tools. Claude Code also
+              supports tools, MCP, worktrees and GitHub workflows. No head-to-head performance, cost
+              or exclusive-capability advantage is claimed.
+            </p>
+          </details>
+          <details class="talk-track">
+            <summary>Speaker talk track / why this matters to this panel</summary>
+            <div class="script">
+              <p>
+                For this team, the opportunity is a repeatable way to demonstrate and adopt Copilot
+                App. Start with a business problem the customer recognizes. Show the App carrying
+                reusable expertise and approved context. Then move into a bounded pilot where
+                effort, quality and cost are measured.
+              </p>
+              <p>
+                That is a field motion, not just a software artifact. The same method gives account
+                teams, architects and customer success a shared preparation and review package.
+              </p>
+              <p>
+                What makes Copilot App a strong fit is the combination: native GitHub context,
+                reusable skills, specialized agents, connected tools and a place to inspect and
+                direct the work. MOSAIC makes those features tangible around one valuable job.
+                Rather than asking the field to sell a list of capabilities, it gives the field an
+                outcome-led story customers can recognize and evaluate.
+              </p>
+              <p>
+                The repeatable asset is the method: discovery questions, evidence rules, option
+                criteria and review expectations that can be maintained and improved together. Each
+                eligible engagement starts with that shared discipline rather than a blank page.
+                That gives the field a practical adoption story: demonstrate a recognizable problem,
+                measure the whole preparation process and expand only where the evidence supports
+                it.
+              </p>
+            </div>
+          </details>
+        </section>
+
+        <section
+          class="chapter closing"
+          id="chapter-10"
+          data-seconds="60"
+          aria-labelledby="title-10"
+        >
+          <div class="chapter-head">
+            <span class="eyebrow">10 / A path to greater Copilot App value</span
+            ><span class="time">14:00-15:00 / 1 min</span>
+          </div>
+          <h2 id="title-10">A great App deserves<br />a repeatable business win.</h2>
+          <div class="grid three">
+            <div class="card accent">
+              <h3>Relevant</h3>
+              <p>
+                A real enterprise preparation problem, a named user journey and a transparent
+                capacity hypothesis.
+              </p>
+            </div>
+            <div class="card aqua">
+              <h3>Repeatable</h3>
+              <p>
+                App customizations, governed contracts, inspectable artifacts, local checks and an
+                adoption path.
+              </p>
+            </div>
+            <div class="card lavender">
+              <h3>Accountable</h3>
+              <p>
+                Approved evidence, visible uncertainty, explicit boundaries and customer decisions
+                that AI cannot claim.
+              </p>
+            </div>
+          </div>
+          <p class="closing-quote">
+            GitHub Copilot App supplies the platform.<br />MOSAIC shows a path to repeatable
+            business value.
+          </p>
+          <p class="intro">
+            <strong>The next ask:</strong> sponsor a bounded field pilot to test effort, quality,
+            correction load and total cost, then prove a second isolated customer pattern before
+            scaling.
+          </p>
+          <p class="evidence">
+            <a href="#r13">R13 / proposed measurement</a> · <a href="#r14">R14 / adoption plan</a>.
+            The proposed pilot tests value and portability; it does not authorize production
+            deployment.
+          </p>
+          <details class="talk-track">
+            <summary>Speaker talk track / closing argument</summary>
+            <div class="script">
+              <p>
+                This entry should win because it makes the value of GitHub Copilot App tangible: a
+                recognizable business problem, genuine App use and a reusable path from platform
+                capabilities to useful work.
+              </p>
+              <p>
+                It shows how skills, agents, connected context and review can become practical field
+                expertise rather than a one-off impressive conversation. The output can be
+                inspected. The controls can be reproduced. The economic assumptions can be
+                challenged. And the customer still owns the decisions.
+              </p>
+              <p>
+                My ask is to turn this into a repeatable Copilot App field motion. Use a bounded
+                pilot to measure effort, quality, corrections and total cost, then prove another
+                isolated pattern before scaling. The App is the hero. MOSAIC is a path to making its
+                business value repeatable.
+              </p>
+            </div>
+          </details>
+        </section>
+
+        <section class="support" id="capability-map" aria-labelledby="map-title">
+          <span class="eyebrow">Capability reference / complete feature-to-App mapping</span>
+          <h2 id="map-title">How the App's capabilities become useful work through MOSAIC.</h2>
+          <p>
+            Status describes the specific evidence, not a blanket product-readiness verdict. "Local
+            proof" is not App footage. "Configured" is not demonstrated execution. "Proposed" is not
+            authority to implement.
+          </p>
+          <div
+            class="table-wrap"
+            tabindex="0"
+            role="region"
+            aria-label="Scrollable feature-to-App mapping"
+          >
+            <table>
+              <caption style="text-align: left; padding: 15px 17px; font-weight: 700">
+                MOSAIC capability and its GitHub Copilot App connection
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">MOSAIC functionality / benefit target</th>
+                  <th scope="col">Copilot App connection</th>
+                  <th scope="col">Evidence / boundary</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Business-first, adaptive intake</td>
+                  <td>
+                    Interactive sessions; natural-language work directed through MOSAIC
+                    Orchestrator.
+                  </td>
+                  <td>
+                    <span class="status observed">Observed App use</span><br />Authentic October
+                    intake capture; no native question-widget claim. <a href="#r16">R16</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Generation plan and consent boundary</td>
+                  <td>
+                    Plan mode for sources, tools, analysis connection, outputs and stopping point.
+                  </td>
+                  <td>
+                    <span class="status configured">Configured</span><br />Generation consent is not
+                    customer architecture or design approval. Autopilot never overrides MOSAIC's
+                    human gates. <a href="#r01">R01</a> <a href="#r05">R05</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Eight ordered stages</td>
+                  <td>
+                    Skill packages reusable procedure; repository instructions set always-on
+                    expectations.
+                  </td>
+                  <td>
+                    <span class="status">Local proof</span><br />Engine and regressions enforce
+                    structure. Instructions alone are not enforcement. <a href="#r23">R23</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Intake, evidence, architecture and engagement expertise</td>
+                  <td>
+                    Custom agent profiles and bounded delegation; App supports parallel
+                    sessions/worktrees.
+                  </td>
+                  <td>
+                    <span class="status configured">Configured</span><br />Five profiles including
+                    Orchestrator. No recorded native specialist fleet or parallel MOSAIC execution.
+                    <a href="#r23">R23</a> <a href="#r04">R04</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Approved evidence acquisition</td>
+                  <td>Local MCP: list approved sources and read a source by ID.</td>
+                  <td>
+                    <span class="status observed">Observed App use</span><br />Two tools, four
+                    synthetic sources; separate archived rehearsal. Generation reads the local
+                    connector directly, not imported MCP chat results. <a href="#r17">R17</a>
+                    <a href="#r06">R06</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Provenance and evidence integrity</td>
+                  <td>
+                    MCP supplies inspectable metadata; source policy and connector enforce the
+                    narrow boundary.
+                  </td>
+                  <td>
+                    <span class="status">Local proof</span><br />Classification, owner, revision,
+                    retrieval metadata and hashes; no arbitrary network/path retrieval. Hashes are
+                    not signatures. <a href="#r07">R07</a> <a href="#r23">R23</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Requirements, gaps, risks and claim labels</td>
+                  <td>
+                    App-directed preparation plus structured model output and deterministic package
+                    checks.
+                  </td>
+                  <td>
+                    <span class="status">Local proof</span><br />Six labels and citation membership
+                    checks; semantic correctness needs reviewers. <a href="#r07">R07</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Three contrasting architecture options</td>
+                  <td>
+                    Solution Architect profile carries common-criteria analysis; engine requires
+                    exactly three.
+                  </td>
+                  <td>
+                    <span class="status">Local proof</span><br />Managed, custom and hybrid in the
+                    canonical reference; fixed reference is not proof of new-request reasoning.
+                    <a href="#r10">R10</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Ten dossier areas and seven draft plans</td>
+                  <td>
+                    App directs an evidence-grounded discussion draft through the preparation
+                    worker.
+                  </td>
+                  <td>
+                    <span class="status">Local proof</span><br />Requirements, evidence and blocking
+                    questions remain linked. No selected final dossier or executed delivery.
+                    <a href="#r11">R11</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>23-file dossier and browser handoff</td>
+                  <td>
+                    App returns the completed report and a user-selected browser action; App also
+                    documents in-session preview.
+                  </td>
+                  <td>
+                    <span class="status observed">Observed App + browser</span><br />10 HTML + 9
+                    Markdown + 4 JSON. The recorded handoff is to a browser, not evidence of a
+                    native canvas. <a href="#r09">R09</a> <a href="#r16">R16</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Exact available transcript and corrections</td>
+                  <td>Conversation is copied once after plan approval into local capture.</td>
+                  <td>
+                    <span class="status">Local proof</span><br />No automatic native-chat ingestion;
+                    missing history stays partial; times and identity are not invented. Raw
+                    transcript excluded from analysis prompt. <a href="#r06">R06</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Meeting request, agenda and talk track</td>
+                  <td>
+                    Engagement Planner profile and shared report templates prepare the human
+                    workshop.
+                  </td>
+                  <td>
+                    <span class="status">Local proof</span><br />30-minute agenda and facilitator
+                    materials; no automatic sending, booking or customer commitments.
+                    <a href="#r09">R09</a> <a href="#r14">R14</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Bounded generation and cost control</td>
+                  <td>
+                    App approves execution; dedicated Copilot CLI adapter performs the separate
+                    analysis call.
+                  </td>
+                  <td>
+                    <span class="status">Local proof</span><br />Own authentication/settings, no
+                    tools or automatic paid retry. Worker settings do not inherit the App model
+                    picker; not BYOK/runtime-provider portability proof. <a href="#r06">R06</a>
+                    <a href="#r24">R24</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Job lifecycle, cancellation and recovery</td>
+                  <td>
+                    Local worker executes approved preparation and returns explicit success or
+                    failure to the session.
+                  </td>
+                  <td>
+                    <span class="status">Local proof</span><br />Sealed input, private staging,
+                    atomic publication and eligible no-repeat rebuild. PC must remain on; not
+                    durable background/cloud execution. <a href="#r06">R06</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Processing cost, timing and pipeline trace</td>
+                  <td>Separate operator reports complement App usage/session insights.</td>
+                  <td>
+                    <span class="status">Local proof</span><br />Partial worker telemetry, not
+                    complete App billing. No prompts, hidden reasoning or raw transcript in trace
+                    metadata. <a href="#r24">R24</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Regression and structured validation</td>
+                  <td>
+                    App can run checks and inspect diffs; GitHub Actions workflow is versioned
+                    beside the process.
+                  </td>
+                  <td>
+                    <span class="status">Local proof</span><br />CLI and offline tests revalidated;
+                    hosted CI and App-driven correction scenes are not claimed.
+                    <a href="#r15">R15</a> <a href="#r23">R23</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Issue, branch, PR and reviewer evidence</td>
+                  <td>Native GitHub issues, sessions, worktrees, PR review and check results.</td>
+                  <td>
+                    <span class="status proposed">Intended walkthrough</span><br />Templates and CI
+                    are configured. CLI creates no issue or PR; hosted MOSAIC review footage remains
+                    unclaimed. Default flow excludes Agent Merge. <a href="#r01">R01</a>
+                    <a href="#r06">R06</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Human selection and exact-revision approval</td>
+                  <td>
+                    App review supports discussion; customer workflow owns consequential
+                    authorization.
+                  </td>
+                  <td>
+                    <span class="status">Local blocking proof</span><br />Fabricated
+                    selection/approval rejected. Both decisions unrecorded; no live approval adapter
+                    or durable wait/resume. <a href="#r12">R12</a> <a href="#r23">R23</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Customer-specific policies and reports</td>
+                  <td>
+                    Versioned repository instructions, templates, skills and connector configuration
+                    support adaptation.
+                  </td>
+                  <td>
+                    <span class="status">Partly implemented</span><br />Reviewer roles and document
+                    compatibility tested. Arbitrary branding, terminology and runtime-selected
+                    templates remain extensions. <a href="#r14">R14</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Multi-customer and cross-industry reach</td>
+                  <td>
+                    App sessions/worktrees separate workstreams; MOSAIC proposes one isolated
+                    installation per customer.
+                  </td>
+                  <td>
+                    <span class="status proposed">Adoption target</span><br />No production tenancy,
+                    second-customer portability or universal industry fit established. Separate
+                    identities, stores and authority are required. <a href="#r06">R06</a>
+                    <a href="#r14">R14</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Enterprise governance and least privilege</td>
+                  <td>
+                    Documented App enablement policies, content exclusions and optional sandboxes
+                    add platform-level controls.
+                  </td>
+                  <td>
+                    <span class="status proposed">Validate per installation</span><br />App and CLI
+                    policy are separate. No assumption every policy covers every tool/surface; not
+                    independently verified for this installation. <a href="#r03">R03</a>
+                    <a href="#r05">R05</a> <a href="#r08">R08</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Recurring evidence refresh</td>
+                  <td>
+                    Refresh skill plans an authorized rerun; App automations could schedule
+                    recurring work.
+                  </td>
+                  <td>
+                    <span class="status configured">Skill configured</span><br />Scheduled MOSAIC
+                    automation is not implemented or demonstrated; fresh source/model authorization
+                    still applies. <a href="#r23">R23</a> <a href="#r03">R03</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Future interface and operations extensions</td>
+                  <td>
+                    App canvases, plugins, chats, session insights, computer use and model choice
+                    offer potential extension surfaces.
+                  </td>
+                  <td>
+                    <span class="status proposed">Not MOSAIC proof</span><br />No MOSAIC
+                    canvas/plugin package, computer-use automation, BYOK adapter or chronicle
+                    integration claimed. Delivery execution remains outside this reference.
+                    <a href="#r03">R03</a> <a href="#r04">R04</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Lower effort, cost, rework and cycle time</td>
+                  <td>
+                    Reusable App workflow can reduce context reconstruction and support a consistent
+                    field practice.
+                  </td>
+                  <td>
+                    <span class="status proposed">Hypothesis</span><br />Illustrative economics
+                    only; pilot must include retained judgment, errors, total cost and productive
+                    redeployment. <a href="#r13">R13</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="support qa" id="judge-questions" aria-labelledby="qa-title">
+          <span class="eyebrow">Key questions / scope, value and adoption</span>
+          <h2 id="qa-title">A closer look at the operating model.</h2>
+          <details>
+            <summary>Why is the App central rather than a wrapper around a script?</summary>
+            <p>
+              The authentic user journey starts with MOSAIC Orchestrator and the intake skill in
+              GitHub Copilot App. The App carries discovery, plan review, approved tool access and
+              the report handoff. The worker supplies bounded analysis, structural validation and
+              publication. Its standalone CLI proves the contracts, not App use; authentic captures
+              supply the App-use evidence. <a href="#r01">R01</a> <a href="#r16">R16</a>
+            </p>
+          </details>
+          <details>
+            <summary>Is this the same as the employee policy assistant being proposed?</summary>
+            <p>
+              No. MOSAIC prepares the solution-engineering assessment. The employee assistant is the
+              fictional solution being evaluated. Managed, custom and hybrid approaches are
+              alternatives for that proposed solution, not three implementations MOSAIC has
+              deployed. <a href="#r10">R10</a> <a href="#r11">R11</a>
+            </p>
+          </details>
+          <details>
+            <summary>Why not Copilot Studio, Microsoft 365 Copilot or Claude Code?</summary>
+            <p>
+              Copilot App is the workbench for directing this preparation process in a
+              GitHub-centered workflow. Copilot Studio or Microsoft 365 Copilot may be appropriate
+              for the customer solution being proposed; the three-option analysis preserves that
+              choice. Our App preference is native GitHub workflow fit and reusable field practice.
+              Claude Code has overlapping tools and workflow capabilities; no comparative speed,
+              cost or quality advantage has been measured. <a href="#r10">R10</a>
+              <a href="#r22">R22</a>
+            </p>
+          </details>
+          <details>
+            <summary>Can any customer, in any industry, use it immediately?</summary>
+            <p>
+              That is an adoption ambition, not established fit or a current license grant. Shared
+              preparation needs make reuse plausible, but each customer needs authorized evidence,
+              industry-specific controls, identity, connectors, review policy, operating ownership
+              and evaluation. A second isolated pattern and approved redistribution rights remain
+              gates. <a href="#r14">R14</a> <a href="#r20">R20</a>
+            </p>
+          </details>
+          <details>
+            <summary>What is genuinely measured today?</summary>
+            <p>
+              Inspectable local behavior: ordered stages, required outputs, structural citations,
+              source rejection, authority blocking, transcript fidelity, bounded worker behavior and
+              report rendering. Fresh local verification on October 18: CLI pass with 23 artifacts;
+              303 tests passed, 4 skipped; all ten reference HTML pages passed the repository
+              browser checks at 1440, 1024, 768 and 390 pixels. These are engineering results, not
+              business savings, complete App telemetry or customer acceptance.
+              <a href="#r15">R15</a> <a href="#r24">R24</a>
+            </p>
+          </details>
+          <details>
+            <summary>What if the model is wrong, evidence is missing or generation fails?</summary>
+            <p>
+              Unsupported structural references, source violations and fabricated authority fail
+              validation. Unknowns remain explicit, and qualified people judge meaning and
+              correctness. Failed work does not publish a partial customer package. Eligible
+              integrity-checked rebuilds create a new job without repeating paid inference; other
+              inference needs fresh approval. Local completion is not durable resume or customer
+              approval. <a href="#r06">R06</a> <a href="#r07">R07</a>
+            </p>
+          </details>
+          <details>
+            <summary>Does the system deliver the modeled 83% saving or $1.6M?</summary>
+            <p>
+              No measured outcome supports that conclusion. Those numbers reproduce the repository's
+              planning case: 96 manual hours minus 16 review hours, at $200/hour and 100
+              illustrative annual requests, with zero extra retained effort in the base case. Add
+              all incremental costs and effort. Only productive redeployment or avoided expenditure
+              turns capacity into realized financial value. <a href="#r13">R13</a>
+            </p>
+          </details>
+          <details>
+            <summary>Is it production-ready or compliant?</summary>
+            <p>
+              No such claim is established. The current runtime assumes a trusted local user and
+              synthetic data. Production identity, source permissions, encryption, retention,
+              durable queues, immutable audit storage, monitoring, support and approvals require
+              separate implementation and qualified assessment. Framework mappings are
+              customer-specific targets, not certification. <a href="#r06">R06</a>
+              <a href="#r07">R07</a> <a href="#r08">R08</a>
+            </p>
+          </details>
+          <details>
+            <summary>Does GitHub PR approval approve the customer design?</summary>
+            <p>
+              Not by default. Customer policy must authorize the architecture selection first, and
+              later approval must bind the exact selected dossier revision in the customer's
+              workflow. This reference records neither decision and remains an unselected discussion
+              draft. Automated checks, a browser opening and a PR review cannot manufacture that
+              authority. <a href="#r12">R12</a>
+            </p>
+          </details>
+        </section>
+
+        <section class="support" id="sources" aria-labelledby="sources-title">
+          <span class="eyebrow">Evidence register / source and claim boundaries</span>
+          <h2 id="sources-title">Persuasive by design. Inspectable by choice.</h2>
+          <p>
+            Official product sources were reviewed on October 18, 2026. Repository baseline:
+            <code>4d18656</code>. The research references below support this presentation; they do
+            not expand the synthetic design evidence policy. Dated recordings establish observed App
+            use; implementation documentation and local checks establish the reference's scope.
+          </p>
+          <ul class="source-list" style="margin-top: 24px">
+            <li id="r01">
+              <b>R01 / REPOSITORY MISSION</b
+              ><a
+                href="https://github.com/gregunger/ghca-mosaic-challenge-official/blob/4d1865687cdd0cdf6fe0777ac102085a2f1d5c9e/README.md"
+                >README: mission, stages, outputs and App pattern</a
+              ><small>Implemented versus intended workflow; personas, setup and benefits.</small>
+            </li>
+            <li id="r02">
+              <b>R02 / OFFICIAL PRODUCT PAGE</b
+              ><a href="https://github.com/features/ai/github-app" target="_blank" rel="noopener"
+                >GitHub Copilot App: from issue to merge</a
+              ><small
+                >Native GitHub context, parallel sessions, skills, MCP and validation loop. Not
+                evidence MOSAIC exercised every feature.</small
+              >
+            </li>
+            <li id="r03">
+              <b>R03 / OFFICIAL APP OVERVIEW</b
+              ><a
+                href="https://docs.github.com/en/copilot/concepts/copilot-surfaces/github-copilot-app"
+                target="_blank"
+                rel="noopener"
+                >GitHub Copilot App concepts</a
+              ><small
+                >Operating systems, modes, models, workspaces, policies and extension surfaces.
+                Current App and CLI enablement policies are separate.</small
+              >
+            </li>
+            <li id="r04">
+              <b>R04 / OFFICIAL CUSTOMIZATION</b
+              ><a
+                href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/customize-github-copilot-app"
+                target="_blank"
+                rel="noopener"
+                >Customizing GitHub Copilot App</a
+              ><small
+                >Instructions, skills, custom agents, MCP, plugins, canvases and managed
+                settings.</small
+              >
+            </li>
+            <li id="r05">
+              <b>R05 / OFFICIAL SESSION CONTROLS</b
+              ><a
+                href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/agent-sessions"
+                target="_blank"
+                rel="noopener"
+                >Working with App agent sessions</a
+              ><small
+                >Interactive, Plan, Autopilot, isolated workspaces and optional local/cloud
+                sandboxes; preview features may change.</small
+              >
+            </li>
+            <li id="r06">
+              <b>R06 / IMPLEMENTATION ARCHITECTURE</b
+              ><a
+                href="https://github.com/gregunger/ghca-mosaic-challenge-official/blob/4d1865687cdd0cdf6fe0777ac102085a2f1d5c9e/docs/architecture.md"
+                >Reference architecture and maturity boundaries</a
+              ><small
+                >Bounded CLI analysis, transcripts, local job lifecycle, recovery and proposed
+                private runner.</small
+              >
+            </li>
+            <li id="r07">
+              <b>R07 / GOVERNANCE &amp; RESPONSIBLE AI</b
+              ><a
+                href="https://github.com/gregunger/ghca-mosaic-challenge-official/blob/4d1865687cdd0cdf6fe0777ac102085a2f1d5c9e/docs/governance-and-rai.md"
+                >Source, claim, quality, authority and job gates</a
+              ><small
+                >Structural citations versus semantic support; scoped standards alignment, privacy
+                and human roles.</small
+              >
+            </li>
+            <li id="r08">
+              <b>R08 / SECURITY SCOPE</b
+              ><a
+                href="https://github.com/gregunger/ghca-mosaic-challenge-official/blob/4d1865687cdd0cdf6fe0777ac102085a2f1d5c9e/SECURITY.md"
+                >Security boundary and production prerequisites</a
+              ><small
+                >Offline versus separately authorized network inference; trusted-local-user
+                limitations.</small
+              >
+            </li>
+            <li id="r09">
+              <b>R09 / INSPECTABLE CANONICAL OUTPUT</b
+              ><a
+                href="https://github.com/gregunger/ghca-mosaic-challenge-official/tree/4d1865687cdd0cdf6fe0777ac102085a2f1d5c9e/examples/synthetic/expected"
+                >Prewritten reference dossier package</a
+              ><small
+                >Separate from October conversational footage. Includes transcript status, evidence,
+                engagement material and structured records.</small
+              >
+            </li>
+            <li id="r10">
+              <b>R10 / CONTRASTING OPTIONS</b
+              ><a
+                href="https://github.com/gregunger/ghca-mosaic-challenge-official/blob/4d1865687cdd0cdf6fe0777ac102085a2f1d5c9e/examples/synthetic/expected/option-matrix.md"
+                >Managed, custom and hybrid comparison</a
+              ><small>Seven common criteria; tradeoffs, entry conditions and disqualifiers.</small>
+            </li>
+            <li id="r11">
+              <b>R11 / DESIGN READINESS</b
+              ><a
+                href="https://github.com/gregunger/ghca-mosaic-challenge-official/blob/4d1865687cdd0cdf6fe0777ac102085a2f1d5c9e/examples/synthetic/expected/architecture-brief.md"
+                >Ten-area coverage and seven draft plans</a
+              ><small
+                >Unselected discussion draft, not a completed approved design or deployed employee
+                assistant.</small
+              >
+            </li>
+            <li id="r12">
+              <b>R12 / HUMAN AUTHORITY</b
+              ><a
+                href="https://github.com/gregunger/ghca-mosaic-challenge-official/blob/4d1865687cdd0cdf6fe0777ac102085a2f1d5c9e/examples/synthetic/expected/human-review.md"
+                >Blocked human-review record</a
+              ><small
+                >Architecture selection pending; exact-revision dossier approval blocked pending
+                selection.</small
+              >
+            </li>
+            <li id="r13">
+              <b>R13 / ECONOMIC ASSUMPTIONS</b
+              ><a
+                href="https://github.com/gregunger/ghca-mosaic-challenge-official/blob/4d1865687cdd0cdf6fe0777ac102085a2f1d5c9e/docs/evaluation-plan.md#planning-economics"
+                >Planning economics and evaluation plan</a
+              ><small
+                >96 h baseline, 16 h retained review, $200/h and 100 illustrative annual items; no
+                measured savings. Internal source is not reproduced.</small
+              >
+            </li>
+            <li id="r14">
+              <b>R14 / ADOPTION &amp; EXTENSIBILITY</b
+              ><a
+                href="https://github.com/gregunger/ghca-mosaic-challenge-official/blob/4d1865687cdd0cdf6fe0777ac102085a2f1d5c9e/docs/adoption-playbook.md"
+                >Field reuse, customer adaptation and adoption gates</a
+              ><small
+                >Current role/document controls versus proposed customer customization and SDLC
+                execution.</small
+              >
+            </li>
+            <li id="r15">
+              <b>R15 / REPRODUCIBLE LOCAL CHECKS</b
+              ><a
+                href="https://github.com/gregunger/ghca-mosaic-challenge-official/blob/4d1865687cdd0cdf6fe0777ac102085a2f1d5c9e/CONTRIBUTING.md#formatting-and-checks"
+                >Documented test commands</a
+              ><small
+                >October 18:
+                <code>python -m mosaic.cli --output build\validation\judges-reference</code> passed,
+                23 artifacts; <code>python -m pytest</code>: 303 passed, 4 skipped;
+                <code>npm run test:reports -- build\validation\judges-reference</code> passed ten
+                pages at four widths. No paid live test enabled.</small
+              >
+            </li>
+            <li id="r16">
+              <b>R16 / AUTHENTIC APP EVIDENCE</b
+              ><a
+                href="https://github.com/gregunger/ghca-mosaic-challenge-official/blob/4d1865687cdd0cdf6fe0777ac102085a2f1d5c9e/presentation/assets/README.md"
+                >Capture provenance, dates, crop coordinates and hashes</a
+              ><small
+                >October 7 App intake and report handoff frames. Existing footage, not generated
+                presentation imagery.</small
+              >
+            </li>
+            <li id="r17">
+              <b>R17 / OBSERVED APP MCP USE</b
+              ><a
+                href="https://github.com/gregunger/ghca-mosaic-challenge-official/blob/4d1865687cdd0cdf6fe0777ac102085a2f1d5c9e/docs/product-feedback-observation-log.md"
+                >September 15 App MCP rehearsal</a
+              ><small
+                >Two actual tools and retained returned payloads; configuration correction; no
+                capture-build or independent replay claim.</small
+              >
+            </li>
+            <li id="r20">
+              <b>R20 / REUSE RIGHTS</b
+              ><a
+                href="https://github.com/gregunger/ghca-mosaic-challenge-official/blob/4d1865687cdd0cdf6fe0777ac102085a2f1d5c9e/LICENSE"
+                >MOSAIC challenge evaluation notice</a
+              ><small
+                >Authorized evaluation terms, not an unrestricted external-use or redistribution
+                license.</small
+              >
+            </li>
+            <li id="r21">
+              <b>R21 / ORIGINALITY &amp; ATTRIBUTION</b
+              ><a
+                href="https://github.com/gregunger/ghca-mosaic-challenge-official/blob/4d1865687cdd0cdf6fe0777ac102085a2f1d5c9e/NOTICE.md"
+                >Notices, starting material and third-party components</a
+              ><small
+                >Original MOSAIC work, preserved dependency notices and owner-controlled publication
+                rights.</small
+              >
+            </li>
+            <li id="r22">
+              <b>R22 / OFFICIAL COMPETITOR CONTEXT</b
+              ><a
+                href="https://code.claude.com/docs/en/common-workflows"
+                target="_blank"
+                rel="noopener"
+                >Claude Code workflows</a
+              >
+              ·
+              <a href="https://code.claude.com/docs/en/mcp" target="_blank" rel="noopener"
+                >MCP integration</a
+              ><small
+                >Overlapping worktree, planning, delegation and GitHub workflows. Not a comparative
+                benchmark.</small
+              >
+            </li>
+            <li id="r23">
+              <b>R23 / IMPLEMENTATION EVIDENCE</b
+              ><a
+                href="https://github.com/gregunger/ghca-mosaic-challenge-official/blob/4d1865687cdd0cdf6fe0777ac102085a2f1d5c9e/src/mosaic/orchestrator.py"
+                >Orchestrator</a
+              >
+              ·
+              <a
+                href="https://github.com/gregunger/ghca-mosaic-challenge-official/blob/4d1865687cdd0cdf6fe0777ac102085a2f1d5c9e/src/mosaic/validators.py"
+                >Validators</a
+              >
+              ·
+              <a
+                href="https://github.com/gregunger/ghca-mosaic-challenge-official/blob/4d1865687cdd0cdf6fe0777ac102085a2f1d5c9e/tests/test_orchestrator.py"
+                >Workflow regressions</a
+              >
+              ·
+              <a
+                href="https://github.com/gregunger/ghca-mosaic-challenge-official/tree/4d1865687cdd0cdf6fe0777ac102085a2f1d5c9e/.github/agents"
+                >Agent profiles</a
+              >
+              ·
+              <a
+                href="https://github.com/gregunger/ghca-mosaic-challenge-official/tree/4d1865687cdd0cdf6fe0777ac102085a2f1d5c9e/.github/skills"
+                >Skills</a
+              >
+              ·
+              <a
+                href="https://github.com/gregunger/ghca-mosaic-challenge-official/blob/4d1865687cdd0cdf6fe0777ac102085a2f1d5c9e/.github/workflows/validate.yml"
+                >CI definition</a
+              ><small
+                >Executable preparation contracts and configured App assets; CI configuration is not
+                a hosted run result.</small
+              >
+            </li>
+            <li id="r24">
+              <b>R24 / OPERATOR OBSERVABILITY</b
+              ><a
+                href="https://github.com/gregunger/ghca-mosaic-challenge-official/blob/4d1865687cdd0cdf6fe0777ac102085a2f1d5c9e/README.md#operator-performance-cost-and-pipeline-trace"
+                >Processing Cost &amp; Performance Report</a
+              >
+              ·
+              <a
+                href="https://github.com/gregunger/ghca-mosaic-challenge-official/blob/4d1865687cdd0cdf6fe0777ac102085a2f1d5c9e/src/mosaic/observability.py"
+                >Instrumentation</a
+              ><small
+                >Separate from 23 customer files; partial worker counters, real timings and
+                hash-linked trace. No complete App invoice or hidden reasoning.</small
+              >
+            </li>
+            <li id="r25">
+              <b>R25 / EXTENDED WORKFLOW VIDEO</b
+              ><a href="https://youtu.be/dUU2s_N283E" target="_blank" rel="noopener"
+                >MOSAIC orchestrator - Intake component overview</a
+              ><small
+                >Extended walkthrough provided by Greg Unger; duration supplied by the author:
+                10:12. YouTube metadata confirms the title and author. This link is optional further
+                viewing, not an additional approved design source.</small
+              >
+            </li>
+          </ul>
+        </section>
+        <footer>
+          <p>
+            <strong>MOSAIC</strong> = Multi-customer Orchestration System for Adaptive Intake and
+            Continuous Delivery. This reference automates preparation through qualified human
+            review, not delivery execution.
+          </p>
+          <p>
+            Prepared for the GitHub Copilot App judges panel. October 18, 2026. App and competitor
+            marks belong to their respective owners.
+            <a
+              href="https://github.com/gregunger/ghca-mosaic-challenge-official/blob/4d1865687cdd0cdf6fe0777ac102085a2f1d5c9e/LICENSE"
+              >Evaluation terms</a
+            >
+            ·
+            <a
+              href="https://github.com/gregunger/ghca-mosaic-challenge-official/blob/4d1865687cdd0cdf6fe0777ac102085a2f1d5c9e/NOTICE.md"
+              >Attribution</a
+            >. No tracking, remote fonts, third-party scripts or model calls in this report.
+          </p>
+        </footer>
+      </main>
+    </div>
+    <script>
+      'use strict';
+
+      const chapters = [...document.querySelectorAll('.chapter')];
+      const chapterLinks = [...document.querySelectorAll('.rail a[href^="#"]')];
+      const sections = [...document.querySelectorAll('main > .chapter, main > .support')];
+      const tracks = [...document.querySelectorAll('.talk-track')];
+      const notesToggle = document.getElementById('notes-toggle');
+      const focusToggle = document.getElementById('focus-toggle');
+
+      notesToggle.addEventListener('click', () => {
+        const open = notesToggle.getAttribute('aria-pressed') !== 'true';
+        tracks.forEach((track) => {
+          track.open = open;
+        });
+        notesToggle.setAttribute('aria-pressed', String(open));
+        notesToggle.textContent = open ? 'Hide talk tracks' : 'Show talk tracks';
+      });
+      const sectionPicker = document.getElementById('section-picker');
+      const sectionForHash = (hash) =>
+        document.getElementById(hash.slice(1))?.closest('.chapter, .support');
+      let currentSection = sectionForHash(location.hash) || sections[0];
+      sections.forEach((section) => {
+        const option = document.createElement('option');
+        option.value = section.id;
+        option.textContent = chapterLinks
+          .find((link) => link.hash === `#${section.id}`)
+          .textContent.trim();
+        sectionPicker.append(option);
+      });
+      function selectSection(section) {
+        currentSection = section;
+        sections.forEach((item) => item.classList.toggle('focused-section', item === section));
+        chapterLinks.forEach((link) => {
+          if (link.hash === `#${section.id}`) link.setAttribute('aria-current', 'step');
+          else link.removeAttribute('aria-current');
+        });
+        sectionPicker.value = section.id;
+        document.getElementById('view-label').textContent = document.body.classList.contains(
+          'focus-view',
+        )
+          ? `Focus view / ${sectionPicker.selectedOptions[0].textContent}`
+          : 'Complete report / 15-minute presentation';
+      }
+      focusToggle.addEventListener('click', () => {
+        const active = !document.body.classList.contains('focus-view');
+        document.body.classList.toggle('focus-view', active);
+        selectSection(currentSection);
+        focusToggle.setAttribute('aria-pressed', String(active));
+        focusToggle.textContent = active ? 'Exit focus view' : 'Focus view';
+        currentSection.scrollIntoView({ block: 'start', behavior: 'instant' });
+      });
+      document.querySelectorAll('a[href^="#"]').forEach((link) => {
+        link.addEventListener('click', () => {
+          const section = sectionForHash(link.hash);
+          if (section) selectSection(section);
+        });
+      });
+      window.addEventListener('hashchange', () => {
+        const section = sectionForHash(location.hash);
+        if (section && document.body.classList.contains('focus-view')) {
+          selectSection(section);
+          document
+            .getElementById(location.hash.slice(1))
+            .scrollIntoView({ block: 'start', behavior: 'instant' });
+        }
+      });
+      sectionPicker.addEventListener('change', () => {
+        const section = document.getElementById(sectionPicker.value);
+        selectSection(section);
+        location.hash = section.id;
+        section.scrollIntoView({ block: 'start', behavior: 'instant' });
+      });
+      selectSection(currentSection);
+      const printState = new Map();
+      window.addEventListener('beforeprint', () => {
+        document.querySelectorAll('main details').forEach((detail) => {
+          if (!printState.has(detail)) printState.set(detail, detail.open);
+          detail.open = true;
+        });
+      });
+      window.addEventListener('afterprint', () => {
+        printState.forEach((open, detail) => {
+          detail.open = open;
+        });
+        printState.clear();
+      });
+      document.getElementById('print').addEventListener('click', () => window.print());
+
+      function syncNavigation() {
+        if (document.body.classList.contains('focus-view')) return;
+        let target = sections[0];
+        for (const section of sections) {
+          if (section.getBoundingClientRect().top > innerHeight * 0.12) break;
+          target = section;
+        }
+        if (target !== currentSection) selectSection(target);
+      }
+      window.addEventListener('scroll', syncNavigation, { passive: true });
+      window.addEventListener('resize', syncNavigation);
+
+      const defaults = { baseline: 96, review: 16, other: 0, rate: 200, volume: 100, cost: 0 };
+      const inputs = Object.fromEntries(
+        Object.keys(defaults).map((key) => [key, document.getElementById(key)]),
+      );
+      const currency = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        maximumFractionDigits: 0,
+      });
+      const number = new Intl.NumberFormat('en-US', { maximumFractionDigits: 2 });
+      const modelError = document.getElementById('model-error');
+      const results = document.getElementById('model-results');
+      function updateModel() {
+        const invalid = Object.values(inputs).find(
+          (input) => !input.checkValidity() || !Number.isFinite(input.valueAsNumber),
+        );
+        Object.values(inputs).forEach((input) => input.removeAttribute('aria-invalid'));
+        if (invalid) {
+          invalid.setAttribute('aria-invalid', 'true');
+          results.hidden = true;
+          document.getElementById('effort-analytics').hidden = true;
+          modelError.textContent =
+            'Enter a nonnegative number in every field, within the displayed input limits. Annual request volume must be a whole number.';
+          return;
+        }
+        modelError.textContent = '';
+        results.hidden = false;
+        document.getElementById('effort-analytics').hidden = false;
+        const values = Object.fromEntries(
+          Object.entries(inputs).map(([key, input]) => [key, input.valueAsNumber]),
+        );
+        const hours = values.baseline - values.review - values.other;
+        const gross =
+          values.rate === 0 || values.volume === 0 ? 0 : hours * values.rate * values.volume;
+        document.getElementById('hours-output').textContent = `${number.format(hours)} h`;
+        document.getElementById('gross-output').textContent = currency.format(gross);
+        document.getElementById('net-output').textContent = currency.format(gross - values.cost);
+        const retained = values.review + values.other;
+        const scale = Math.max(values.baseline, retained);
+        const width = (value) => (scale === 0 ? 0 : (value / scale) * 680);
+        const bars = {
+          'baseline-bar': [0, values.baseline],
+          'review-bar': [0, values.review],
+          'other-bar': [values.review, values.other],
+          'returned-bar': [retained, Math.max(0, hours)],
+          'overrun-bar': [values.baseline, Math.max(0, -hours)],
+        };
+        Object.entries(bars).forEach(([id, [start, length]]) => {
+          const bar = document.getElementById(id);
+          bar.setAttribute('x', String(width(start)));
+          bar.setAttribute('width', String(width(length)));
+        });
+        const reduction = values.baseline > 0 ? (hours / values.baseline) * 100 : null;
+        document.getElementById('reduction-output').textContent =
+          reduction === null
+            ? 'No baseline for a percentage'
+            : `${number.format(reduction)}% modeled effort ${hours >= 0 ? 'reduction' : 'change'}`;
+        document.getElementById('baseline-chart-label').textContent =
+          `Manual preparation / ${number.format(values.baseline)} hours`;
+        document.getElementById('retained-chart-label').textContent =
+          `Modeled preparation / ${number.format(retained)} retained hours`;
+        document.getElementById('capacity-chart-label').textContent =
+          hours >= 0
+            ? `${number.format(hours)} hours available for productive redeployment per eligible request`
+            : `${number.format(-hours)} hours above the manual baseline per request`;
+        document
+          .getElementById('effort-chart')
+          .setAttribute(
+            'aria-label',
+            `Illustrative effort comparison: ${number.format(values.baseline)} manual hours, ${number.format(values.review)} retained review hours, ${number.format(values.other)} other retained hours and ${number.format(hours)} returned hours. Not an observed result.`,
+          );
+      }
+      Object.values(inputs).forEach((input) => input.addEventListener('input', updateModel));
+      document.getElementById('reset-model').addEventListener('click', () => {
+        Object.entries(defaults).forEach(([key, value]) => {
+          inputs[key].value = String(value);
+        });
+        updateModel();
+      });
+
+      const sectionHelp = {
+        'chapter-1':
+          'The business problem: repeated discovery, scattered guidance and reconstructed handoffs. Explains how a reusable preparation process can help experts focus on higher-value work.',
+        'chapter-2':
+          'How GitHub Copilot App capabilities map to MOSAIC: conversation, plan review, skills, custom agents, approved tools and a reviewable dossier.',
+        'chapter-3':
+          'The recorded user journey and its evidence boundaries. Optional links let you inspect authentic App use, the report handoff and the separate reproducible reference.',
+        'chapter-4':
+          'The eight ordered workflow stages, specialist responsibilities and three contrasting architecture options. The process stops for human review.',
+        'chapter-5':
+          'What the dossier contains and who can use it. The chart shows actual output-format counts, not a quality score or a measured business benefit.',
+        'chapter-6':
+          'Source restrictions, evidence traceability, bounded analysis, publication checks and retained human authority. Distinguishes local controls from production requirements.',
+        'chapter-7':
+          'An illustrative capacity model, not measured savings. Change labor, volume and cost assumptions to compare retained effort, returned hours and modeled value, including negative outcomes.',
+        'chapter-8':
+          'Setup, supported adaptation and a staged adoption path. Separates the reusable core from customer-specific work, production requirements and proposed extensions.',
+        'chapter-9':
+          'The developer go-to-market case: reusable field practice, a repeatable adoption motion and bounded competitive positioning.',
+        'chapter-10':
+          'The case for GitHub Copilot App adoption: MOSAIC provides a repeatable field pattern, with a proposed pilot to measure quality, effort, corrections and total cost.',
+        'capability-map':
+          'A detailed functionality-to-App map. Each row separates observed use, local proof, configuration and proposed work so capabilities are not overstated.',
+        'judge-questions':
+          'Answers about platform fit, actual evidence, economics, production readiness and customer approval. Useful for understanding the operating model and its limits.',
+        sources:
+          'The supporting repository and official product sources, with dates and claim boundaries. Presentation research does not authorize additional design evidence.',
+      };
+      document.querySelectorAll('main > section').forEach((section) => {
+        const heading = section.querySelector('h1, h2');
+        const info = document.createElement('button');
+        info.type = 'button';
+        info.className = 'section-info';
+        info.textContent = 'i';
+        info.setAttribute('aria-label', `About this section: ${heading.textContent.trim()}`);
+        info.dataset.tooltip =
+          sectionHelp[section.id] ||
+          'GitHub Copilot App value proposition: reusable expertise, connected context and human review, demonstrated through MOSAIC and an explicitly illustrative capacity opportunity.';
+        info.dataset.tooltipOnly = 'true';
+        heading.append(info);
+      });
+      chapterLinks.forEach((link) => {
+        link.dataset.tooltip = sectionHelp[link.hash.slice(1)];
+      });
+      const buttonHelp = {
+        'notes-toggle':
+          'Expand or collapse the complete presentation narration beneath all ten chapters. The talk tracks remain available in both complete-report and Focus views.',
+        'focus-toggle':
+          'Show only the report section selected in the left navigation. Choose another navigation item to switch sections. Exit Focus view to restore the complete report.',
+        print:
+          'Print the full report with all ten talk tracks, capability mapping, key questions and sources, even while Focus view is active.',
+        'reset-model':
+          'Restore the planning assumptions: 96 manual hours, 16 review hours, no other retained effort, $200 per hour, 100 annual requests and zero entered added cost. Zero entered cost does not mean free operation.',
+      };
+      Object.entries(buttonHelp).forEach(([id, help]) => {
+        document.getElementById(id).dataset.tooltip = help;
+      });
+      sectionPicker.dataset.tooltip =
+        'Choose a report section. In Focus view only that section is shown; in complete-report view the page moves to that section.';
+
+      const glossary = {
+        MOSAIC:
+          'Multi-customer Orchestration System for Adaptive Intake and Continuous Delivery. This reference automates solution preparation through human-review handoff, not delivery execution.',
+        AI: 'Artificial intelligence. Generated analysis still requires evidence checks and qualified human judgment.',
+        App: 'Application. Here, GitHub Copilot App is the desktop workbench used to direct the MOSAIC workflow.',
+        MCP: 'Model Context Protocol: a standard way to connect an assistant to tools and data. MOSAIC exposes two read-only approved-evidence tools in this reference.',
+        CLI: 'Command-line interface: a tool operated through commands. The separate analysis worker uses its own configured and authenticated Copilot CLI connection.',
+        PR: 'Pull request: a proposed repository change with diffs, checks and review. It does not automatically authorize a customer architecture or design.',
+        PRs: 'Pull requests: proposed repository changes that can be inspected and reviewed.',
+        CI: 'Continuous integration: automated checks on proposed or committed changes. Configured checks are not proof that a hosted run passed.',
+        RAI: 'Responsible artificial intelligence: practices for accountability, evidence quality, risk assessment and appropriate human control.',
+        HTML: 'HyperText Markup Language: the browser-readable format of the report.',
+        JSON: 'JavaScript Object Notation: a structured data format used for machine-inspectable records.',
+        API: 'Application programming interface: a defined contract that lets software systems exchange information or actions.',
+        APIs: 'Application programming interfaces: defined contracts between software systems.',
+        SDLC: 'Software development lifecycle: discovery, design, building, testing, release and operation. Executing delivery is outside this reference.',
+        BYOK: 'Bring your own key: using a separately authorized model-provider account. App support does not establish a working MOSAIC adapter for every provider.',
+        'SHA-256':
+          'Secure Hash Algorithm with a 256-bit result: a fingerprint that detects changed bytes. A hash is not a digital signature or proof of truth.',
+        'SOC 2':
+          'System and Organization Controls 2: an independent examination of scoped service controls. MOSAIC does not establish this assurance.',
+        NIST: 'National Institute of Standards and Technology: publishes security and artificial intelligence risk guidance. Customers must select the applicable publications and assess their own controls.',
+        'ITIL 4':
+          'Information Technology Infrastructure Library, version 4: service-management guidance. Mapping to it is not certification.',
+        USD: 'United States dollars. Monetary figures here are illustrative economic values, not invoices or measured cash savings.',
+        POSIX:
+          'Portable Operating System Interface: standards for Unix-compatible systems. Here it describes the portable shell entry points provided alongside PowerShell.',
+        GTM: 'Go to market: how a solution is introduced, evaluated, adopted and expanded with customers.',
+        LLM: 'Large language model: an artificial intelligence model that generates and analyzes text. A model response is not customer approval or verified fact.',
+        PC: 'Personal computer. Local report generation requires the computer and worker process to remain running.',
+        ID: 'Identifier: a label used to distinguish a source, requirement, question or record.',
+        IDs: 'Identifiers: labels used to distinguish individual sources or records.',
+      };
+      const terms = Object.keys(glossary).sort((a, b) => b.length - a.length);
+      const termPattern = new RegExp(
+        `\\b(?:${terms.map((term) => term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})\\b`,
+        'g',
+      );
+      const textNodes = [];
+      const walker = document.createTreeWalker(
+        document.querySelector('main'),
+        NodeFilter.SHOW_TEXT,
+      );
+      while (walker.nextNode()) {
+        const node = walker.currentNode;
+        if (
+          !node.parentElement.closest(
+            'script, style, code, svg, a, button, summary, abbr, [data-tooltip]',
+          )
+        )
+          textNodes.push(node);
+      }
+      textNodes.forEach((node) => {
+        const matches = [...node.textContent.matchAll(termPattern)];
+        if (!matches.length) return;
+        const fragment = document.createDocumentFragment();
+        let cursor = 0;
+        matches.forEach((match) => {
+          fragment.append(document.createTextNode(node.textContent.slice(cursor, match.index)));
+          const abbreviation = document.createElement('abbr');
+          abbreviation.textContent = match[0];
+          abbreviation.tabIndex = 0;
+          abbreviation.dataset.tooltip = glossary[match[0]];
+          abbreviation.dataset.tooltipOnly = 'true';
+          abbreviation.setAttribute('aria-label', `${match[0]}: ${glossary[match[0]]}`);
+          fragment.append(abbreviation);
+          cursor = match.index + match[0].length;
+        });
+        fragment.append(document.createTextNode(node.textContent.slice(cursor)));
+        node.replaceWith(fragment);
+      });
+      document.querySelectorAll('a, summary').forEach((element) => {
+        if (element.dataset.tooltip) return;
+        const matches = [...new Set(element.textContent.match(termPattern) || [])];
+        if (matches.length)
+          element.dataset.tooltip = matches.map((term) => `${term}: ${glossary[term]}`).join(' ');
+      });
+
+      const tooltip = document.createElement('div');
+      tooltip.id = 'report-tooltip';
+      tooltip.role = 'tooltip';
+      tooltip.hidden = true;
+      document.body.append(tooltip);
+      let tooltipTarget = null;
+      let originalDescription = null;
+      let tooltipPointer = null;
+      function hideTooltip() {
+        if (tooltipTarget) {
+          if (originalDescription === null) tooltipTarget.removeAttribute('aria-describedby');
+          else tooltipTarget.setAttribute('aria-describedby', originalDescription);
+        }
+        tooltipTarget = null;
+        tooltipPointer = null;
+        tooltip.hidden = true;
+      }
+      function placeTooltip(x, y) {
+        const box = tooltip.getBoundingClientRect();
+        const left = x + 16 + box.width <= innerWidth - 12 ? x + 16 : x - box.width - 16;
+        const top = y + 16 + box.height <= innerHeight - 12 ? y + 16 : y - box.height - 16;
+        tooltip.style.left = `${Math.max(12, Math.min(left, innerWidth - box.width - 12))}px`;
+        tooltip.style.top = `${Math.max(12, Math.min(top, innerHeight - box.height - 12))}px`;
+      }
+      function showTooltip(target, event) {
+        if (tooltipTarget !== target) {
+          hideTooltip();
+          tooltipTarget = target;
+          originalDescription = target.getAttribute('aria-describedby');
+          target.setAttribute(
+            'aria-describedby',
+            `${originalDescription || ''} report-tooltip`.trim(),
+          );
+        }
+        tooltip.textContent = target.dataset.tooltip;
+        tooltip.hidden = false;
+        tooltipPointer = event ? { x: event.clientX, y: event.clientY } : null;
+        const box = target.getBoundingClientRect();
+        placeTooltip(
+          event ? event.clientX : box.left + box.width / 2,
+          event ? event.clientY : box.bottom,
+        );
+      }
+      document.querySelectorAll('[data-tooltip]').forEach((target) => {
+        target.addEventListener('pointerenter', (event) => showTooltip(target, event));
+        target.addEventListener('pointermove', (event) => {
+          if (tooltipTarget !== target) showTooltip(target, event);
+          else {
+            tooltipPointer = { x: event.clientX, y: event.clientY };
+            placeTooltip(event.clientX, event.clientY);
+          }
+        });
+        target.addEventListener('pointerleave', () => {
+          if (tooltipTarget === target && document.activeElement !== target) hideTooltip();
+        });
+        target.addEventListener('focus', () => showTooltip(target));
+        target.addEventListener('blur', () => {
+          if (tooltipTarget === target) hideTooltip();
+        });
+        if (target.dataset.tooltipOnly)
+          target.addEventListener('click', (event) =>
+            showTooltip(target, event.detail ? event : null),
+          );
+      });
+      document.addEventListener('pointerdown', (event) => {
+        if (!event.target.closest('[data-tooltip]')) hideTooltip();
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') hideTooltip();
+      });
+      window.addEventListener(
+        'scroll',
+        () => {
+          if (!tooltipTarget) return;
+          const box = tooltipTarget.getBoundingClientRect();
+          if (
+            tooltipPointer &&
+            tooltipPointer.x >= box.left &&
+            tooltipPointer.x <= box.right &&
+            tooltipPointer.y >= box.top &&
+            tooltipPointer.y <= box.bottom
+          ) {
+            placeTooltip(tooltipPointer.x, tooltipPointer.y);
+          } else if (document.activeElement === tooltipTarget) {
+            placeTooltip(box.left + box.width / 2, box.bottom);
+          } else hideTooltip();
+        },
+        { passive: true },
+      );
+      window.addEventListener('resize', hideTooltip);
+      updateModel();
+    </script>
+  </body>
+</html>

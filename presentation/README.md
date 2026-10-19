@@ -1,5 +1,48 @@
 # Challenge Deck
 
+## Final-Round Judges Brief
+
+The [15-minute judges brief](mosaic-judges-brief.html) is a separate, single-page HTML
+review draft for the GitHub Copilot App developer go-to-market panel. It does not replace
+or rebuild the three-slide submission deck or video. Open it directly in a browser;
+the HTML can be shared without this checkout. Repository evidence links point to the
+reviewed GitHub revision. It needs no server, model call or remote fonts. Authentic App captures and
+the existing workflow video are optional evidence links, not an inline screenshot gallery.
+
+The narrative leads with GitHub Copilot App: native GitHub context, reusable skills,
+focused agents, connected tools and human control. MOSAIC is the demonstrated field
+pattern and proposed adoption path, not a substitute for the App. The extended
+[10:12 intake walkthrough](https://youtu.be/dUU2s_N283E) is optional supporting viewing;
+it is not an additional segment in the 15-minute narration.
+
+Ten chapters retain the 15-minute allocation and full presentation narration under
+**Show talk tracks**. Presenter-only coaching and contest-scoring strategy are excluded.
+**Focus view** keeps the left navigation and shows only its selected section on the right,
+including the capability map, key questions and sources. A section picker provides the
+same access on mobile. Printing expands the complete report, talk tracks, evidence
+qualifications and key-question answers regardless of Focus view, then restores each
+section's previous expanded or collapsed state.
+
+Cursor-adjacent tooltips explain buttons, sections and acronyms; they also support
+keyboard focus, Escape dismissal and touch. Visual analytics show actual dossier-format
+counts and the explicitly illustrative effort model. The calculator permits added
+effort, cost, zero-baseline and negative scenarios; it does not report measured savings.
+
+Validate only this brief, without touching existing deck or media outputs:
+
+```powershell
+npm run test:judges
+```
+
+The check covers timing, preserved narration, source links, absence of private coaching,
+six responsive widths, automated accessibility, calculator/chart edge cases, all focus-mode
+routes, citation/history navigation, mobile access, cursor/focus/touch tooltips and full
+print layout. Local QA screenshots and results stay under ignored
+`build/judges-brief-qa/`. Owner visual and narrative review precedes any new PowerPoint
+or video work.
+
+## Existing Submission Deck
+
 The deliverable is a three-slide, 16:9 deck:
 
 1. **MOSAIC** - lead with the workflow architecture: business user, GitHub Copilot App, governed analysis, 23-file dossier and retained human decisions.
