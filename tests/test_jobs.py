@@ -2638,6 +2638,314 @@ def test_browser_handoff_can_retry_without_regenerating(
     assert opened == [completed["reportPath"], completed["reportPath"]]
 
 
+@pytest.mark.parametrize("units", [259, 260])
+@pytest.mark.parametrize("non_bmp", [False, True])
+def test_browser_path_limit_counts_utf16_units(
+    tmp_path: Path, monkeypatch, units: int, non_bmp: bool
+) -> None:
+    monkeypatch.setattr(jobs.sys, "platform", "win32")
+    suffix = "\U0001f680.html" if non_bmp else ".html"
+    prefix_units = len(str(tmp_path / suffix).encode("utf-16-le")) // 2
+    filename = "x" * (units - prefix_units) + suffix
+    path = str(tmp_path / filename)
+    assert len(path.encode("utf-16-le")) // 2 == units
+    if non_bmp:
+        assert len(path) == units - 1
+    assert jobs._browser_path_too_long(tmp_path, [filename]) is (units >= 260)
+
+
+def test_browser_path_limit_checks_every_artifact(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.setattr(jobs.sys, "platform", "win32")
+    directory = tmp_path / ("x" * (258 - len(str(tmp_path / "index.html"))))
+    assert len(str(directory / "index.html").encode("utf-16-le")) // 2 == 259
+    assert not jobs._browser_path_too_long(directory, ["index.html"])
+    assert jobs._browser_path_too_long(directory, ["index.html", "intake-transcript.html"])
+    assert jobs._browser_path_too_long(directory, ["index.html", "long-artifact-manifest.json"])
+
+
+def test_safe_windows_report_keeps_original_uri(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.setattr(jobs.sys, "platform", "win32")
+    store = JobStore(tmp_path)
+    report = tmp_path / "report"
+    assert (
+        store._browser_report_uri(report, {"index.html": "unused"}, "a" * 64)
+        == (report / "index.html").as_uri()
+    )
+    assert not (store.root / "browser").exists()
+
+
+@pytest.mark.parametrize("platform", ["linux", "darwin"])
+def test_browser_path_limit_does_not_apply_outside_windows(
+    tmp_path: Path, monkeypatch, platform: str
+) -> None:
+    monkeypatch.setattr(jobs.sys, "platform", platform)
+    directory = tmp_path / ("x" * 200)
+    assert not jobs._browser_path_too_long(directory, ["intake-transcript.html"])
+    store = JobStore(tmp_path)
+    assert (
+        store._browser_report_uri(directory, {"index.html": "unused"}, "a" * 64)
+        == (directory / "index.html").as_uri()
+    )
+    assert not (store.root / "browser").exists()
+
+
+@pytest.fixture
+def browser_copy_required(monkeypatch) -> None:
+    monkeypatch.setattr(jobs.sys, "platform", "win32")
+    check = jobs._browser_path_too_long
+    # Keep filesystem fixtures portable; exact Windows path limits are tested above.
+    monkeypatch.setattr(
+        jobs,
+        "_browser_path_too_long",
+        lambda directory, files: directory.name.startswith("report-") or check(directory, files),
+    )
+
+
+@pytest.fixture
+def older_long_report(tmp_path: Path, monkeypatch, browser_copy_required) -> tuple[JobStore, dict]:
+    store = JobStore(tmp_path)
+    with monkeypatch.context() as legacy:
+        legacy.setattr(jobs, "_browser_path_too_long", lambda *args: False)
+        completed = store.execute(queue(store)["jobId"])
+    assert completed["state"] == "completed"
+    return store, completed
+
+
+def test_new_job_publishes_short_browser_copy(tmp_path: Path, browser_copy_required) -> None:
+    store = JobStore(tmp_path)
+    completed = store.execute(queue(store)["jobId"])
+    assert completed["state"] == "completed"
+    revision = completed["reportRevision"]
+    original = store.directory(completed["jobId"]) / f"report-{revision[:16]}"
+    hashes = jobs._file_hashes(original)
+    assert jobs._browser_path_too_long(original, hashes)
+    key = jobs._digest({"source": str(original), "revision": revision})[:24]
+    copy = store.root / "browser" / key
+    assert completed["reportPath"] == (copy / "index.html").as_uri()
+    assert not jobs._browser_path_too_long(copy, hashes)
+    assert jobs._file_hashes(copy) == hashes
+    assert store.verified_report_uri(completed["jobId"]) == completed["reportPath"]
+    assert completed["reviewState"] == "awaiting_human_review"
+    assert completed["releaseAuthorized"] is False
+
+
+def test_old_job_opens_and_reuses_exact_copy_without_regeneration(
+    older_long_report: tuple[JobStore, dict], monkeypatch
+) -> None:
+    store, completed = older_long_report
+    job_id = completed["jobId"]
+    directory = store.directory(job_id)
+    original = directory / f"report-{completed['reportRevision'][:16]}"
+    original_bytes = {path: path.read_bytes() for path in directory.rglob("*") if path.is_file()}
+    opened = []
+    monkeypatch.setattr(jobs, "open_default_browser", lambda uri: opened.append(uri))
+    monkeypatch.setattr(jobs, "run_copilot", lambda *a, **kw: pytest.fail("Model call"))
+    monkeypatch.setattr(jobs, "run_demo", lambda *a, **kw: pytest.fail("Regeneration"))
+    result = store.open_report(job_id)
+    browser_directory = store.root / "browser"
+    copy = next(path for path in browser_directory.iterdir() if path.is_dir())
+    assert result["reportPath"] == (copy / "index.html").as_uri()
+    assert result["reportPath"] != completed["reportPath"]
+    assert opened == [result["reportPath"]]
+    assert jobs._file_hashes(copy) == jobs._file_hashes(original)
+    assert result["reportRevision"] == completed["reportRevision"]
+    assert result["reviewState"] == "awaiting_human_review"
+    assert result["releaseAuthorized"] is False
+    copied_times = {path: path.stat().st_mtime_ns for path in copy.rglob("*") if path.is_file()}
+    monkeypatch.setattr(jobs.shutil, "copytree", lambda *a, **kw: pytest.fail("Recopy"))
+    assert store.verified_report_uri(job_id) == result["reportPath"]
+    store.open_report(job_id)
+    assert opened == [result["reportPath"]] * 2
+    assert {path: path.stat().st_mtime_ns for path in copied_times} == copied_times
+    assert {path: path.read_bytes() for path in original_bytes} == original_bytes
+    assert store.status(job_id) == completed
+
+
+@pytest.mark.parametrize("defect", ["changed", "missing", "extra"])
+def test_tampered_browser_copy_blocks_launch(
+    older_long_report: tuple[JobStore, dict], monkeypatch, defect: str
+) -> None:
+    store, completed = older_long_report
+    job_id = completed["jobId"]
+    store.verified_report_uri(job_id)
+    copy = next(path for path in (store.root / "browser").iterdir() if path.is_dir())
+    if defect == "changed":
+        (copy / "intake-transcript.html").write_text("tampered", encoding="utf-8")
+    elif defect == "missing":
+        (copy / "intake-transcript.html").unlink()
+    else:
+        (copy / "extra.html").write_text("extra", encoding="utf-8")
+    monkeypatch.setattr(jobs, "open_default_browser", lambda *a: pytest.fail("Browser launched"))
+    monkeypatch.setattr(jobs.shutil, "copytree", lambda *a, **kw: pytest.fail("Copy overwritten"))
+    with pytest.raises(ValueError, match="Browser report copy integrity"):
+        store.open_report(job_id)
+    assert store.status(job_id) == completed
+
+
+def test_still_long_browser_copy_fails_without_analysis(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.setattr(jobs.sys, "platform", "win32")
+    root = tmp_path / ("x" * 100) / ("y" * 100)
+    store = JobStore(root)
+    monkeypatch.setattr(jobs, "run_copilot", lambda *a, **kw: pytest.fail("Model call"))
+    monkeypatch.setattr(jobs, "run_demo", lambda *a, **kw: pytest.fail("Regeneration"))
+    with pytest.raises(ValueError, match="shorter checkout or job root"):
+        store._browser_report_uri(root / "report", {"index.html": "unused"}, "a" * 64)
+    assert not (root / "browser").exists()
+
+
+@pytest.mark.parametrize("failure", ["copy", "hash", "publish"])
+def test_browser_copy_failure_cleans_only_its_staging_directory(
+    older_long_report: tuple[JobStore, dict], monkeypatch, failure: str
+) -> None:
+    store, completed = older_long_report
+    browser_root = store.root / "browser"
+    other_staging = browser_root / ".staging-another-operation"
+    other_staging.mkdir(parents=True)
+    marker = other_staging / "keep.txt"
+    marker.write_text("keep", encoding="utf-8")
+    original_copytree = jobs.shutil.copytree
+
+    def copytree(source, destination, **kwargs):
+        original_copytree(source, destination, **kwargs)
+        if failure == "copy":
+            raise OSError("Synthetic copy failure")
+        if failure == "hash":
+            (destination / "intake-transcript.html").write_text("changed", encoding="utf-8")
+
+    monkeypatch.setattr(jobs.shutil, "copytree", copytree)
+    if failure == "publish":
+
+        def fail_publish(*args):
+            raise OSError("Synthetic publication failure")
+
+        monkeypatch.setattr(jobs, "_publish_directory", fail_publish)
+    with pytest.raises((ValueError, OSError), match="integrity|Synthetic"):
+        store.verified_report_uri(completed["jobId"])
+    assert [path.name for path in browser_root.iterdir() if path.is_dir()] == [other_staging.name]
+    assert marker.read_text(encoding="utf-8") == "keep"
+    assert store.status(completed["jobId"]) == completed
+
+
+def test_browser_copy_key_binds_source_and_revision(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.setattr(
+        jobs, "_browser_path_too_long", lambda directory, files: "browser" not in directory.parts
+    )
+    store = JobStore(tmp_path)
+    sources = [tmp_path / "report-a", tmp_path / "report-b"]
+    destinations = set()
+    for source in sources:
+        source.mkdir()
+        (source / "index.html").write_text("same bytes", encoding="utf-8")
+        hashes = jobs._file_hashes(source)
+        for revision in ["a" * 64, "b" * 64]:
+            uri = store._browser_report_uri(source, hashes, revision)
+            key = jobs._digest({"source": str(source), "revision": revision})[:24]
+            assert uri == (store.root / "browser" / key / "index.html").as_uri()
+            destinations.add(uri)
+    assert len(destinations) == 4
+
+
+@pytest.mark.parametrize("redirected", ["root", "destination", "lock"])
+def test_browser_copy_rejects_redirected_paths(
+    older_long_report: tuple[JobStore, dict], monkeypatch, redirected: str
+) -> None:
+    store, completed = older_long_report
+    original = store.directory(completed["jobId"]) / f"report-{completed['reportRevision'][:16]}"
+    key = jobs._digest({"source": str(original), "revision": completed["reportRevision"]})[:24]
+    browser_root = store.root / "browser"
+    targets = {
+        "root": browser_root,
+        "destination": browser_root / key,
+        "lock": browser_root / ".publish.lock",
+    }
+    resolve = Path.resolve
+
+    def resolve_path(path, *args, **kwargs):
+        if path == targets[redirected]:
+            return store.root / "redirected"
+        return resolve(path, *args, **kwargs)
+
+    monkeypatch.setattr(Path, "resolve", resolve_path)
+    monkeypatch.setattr(jobs, "open_default_browser", lambda *a: pytest.fail("Browser launched"))
+    with pytest.raises(ValueError, match="Browser report paths cannot be redirected"):
+        store.open_report(completed["jobId"])
+
+
+def test_browser_copy_publication_is_serialized(
+    older_long_report: tuple[JobStore, dict], monkeypatch
+) -> None:
+    store, completed = older_long_report
+    copytree = jobs.shutil.copytree
+    copies = []
+
+    def record_copy(source, destination, **kwargs):
+        copies.append(destination)
+        return copytree(source, destination, **kwargs)
+
+    monkeypatch.setattr(jobs.shutil, "copytree", record_copy)
+    with ThreadPoolExecutor(max_workers=4) as executor:
+        uris = list(executor.map(lambda _: store.verified_report_uri(completed["jobId"]), range(4)))
+    assert len(set(uris)) == 1
+    assert len(copies) == 1
+    assert store.status(completed["jobId"]) == completed
+
+
+def test_processing_report_keeps_separate_location(
+    older_long_report: tuple[JobStore, dict], monkeypatch
+) -> None:
+    store, completed = older_long_report
+    uri = store.processing_report_uri(completed["jobId"])
+    opened = []
+    monkeypatch.setattr(jobs, "open_default_browser", lambda uri: opened.append(uri))
+    result = store.open_report(completed["jobId"], processing=True)
+    assert opened == [uri]
+    assert result["reportPath"] == completed["reportPath"]
+    assert result["browser"]["reportPath"] == uri
+    assert not (store.root / "browser").exists()
+    assert store.status(completed["jobId"]) == completed
+
+
+@pytest.mark.parametrize("defect", ["report", "manifest"])
+def test_original_integrity_is_checked_before_browser_copy(
+    older_long_report: tuple[JobStore, dict], monkeypatch, defect: str
+) -> None:
+    store, completed = older_long_report
+    directory = store.directory(completed["jobId"])
+    if defect == "report":
+        original = directory / f"report-{completed['reportRevision'][:16]}"
+        (original / "intake-transcript.html").write_text("changed", encoding="utf-8")
+    else:
+        jobs._write_json(directory / "report-manifest.json", {})
+    monkeypatch.setattr(jobs.shutil, "copytree", lambda *a, **kw: pytest.fail("Invalid copy"))
+    monkeypatch.setattr(jobs, "open_default_browser", lambda *a: pytest.fail("Browser launched"))
+    with pytest.raises(ValueError, match="Completed report integrity"):
+        store.open_report(completed["jobId"])
+    assert not (store.root / "browser").exists()
+
+
+def test_notification_uses_verified_browser_copy(
+    older_long_report: tuple[JobStore, dict], monkeypatch
+) -> None:
+    store, completed = older_long_report
+    job_id = completed["jobId"]
+    completed["notification"] = {"requested": True, "status": "pending"}
+    jobs._write_json(store.directory(job_id) / "status.json", completed)
+    notified = []
+
+    def notify(title, message, uri):
+        notified.append(uri)
+        return "submitted_to_windows"
+
+    monkeypatch.setattr(jobs, "send_windows_notification", notify)
+    result = store.notify(job_id)
+    assert result["notification"]["status"] == "submitted_to_windows"
+    assert notified == [store.verified_report_uri(job_id)]
+    assert notified[0] != completed["reportPath"]
+    assert result["reportPath"] == completed["reportPath"]
+    assert result["reviewState"] == "awaiting_human_review"
+    assert result["releaseAuthorized"] is False
+
+
 @pytest.mark.parametrize("defect", ["queued", "report", "manifest", "link"])
 def test_browser_handoff_rejects_unfinished_or_changed_reports(
     tmp_path: Path,

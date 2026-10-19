@@ -218,6 +218,32 @@ For conversational work, questions and answers stay in the current conversation 
 
 Generation remains attached until validation and publication finish, with Windows notifications disabled. The handoff is the exact completed report plus **Open documents in browser**. The overview identifies the real report-generation time, supplied intake timestamp, unverified submitter name (John Doe when absent), and preparation by MOSAIC. The transcript separately records session-capture start/end times; absent historical times are never reconstructed.
 
+**Windows browser paths:** deeply nested App worktrees can produce local report paths
+that a Windows browser cannot navigate even when Python can read the files and the
+relative sidebar links are correct. MOSAIC checks every artifact's full path using
+UTF-16 code units. If any path reaches 260 units, it publishes an integrity-checked
+browser copy under `<job-root>\browser\<24-character-source-and-revision-key>\`.
+This is a conservative browser safeguard, not a claim about every Windows API or
+browser. Normal-length paths and non-Windows behavior are unchanged.
+
+To reopen an older completed report, run this from the **actual App worktree** that
+owns the job (not necessarily the main checkout):
+
+```powershell
+& '.\.venv\Scripts\python.exe' -E -s -B -m mosaic.jobs open <actual-job-id>
+```
+
+Opening verifies the original revision and manifest, then verifies or creates the
+short copy without another model call, intake or report regeneration. All copied
+artifact hashes must exactly match the original; a modified copy blocks opening
+instead of being silently overwritten. The original report, stored job status,
+transcript, audit records, revision identity and governance statuses stay unchanged.
+The copy contains the **same transcript and has the same local privacy boundary**
+as the original; handle and retain both accordingly. The old browser tab still
+points to the long location: open the newly returned safe URL. If the short location
+also reaches the limit, use a shorter checkout/job root and reopen; do not repeat
+analysis. The separate processing report is not relocated.
+
 The job ID supports explicit `status`, `cancel` and `open` commands. Only recognized temporary local file errors receive bounded retries. An eligible failed assembly can be rebuilt once from integrity-checked retained analysis with `mosaic.jobs rebuild <failed-job-id>`; an integrity-bound model response rejected by a corrected local contract can also be revalidated and rebuilt by that command. Both paths create a new job without another model call. A legacy response saved before automatic digest binding additionally requires `--expected-response-digest <sha256>` so recovery cannot silently adopt changed output. A failed invocation with no retained response, or a response that remains invalid, requires fresh approval for another bounded inference. The older `submit` and optional notification commands remain explicit compatibility paths, not the intake default. The PC and generation process must remain running. No durable resume, customer approval or cloud deployment is implied.
 
 ### Operator Performance, Cost And Pipeline Trace

@@ -15,7 +15,7 @@ import sys
 import time
 import traceback
 import webbrowser
-from collections.abc import Callable, Iterator, Sequence
+from collections.abc import Callable, Iterable, Iterator, Sequence
 from contextlib import contextmanager
 from copy import deepcopy
 from dataclasses import asdict
@@ -175,6 +175,12 @@ def _file_hashes(directory: Path) -> dict[str, str]:
                 path.read_bytes()
             ).hexdigest()
     return files
+
+
+def _browser_path_too_long(directory: Path, files: Iterable[str]) -> bool:
+    return sys.platform == "win32" and any(
+        len(str(directory / filename).encode("utf-16-le")) // 2 >= 260 for filename in files
+    )
 
 
 def _engine_digest() -> str:
@@ -885,7 +891,9 @@ class JobStore:
                             )
                         state.update(
                             {
-                                "reportPath": (report_directory / "index.html").as_uri(),
+                                "reportPath": self._browser_report_uri(
+                                    report_directory, artifacts, revision
+                                ),
                                 "reportRevision": revision,
                                 "runId": summary["runId"],
                                 "artifactCount": summary["artifactCount"],
@@ -1072,6 +1080,45 @@ class JobStore:
             _write_json(self.directory(queued["jobId"]) / "status.json", queued)
             return queued
 
+    def _browser_report_uri(
+        self, report_directory: Path, hashes: dict[str, str], revision: str
+    ) -> str:
+        if not _browser_path_too_long(report_directory, hashes):
+            return (report_directory / "index.html").as_uri()
+        browser_root = self.root / "browser"
+        key = _digest({"source": str(report_directory), "revision": revision})[:24]
+        destination = browser_root / key
+        if _browser_path_too_long(destination, hashes):
+            raise ValueError(
+                "The local browser report paths are still too long. Use a shorter checkout "
+                "or job root, then reopen the completed report; do not rerun analysis."
+            )
+        lock_path = browser_root / ".publish.lock"
+        if browser_root.resolve() != browser_root:
+            raise ValueError("Browser report paths cannot be redirected.")
+        browser_root.mkdir(parents=True, exist_ok=True)
+        if browser_root.resolve(strict=True) != browser_root or lock_path.resolve() != lock_path:
+            raise ValueError("Browser report paths cannot be redirected.")
+        with _lock(lock_path):
+            if browser_root.resolve() != browser_root or destination.resolve() != destination:
+                raise ValueError("Browser report paths cannot be redirected.")
+            if destination.exists():
+                if _file_hashes(destination) != hashes:
+                    raise ValueError("Browser report copy integrity failed; opening is blocked.")
+            else:
+                staging = browser_root / f".staging-{uuid4().hex}"
+                try:
+                    shutil.copytree(report_directory, staging, symlinks=True)
+                    if _file_hashes(staging) != hashes:
+                        raise ValueError(
+                            "Browser report copy integrity failed; opening is blocked."
+                        )
+                    _publish_directory(staging, destination)
+                finally:
+                    if staging.exists():
+                        shutil.rmtree(staging)
+        return (destination / "index.html").as_uri()
+
     def verified_report_uri(self, job_id: str) -> str:
         directory = self.directory(job_id)
         state = self.status(job_id)
@@ -1097,10 +1144,12 @@ class JobStore:
             or _digest(hashes) != revision
             or manifest.get("files") != hashes
             or manifest.get("revision") != revision
-            or state.get("reportPath") != uri
         ):
             raise ValueError("Completed report integrity failed; opening is blocked.")
-        return uri
+        browser_uri = self._browser_report_uri(report_directory, hashes, revision)
+        if state.get("reportPath") not in {uri, browser_uri}:
+            raise ValueError("Completed report integrity failed; opening is blocked.")
+        return browser_uri
 
     def processing_report_uri(self, job_id: str) -> str:
         directory = self.directory(job_id)
@@ -1123,6 +1172,8 @@ class JobStore:
     def open_report(self, job_id: str, *, processing: bool = False) -> dict[str, Any]:
         uri = self.processing_report_uri(job_id) if processing else self.verified_report_uri(job_id)
         state = self.status(job_id)
+        if not processing:
+            state["reportPath"] = uri
         try:
             open_default_browser(uri)
             state["browser"] = {"status": "requested", "reportPath": uri}
